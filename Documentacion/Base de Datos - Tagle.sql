@@ -36,7 +36,8 @@ DROP TABLE IF EXISTS MTELEFONO;
 CREATE TABLE MTELEFONO (
 		id_reclamante int NOT NULL,
 		telefono varchar(40) NOT NULL,
-		CONSTRAINT pk_mtelefono PRIMARY KEY (id_reclamante, telefono)
+		CONSTRAINT pk_mtelefono PRIMARY KEY (id_reclamante, telefono),
+		CONSTRAINT fk_reclamante FOREIGN KEY (id_reclamante) REFERENCES RECLAMANTE (id_reclamante)
 );
 DROP TABLE IF EXISTS MARCA;
 CREATE TABLE MARCA (
@@ -126,7 +127,7 @@ CREATE TABLE PEDIDO (
 		estado_pedido varchar(40) NOT NULL,
 		id_reclamo int NOT NULL,
 		CONSTRAINT pk_pedido PRIMARY KEY (numero_pedido),
-		CONSTRAINT fk_id_reclamo FOREIGN KEY (id_reclamo) REFERENCES RECLAMO (id_reclamo),
+		CONSTRAINT fk_reclamo FOREIGN KEY (id_reclamo) REFERENCES RECLAMO (id_reclamo),
 		CONSTRAINT fk_estado_pedido FOREIGN KEY (estado_pedido) REFERENCES ESTADO_PEDIDO (estado_pedido)
 );
 DROP TABLE IF EXISTS MULETO;
@@ -154,12 +155,12 @@ DROP TABLE IF EXISTS MANO_OBRA;
 CREATE SEQUENCE MANO_OBRA_id_seq MINVALUE 1;
 CREATE TABLE MANO_OBRA (
 		id_mano_obra int DEFAULT NEXTVAL('MANO_OBRA_id_seq') NOT NULL,
-		cantidad_horas real DEFAULT 0,
-		valor_mano_obra real DEFAULT 0,
+		cantidad_horas double precision DEFAULT 0,
+		valor_mano_obra double precision DEFAULT 0,
 		codigo_mano_obra varchar(40),
 		id_reclamo int NOT NULL,
 		CONSTRAINT pk_mano_obra PRIMARY KEY (id_mano_obra),
-		CONSTRAINT fk_id_reclamo FOREIGN KEY (id_reclamo) REFERENCES RECLAMO (id_reclamo)
+		CONSTRAINT fk_reclamo FOREIGN KEY (id_reclamo) REFERENCES RECLAMO (id_reclamo)
 );
 DROP TABLE IF EXISTS RECURSO;
 CREATE SEQUENCE RECURSO_id_seq MINVALUE 1;
