@@ -1,22 +1,22 @@
 package servidor.persistencia.dominio;
 
 
-public class MTelefono {
+public class MTelefono extends ClaseGeneral {
 
-	private Reclamante id_reclamante;
-	private String telefono;
+	protected Reclamante reclamante;
+	protected String telefono;
 
-	public MTelefono(Reclamante id_reclamante, String telefono) {
+	public MTelefono(Reclamante reclamante, String telefono) {
 		super();
-		this.id_reclamante = id_reclamante;
+		this.reclamante = reclamante;
 		this.telefono = telefono;
 	}
 	
-	public Reclamante getId_reclamante() {
-		return id_reclamante;
+	public Reclamante getReclamante() {
+		return reclamante;
 	}
-	public void setId_reclamante(Reclamante id_reclamante) {
-		this.id_reclamante = id_reclamante;
+	public void setReclamante(Reclamante reclamante) {
+		this.reclamante = reclamante;
 	}
 	public String getTelefono() {
 		return telefono;

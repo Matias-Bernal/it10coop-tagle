@@ -1,10 +1,10 @@
 package servidor.persistencia.dominio;
 
 
-public class Pieza {
+public class Pieza extends ClaseGeneral {
 
-	private String numero_pieza;
-	private String descripcion;
+	protected String numero_pieza;
+	protected String descripcion;
 	
 	public Pieza(String numero_pieza, String descripcion) {
 		super();

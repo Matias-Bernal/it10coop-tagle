@@ -1,9 +1,9 @@
 package servidor.persistencia.dominio;
 
 
-public class Estado_Pedido {
+public class Estado_Pedido extends ClaseGeneral{
 	
-	private String estado_pedido;
+	protected String estado_pedido;
 
 	public Estado_Pedido(String estado_pedido) {
 		super();

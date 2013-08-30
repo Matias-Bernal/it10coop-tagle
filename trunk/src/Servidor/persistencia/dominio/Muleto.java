@@ -1,28 +1,20 @@
 package servidor.persistencia.dominio;
 
 
-public class Muleto {
+public class Muleto extends ClaseGeneral {
 
-	private int id_muleto;
-	private String descripcion;
-	private String vin;
-	private Pedido numero_pedido;
-	private Pieza numero_pieza;
+	protected String descripcion;
+	protected String vin;
+	protected Pedido pedido;
+	protected Pieza pieza;
 	
-	public Muleto(int id_muleto, String descripcion, String vin,
-			Pedido numero_pedido, Pieza numero_pieza) {
+	public Muleto(String descripcion, String vin,
+			Pedido pedido, Pieza pieza) {
 		super();
-		this.id_muleto = id_muleto;
 		this.descripcion = descripcion;
 		this.vin = vin;
-		this.numero_pedido = numero_pedido;
-		this.numero_pieza = numero_pieza;
-	}
-	public int getId_muleto() {
-		return id_muleto;
-	}
-	public void setId_muleto(int id_muleto) {
-		this.id_muleto = id_muleto;
+		this.pedido = pedido;
+		this.pieza = pieza;
 	}
 	public String getDescripcion() {
 		return descripcion;
@@ -36,18 +28,16 @@ public class Muleto {
 	public void setVin(String vin) {
 		this.vin = vin;
 	}
-	public Pedido getNumero_pedido() {
-		return numero_pedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
-	public void setNumero_pedido(Pedido numero_pedido) {
-		this.numero_pedido = numero_pedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
-	public Pieza getNumero_pieza() {
-		return numero_pieza;
+	public Pieza getPieza() {
+		return pieza;
 	}
-	public void setNumero_pieza(Pieza numero_pieza) {
-		this.numero_pieza = numero_pieza;
+	public void setPieza(Pieza pieza) {
+		this.pieza = pieza;
 	}
-	
-	
 }

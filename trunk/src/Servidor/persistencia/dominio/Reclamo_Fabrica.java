@@ -3,28 +3,20 @@ package servidor.persistencia.dominio;
 
 import java.sql.Date;
 
-public class Reclamo_Fabrica {
+public class Reclamo_Fabrica extends ClaseGeneral  {
 	
-	private int id_reclamo_fabrica;
-	private Date fecha_reclamo_fabrica;
-	private Pieza numero_pieza;
-	private Pedido numero_pedido;
-	private Usuario nombre_usuario;
+	protected Date fecha_reclamo_fabrica;
+	protected Pieza pieza;
+	protected Pedido pedido;
+	protected Usuario usuario;
 	
-	public Reclamo_Fabrica(int id_reclamo_fabrica, Date fecha_reclamo_fabrica,
-			Pieza numero_pieza, Pedido numero_pedido, Usuario nombre_usuario) {
+	public Reclamo_Fabrica(Date fecha_reclamo_fabrica, Pieza pieza,
+			Pedido pedido, Usuario usuario) {
 		super();
-		this.id_reclamo_fabrica = id_reclamo_fabrica;
 		this.fecha_reclamo_fabrica = fecha_reclamo_fabrica;
-		this.numero_pieza = numero_pieza;
-		this.numero_pedido = numero_pedido;
-		this.nombre_usuario = nombre_usuario;
-	}
-	public int getId_reclamo_fabrica() {
-		return id_reclamo_fabrica;
-	}
-	public void setId_reclamo_fabrica(int id_reclamo_fabrica) {
-		this.id_reclamo_fabrica = id_reclamo_fabrica;
+		this.pieza = pieza;
+		this.pedido = pedido;
+		this.usuario = usuario;
 	}
 	public Date getFecha_reclamo_fabrica() {
 		return fecha_reclamo_fabrica;
@@ -32,23 +24,22 @@ public class Reclamo_Fabrica {
 	public void setFecha_reclamo_fabrica(Date fecha_reclamo_fabrica) {
 		this.fecha_reclamo_fabrica = fecha_reclamo_fabrica;
 	}
-	public Pieza getNumero_pieza() {
-		return numero_pieza;
+	public Pieza getPieza() {
+		return pieza;
 	}
-	public void setNumero_pieza(Pieza numero_pieza) {
-		this.numero_pieza = numero_pieza;
+	public void setPieza(Pieza pieza) {
+		this.pieza = pieza;
 	}
-	public Pedido getNumero_pedido() {
-		return numero_pedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
-	public void setNumero_pedido(Pedido numero_pedido) {
-		this.numero_pedido = numero_pedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
-	public Usuario getNombre_usuario() {
-		return nombre_usuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	public void setNombre_usuario(Usuario nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
-	}
-
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}	
 }

@@ -1,27 +1,27 @@
 package servidor.persistencia.dominio;
 
 
-public class Reclamante_Reclamo {
+public class Reclamante_Reclamo extends ClaseGeneral  {
 	
-	private Reclamante id_reclamante;
-	private Reclamo id_reclamo;
+	protected Reclamante reclamante;
+	protected Reclamo reclamo;
 	
-	public Reclamante_Reclamo(Reclamante id_reclamante, Reclamo id_reclamo) {
+	public Reclamante_Reclamo(Reclamante reclamante, Reclamo reclamo) {
 		super();
-		this.id_reclamante = id_reclamante;
-		this.id_reclamo = id_reclamo;
+		this.reclamante = reclamante;
+		this.reclamo = reclamo;
 	}
-	public Reclamante getId_reclamante() {
-		return id_reclamante;
+	public Reclamante getReclamante() {
+		return reclamante;
 	}
-	public void setId_reclamante(Reclamante id_reclamante) {
-		this.id_reclamante = id_reclamante;
+	public void setReclamante(Reclamante reclamante) {
+		this.reclamante = reclamante;
 	}
-	public Reclamo getId_reclamo() {
-		return id_reclamo;
+	public Reclamo getReclamo() {
+		return reclamo;
 	}
-	public void setId_reclamo(Reclamo id_reclamo) {
-		this.id_reclamo = id_reclamo;
+	public void setReclamo(Reclamo reclamo) {
+		this.reclamo = reclamo;
 	}
 
 }

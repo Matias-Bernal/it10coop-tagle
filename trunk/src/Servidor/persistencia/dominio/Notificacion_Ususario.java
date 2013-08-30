@@ -1,27 +1,30 @@
 package servidor.persistencia.dominio;
 
-
-public class Notificacion_Ususario {
-
-	private Notificacion id_notificacion;
-	private Usuario nombre_usuario;
+public class Notificacion_Ususario extends ClaseGeneral {
 	
-	public Notificacion_Ususario(Notificacion id_notificacion,
-			Usuario nombre_usuario) {
+	protected Notificacion notificacion;
+	protected Usuario usuario;
+
+	public Notificacion_Ususario(Notificacion notificacion, Usuario usuario) {
 		super();
-		this.id_notificacion = id_notificacion;
-		this.nombre_usuario = nombre_usuario;
+		this.notificacion = notificacion;
+		this.usuario = usuario;
 	}
-	public Notificacion getId_notificacion() {
-		return id_notificacion;
+
+	public Notificacion getNotificacion() {
+		return notificacion;
 	}
-	public void setId_notificacion(Notificacion id_notificacion) {
-		this.id_notificacion = id_notificacion;
+
+	public void setNotificacion(Notificacion notificacion) {
+		this.notificacion = notificacion;
 	}
-	public Usuario getNombre_usuario() {
-		return nombre_usuario;
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
-	public void setNombre_usuario(Usuario nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
+	
 }
