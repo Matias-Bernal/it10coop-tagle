@@ -1,27 +1,15 @@
 package common.DTOs;
 
-import java.io.Serializable;
+public class ReclamanteDTO extends ClaseGeneralDTO{
 
-public class ReclamanteDTO implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-	private int id_reclamante;
-	private String nombre_apellido;
-	private String email;
+	protected static final long serialVersionUID = 1L;
+	protected String nombre_apellido;
+	protected String email;
 	
-	
-	public ReclamanteDTO(int id_reclamante, String nombre_apellido, String email) {
+	public ReclamanteDTO(String nombre_apellido, String email) {
 		super();
-		this.id_reclamante = id_reclamante;
 		this.nombre_apellido = nombre_apellido;
 		this.email = email;
-	}
-	
-	public int getId_reclamante() {
-		return id_reclamante;
-	}
-	public void setId_reclamante(int id_reclamante) {
-		this.id_reclamante = id_reclamante;
 	}
 	public String getNombre_apellido() {
 		return nombre_apellido;
@@ -35,4 +23,5 @@ public class ReclamanteDTO implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 }

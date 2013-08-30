@@ -1,30 +1,19 @@
 package common.DTOs;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class NotificacionDTO implements Serializable{
+public class NotificacionDTO extends ClaseGeneralDTO{
 
-	private static final long serialVersionUID = 1L;
-	private int id_notificacion;
-	private Date fecha_notificacion;
-	private Boolean concretada_notificacion;
-	private String texto_notificacion;
+	protected static final long serialVersionUID = 1L;
+	protected Date fecha_notificacion;
+	protected Boolean concretada_notificacion;
+	protected String texto_notificacion;
 	
-	public NotificacionDTO(int id_notificacion, Date fecha_notificacion,
-			Boolean concretada_notificacion, String texto_notificacion) {
+	public NotificacionDTO(Date fecha_notificacion, Boolean concretada_notificacion, String texto_notificacion) {
 		super();
-		this.id_notificacion = id_notificacion;
 		this.fecha_notificacion = fecha_notificacion;
 		this.concretada_notificacion = concretada_notificacion;
 		this.texto_notificacion = texto_notificacion;
-	}
-	
-	public int getId_notificacion() {
-		return id_notificacion;
-	}
-	public void setId_notificacion(int id_notificacion) {
-		this.id_notificacion = id_notificacion;
 	}
 	public Date getFecha_notificacion() {
 		return fecha_notificacion;
@@ -44,6 +33,5 @@ public class NotificacionDTO implements Serializable{
 	public void setTexto_notificacion(String texto_notificacion) {
 		this.texto_notificacion = texto_notificacion;
 	}
-
 	
 }

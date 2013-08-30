@@ -1,24 +1,23 @@
 package common.DTOs;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class PedidoDTO implements Serializable{
+public class PedidoDTO extends ClaseGeneralDTO {
 
-	private static final long serialVersionUID = 1L;
-	private String numero_pedido;
-	private Date fecha_solicitud_pedido;
-	private Date fecha_solicitud_fabrica;
-	private Date fecha_recepcion_fabrica;
-	private String numero_orden_trabajo;
-	private String pnc;
-	private Estado_PedidoDTO estado_pedido;
-	private ReclamoDTO id_reclamo;
+	protected static final long serialVersionUID = 1L;
+	protected String numero_pedido;
+	protected Date fecha_solicitud_pedido;
+	protected Date fecha_solicitud_fabrica;
+	protected Date fecha_recepcion_fabrica;
+	protected String numero_orden_trabajo;
+	protected String pnc;
+	protected Estado_PedidoDTO estado_pedido;
+	protected ReclamoDTO reclamo;
 	
 	public PedidoDTO(String numero_pedido, Date fecha_solicitud_pedido,
 			Date fecha_solicitud_fabrica, Date fecha_recepcion_fabrica,
 			String numero_orden_trabajo, String pnc,
-			Estado_PedidoDTO estado_pedido, ReclamoDTO id_reclamo) {
+			Estado_PedidoDTO estado_pedido, ReclamoDTO reclamo) {
 		super();
 		this.numero_pedido = numero_pedido;
 		this.fecha_solicitud_pedido = fecha_solicitud_pedido;
@@ -27,7 +26,7 @@ public class PedidoDTO implements Serializable{
 		this.numero_orden_trabajo = numero_orden_trabajo;
 		this.pnc = pnc;
 		this.estado_pedido = estado_pedido;
-		this.id_reclamo = id_reclamo;
+		this.reclamo = reclamo;
 	}
 	public String getNumero_pedido() {
 		return numero_pedido;
@@ -71,11 +70,11 @@ public class PedidoDTO implements Serializable{
 	public void setEstado_pedido(Estado_PedidoDTO estado_pedido) {
 		this.estado_pedido = estado_pedido;
 	}
-	public ReclamoDTO getId_reclamo() {
-		return id_reclamo;
+	public ReclamoDTO getReclamo() {
+		return reclamo;
 	}
-	public void setId_reclamo(ReclamoDTO id_reclamo) {
-		this.id_reclamo = id_reclamo;
+	public void setReclamo(ReclamoDTO reclamo) {
+		this.reclamo = reclamo;
 	}
-	
+
 }
