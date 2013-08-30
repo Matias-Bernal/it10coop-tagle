@@ -1,9 +1,9 @@
 package servidor.persistencia.dominio;
 
 
-public class Marca {
+public class Marca extends ClaseGeneral {
 	
-	private String 	nombre_marca;
+	protected String 	nombre_marca;
 
 	public Marca(String nombre_marca) {
 		super();

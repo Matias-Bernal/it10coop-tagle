@@ -3,42 +3,31 @@ package servidor.persistencia.dominio;
 
 import java.sql.Date;
 
-public class Reclamo {
+public class Reclamo extends ClaseGeneral  {
 	
-	private int id_reclamo;
-	private Date fecha_reclamo;
-	private Date fecha_turno;
-	private String estado_reclamo;
-	private Registrante nombre_registrante;
-	private Reclamante id_reclamante;
-	private Vehiculo dominio;
-	private Boolean inmovilizado;
-	private Boolean peligroso;
-	private Usuario nombre_usuario;
+	protected Date fecha_reclamo;
+	protected Date fecha_turno;
+	protected String estado_reclamo;
+	protected Registrante registrante;
+	protected Reclamante reclamante;
+	protected Vehiculo vehiculo;
+	protected Boolean inmovilizado;
+	protected Boolean peligroso;
+	protected Usuario usuario;
 	
-	public Reclamo(int id_reclamo, Date fecha_reclamo, Date fecha_turno,
-			String estado_reclamoString, Registrante nombre_registrante,
-			Reclamante id_reclamante, Vehiculo dominio, Boolean inmovilizado,
-			Boolean peligroso, Usuario nombre_usuario) {
+	public Reclamo(Date fecha_reclamo, Date fecha_turno, String estado_reclamo,
+			Registrante registrante, Reclamante reclamante, Vehiculo vehiculo,
+			Boolean inmovilizado, Boolean peligroso, Usuario usuario) {
 		super();
-		this.id_reclamo = id_reclamo;
 		this.fecha_reclamo = fecha_reclamo;
 		this.fecha_turno = fecha_turno;
-		this.estado_reclamo = estado_reclamoString;
-		this.nombre_registrante = nombre_registrante;
-		this.id_reclamante = id_reclamante;
-		this.dominio = dominio;
+		this.estado_reclamo = estado_reclamo;
+		this.registrante = registrante;
+		this.reclamante = reclamante;
+		this.vehiculo = vehiculo;
 		this.inmovilizado = inmovilizado;
 		this.peligroso = peligroso;
-		this.nombre_usuario = nombre_usuario;
-	}
-
-	public int getId_reclamo() {
-		return id_reclamo;
-	}
-
-	public void setId_reclamo(int id_reclamo) {
-		this.id_reclamo = id_reclamo;
+		this.usuario = usuario;
 	}
 
 	public Date getFecha_reclamo() {
@@ -57,36 +46,36 @@ public class Reclamo {
 		this.fecha_turno = fecha_turno;
 	}
 
-	public String getEstado_reclamoString() {
+	public String getEstado_reclamo() {
 		return estado_reclamo;
 	}
 
-	public void setEstado_reclamoString(String estado_reclamoString) {
-		this.estado_reclamo = estado_reclamoString;
+	public void setEstado_reclamo(String estado_reclamo) {
+		this.estado_reclamo = estado_reclamo;
 	}
 
-	public Registrante getNombre_registrante() {
-		return nombre_registrante;
+	public Registrante getRegistrante() {
+		return registrante;
 	}
 
-	public void setNombre_registrante(Registrante nombre_registrante) {
-		this.nombre_registrante = nombre_registrante;
+	public void setRegistrante(Registrante registrante) {
+		this.registrante = registrante;
 	}
 
-	public Reclamante getId_reclamante() {
-		return id_reclamante;
+	public Reclamante getReclamante() {
+		return reclamante;
 	}
 
-	public void setId_reclamante(Reclamante id_reclamante) {
-		this.id_reclamante = id_reclamante;
+	public void setReclamante(Reclamante reclamante) {
+		this.reclamante = reclamante;
 	}
 
-	public Vehiculo getDominio() {
-		return dominio;
+	public Vehiculo getVehiculo() {
+		return vehiculo;
 	}
 
-	public void setDominio(Vehiculo dominio) {
-		this.dominio = dominio;
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
 	}
 
 	public Boolean getInmovilizado() {
@@ -105,13 +94,11 @@ public class Reclamo {
 		this.peligroso = peligroso;
 	}
 
-	public Usuario getNombre_usuario() {
-		return nombre_usuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setNombre_usuario(Usuario nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
-
-	
 }

@@ -1,9 +1,9 @@
 package servidor.persistencia.dominio;
 
 
-public class Registrante {
+public class Registrante extends ClaseGeneral  {
 	
-	private String nombre_registrante;
+	protected String nombre_registrante;
 
 	public String getNombre_registrante() {
 		return nombre_registrante;

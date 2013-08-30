@@ -3,26 +3,17 @@ package servidor.persistencia.dominio;
 
 import java.sql.Date;
 
-public class Bdg {
+public class Bdg  extends ClaseGeneral {
 	
-	private int id_bdg;
-	private Date fecha_bdg;
-	private Pieza numero_pieza;
-	private Pedido numero_pedido;
+	protected Date fecha_bdg;
+	protected Pieza pieza;
+	protected Pedido pedido;
 	
-	public Bdg(int id_bdg, Date fecha_bdg, Pieza numero_pieza,
-			Pedido numero_pedido) {
+	public Bdg(Date fecha_bdg, Pieza pieza,Pedido pedido) {
 		super();
-		this.id_bdg = id_bdg;
 		this.fecha_bdg = fecha_bdg;
-		this.numero_pieza = numero_pieza;
-		this.numero_pedido = numero_pedido;
-	}
-	public int getId_bdg() {
-		return id_bdg;
-	}
-	public void setId_bdg(int id_bdg) {
-		this.id_bdg = id_bdg;
+		this.pieza = pieza;
+		this.pedido = pedido;
 	}
 	public Date getFecha_bdg() {
 		return fecha_bdg;
@@ -30,17 +21,17 @@ public class Bdg {
 	public void setFecha_bdg(Date fecha_bdg) {
 		this.fecha_bdg = fecha_bdg;
 	}
-	public Pieza getNumero_pieza() {
-		return numero_pieza;
+	public Pieza getPieza() {
+		return pieza;
 	}
-	public void setNumero_pieza(Pieza numero_pieza) {
-		this.numero_pieza = numero_pieza;
+	public void setPieza(Pieza pieza) {
+		this.pieza = pieza;
 	}
-	public Pedido getNumero_pedido() {
-		return numero_pedido;
+	public Pedido getPedido() {
+		return pedido;
 	}
-	public void setNumero_pedido(Pedido numero_pedido) {
-		this.numero_pedido = numero_pedido;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 	
 

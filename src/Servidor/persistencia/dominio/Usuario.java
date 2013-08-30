@@ -1,11 +1,11 @@
 package servidor.persistencia.dominio;
 
 
-public class Usuario {
+public class Usuario extends ClaseGeneral  {
 	
-	private String nombre_usuario;
-	private String clave;
-	private String email;
+	protected String nombre_usuario;
+	protected String clave;
+	protected String email;
 	
 	public Usuario(String nombre_usuario, String clave, String email) {
 		super();
