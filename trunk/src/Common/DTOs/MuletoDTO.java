@@ -1,30 +1,19 @@
 package common.DTOs;
 
-import java.io.Serializable;
+public class MuletoDTO extends ClaseGeneralDTO {
 
-public class MuletoDTO implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-	private int id_muleto;
-	private String descripcion;
-	private String vin;
-	private PedidoDTO numero_pedido;
-	private PiezaDTO numero_pieza;
+	protected static final long serialVersionUID = 1L;
+	protected String descripcion;
+	protected String vin;
+	protected PedidoDTO pedido;
+	protected PiezaDTO pieza;
 	
-	public MuletoDTO(int id_muleto, String descripcion, String vin,
-			PedidoDTO numero_pedido, PiezaDTO numero_pieza) {
+	public MuletoDTO(int id_muleto, String descripcion, String vin,PedidoDTO pedido, PiezaDTO pieza) {
 		super();
-		this.id_muleto = id_muleto;
 		this.descripcion = descripcion;
 		this.vin = vin;
-		this.numero_pedido = numero_pedido;
-		this.numero_pieza = numero_pieza;
-	}
-	public int getId_muleto() {
-		return id_muleto;
-	}
-	public void setId_muleto(int id_muleto) {
-		this.id_muleto = id_muleto;
+		this.pedido = pedido;
+		this.pieza = pieza;
 	}
 	public String getDescripcion() {
 		return descripcion;
@@ -38,18 +27,17 @@ public class MuletoDTO implements Serializable{
 	public void setVin(String vin) {
 		this.vin = vin;
 	}
-	public PedidoDTO getNumero_pedido() {
-		return numero_pedido;
+	public PedidoDTO getPedido() {
+		return pedido;
 	}
-	public void setNumero_pedido(PedidoDTO numero_pedido) {
-		this.numero_pedido = numero_pedido;
+	public void setPedido(PedidoDTO pedido) {
+		this.pedido = pedido;
 	}
-	public PiezaDTO getNumero_pieza() {
-		return numero_pieza;
+	public PiezaDTO getPieza() {
+		return pieza;
 	}
-	public void setNumero_pieza(PiezaDTO numero_pieza) {
-		this.numero_pieza = numero_pieza;
+	public void setPieza(PiezaDTO pieza) {
+		this.pieza = pieza;
 	}
-	
-	
+
 }

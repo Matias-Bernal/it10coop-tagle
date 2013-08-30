@@ -1,24 +1,21 @@
 package common.DTOs;
 
-import java.io.Serializable;
+public class MTelefonoDTO extends ClaseGeneralDTO {
 
-public class MTelefonoDTO implements Serializable{
+	protected static final long serialVersionUID = 1L;
+	protected ReclamanteDTO reclamante;
+	protected String telefono;
 
-	private static final long serialVersionUID = 1L;
-	private ReclamanteDTO id_reclamante;
-	private String telefono;
-
-	public MTelefonoDTO(ReclamanteDTO id_reclamante, String telefono) {
+	public MTelefonoDTO(ReclamanteDTO reclamante, String telefono) {
 		super();
-		this.id_reclamante = id_reclamante;
+		this.reclamante = reclamante;
 		this.telefono = telefono;
 	}
-	
-	public ReclamanteDTO getId_reclamante() {
-		return id_reclamante;
+	public ReclamanteDTO getReclamante() {
+		return reclamante;
 	}
-	public void setId_reclamante(ReclamanteDTO id_reclamante) {
-		this.id_reclamante = id_reclamante;
+	public void setReclamante(ReclamanteDTO reclamante) {
+		this.reclamante = reclamante;
 	}
 	public String getTelefono() {
 		return telefono;
@@ -26,5 +23,5 @@ public class MTelefonoDTO implements Serializable{
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
+
 }

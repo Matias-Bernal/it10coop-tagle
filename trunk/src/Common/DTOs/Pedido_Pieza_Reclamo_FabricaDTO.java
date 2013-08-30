@@ -1,37 +1,36 @@
 package common.DTOs;
 
-import java.io.Serializable;
+public class Pedido_Pieza_Reclamo_FabricaDTO extends ClaseGeneralDTO{
 
-public class Pedido_Pieza_Reclamo_FabricaDTO implements Serializable{
+	protected static final long serialVersionUID = 1L;
+	protected PedidoDTO pedido;
+	protected PiezaDTO pieza;
+	protected Reclamo_FabricaDTO reclamo_fabrica;
 
-	private static final long serialVersionUID = 1L;
-	private PedidoDTO numero_pedido;
-	private PiezaDTO numero_pieza;
-	private Reclamo_FabricaDTO id_reclamo_fabrica;
-	
-	public Pedido_Pieza_Reclamo_FabricaDTO(PedidoDTO numero_pedido,
-			PiezaDTO numero_pieza, Reclamo_FabricaDTO id_reclamo_fabrica) {
+	public Pedido_Pieza_Reclamo_FabricaDTO(PedidoDTO pedido, PiezaDTO pieza,
+			Reclamo_FabricaDTO reclamo_fabrica) {
 		super();
-		this.numero_pedido = numero_pedido;
-		this.numero_pieza = numero_pieza;
-		this.id_reclamo_fabrica = id_reclamo_fabrica;
+		this.pedido = pedido;
+		this.pieza = pieza;
+		this.reclamo_fabrica = reclamo_fabrica;
 	}
-	public PedidoDTO getNumero_pedido() {
-		return numero_pedido;
+	public PedidoDTO getPedido() {
+		return pedido;
 	}
-	public void setNumero_pedido(PedidoDTO numero_pedido) {
-		this.numero_pedido = numero_pedido;
+	public void setPedido(PedidoDTO pedido) {
+		this.pedido = pedido;
 	}
-	public PiezaDTO getNumero_pieza() {
-		return numero_pieza;
+	public PiezaDTO getPieza() {
+		return pieza;
 	}
-	public void setNumero_pieza(PiezaDTO numero_pieza) {
-		this.numero_pieza = numero_pieza;
+	public void setPieza(PiezaDTO pieza) {
+		this.pieza = pieza;
 	}
-	public Reclamo_FabricaDTO getId_reclamo_fabrica() {
-		return id_reclamo_fabrica;
+	public Reclamo_FabricaDTO getReclamo_fabrica() {
+		return reclamo_fabrica;
 	}
-	public void setId_reclamo_fabrica(Reclamo_FabricaDTO id_reclamo_fabrica) {
-		this.id_reclamo_fabrica = id_reclamo_fabrica;
+	public void setReclamo_fabrica(Reclamo_FabricaDTO reclamo_fabrica) {
+		this.reclamo_fabrica = reclamo_fabrica;
 	}
+
 }

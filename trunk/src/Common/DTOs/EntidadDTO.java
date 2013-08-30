@@ -1,32 +1,19 @@
 package common.DTOs;
 
-import java.io.Serializable;
+public class EntidadDTO extends ClaseGeneralDTO {
 
-public class EntidadDTO implements Serializable{
+	protected static final long serialVersionUID = 1L;	
+	protected RegistranteDTO registrante;
 
-	private static final long serialVersionUID = 1L;	
-	private int id_entidad;
-	private RegistranteDTO nombre_registrante;
-
-	public EntidadDTO(int id_entidad, RegistranteDTO nombre_registrante) {
+	public EntidadDTO(RegistranteDTO registrante) {
 		super();
-		this.id_entidad = id_entidad;
-		this.nombre_registrante = nombre_registrante;
+		this.registrante = registrante;
+	}
+	public RegistranteDTO getRegistrante() {
+		return registrante;
+	}
+	public void setRegistrante(RegistranteDTO registrante) {
+		this.registrante = registrante;
 	}
 
-	public int getId_entidad() {
-		return id_entidad;
-	}
-
-	public void setId_entidad(int id_entidad) {
-		this.id_entidad = id_entidad;
-	}
-
-	public RegistranteDTO getNombre_registrante() {
-		return nombre_registrante;
-	}
-
-	public void setNombre_registrante(RegistranteDTO nombre_registrante) {
-		this.nombre_registrante = nombre_registrante;
-	}
 }

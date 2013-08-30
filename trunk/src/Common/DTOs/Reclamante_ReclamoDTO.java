@@ -1,29 +1,27 @@
 package common.DTOs;
 
-import java.io.Serializable;
+public class Reclamante_ReclamoDTO extends ClaseGeneralDTO {
 
-public class Reclamante_ReclamoDTO implements Serializable{
+	protected static final long serialVersionUID = 1L;
+	protected ReclamanteDTO reclamante;
+	protected ReclamoDTO reclamo;
 
-	private static final long serialVersionUID = 1L;
-	private ReclamanteDTO id_reclamante;
-	private ReclamoDTO id_reclamo;
-	
-	public Reclamante_ReclamoDTO(ReclamanteDTO id_reclamante, ReclamoDTO id_reclamo) {
+	public Reclamante_ReclamoDTO(ReclamanteDTO reclamante, ReclamoDTO reclamo) {
 		super();
-		this.id_reclamante = id_reclamante;
-		this.id_reclamo = id_reclamo;
+		this.reclamante = reclamante;
+		this.reclamo = reclamo;
 	}
-	public ReclamanteDTO getId_reclamante() {
-		return id_reclamante;
+	public ReclamanteDTO getReclamante() {
+		return reclamante;
 	}
-	public void setId_reclamante(ReclamanteDTO id_reclamante) {
-		this.id_reclamante = id_reclamante;
+	public void setReclamante(ReclamanteDTO reclamante) {
+		this.reclamante = reclamante;
 	}
-	public ReclamoDTO getId_reclamo() {
-		return id_reclamo;
+	public ReclamoDTO getReclamo() {
+		return reclamo;
 	}
-	public void setId_reclamo(ReclamoDTO id_reclamo) {
-		this.id_reclamo = id_reclamo;
+	public void setReclamo(ReclamoDTO reclamo) {
+		this.reclamo = reclamo;
 	}
 
 }
