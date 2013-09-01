@@ -7,6 +7,7 @@ public class Pedido_Pieza_Reclamo_FabricaDTO extends ClaseGeneralDTO{
 	protected PiezaDTO pieza;
 	protected Reclamo_FabricaDTO reclamo_fabrica;
 
+	public Pedido_Pieza_Reclamo_FabricaDTO(){}
 	public Pedido_Pieza_Reclamo_FabricaDTO(PedidoDTO pedido, PiezaDTO pieza,
 			Reclamo_FabricaDTO reclamo_fabrica) {
 		super();

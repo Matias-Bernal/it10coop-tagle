@@ -5,11 +5,13 @@
         <class name="MTelefono" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="telefono" primary-key="true" value-strategy="identity"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
 				
-			<field name="id_reclamante" persistence-modifier="persistent" >
+			<field name="reclamante" persistence-modifier="persistent" >
                 <foreign-key name="fk_reclamante" delete-action="cascade"/>
             </field>
+            
+            <field name="telefono"/>
 
 		</class>
    </package>

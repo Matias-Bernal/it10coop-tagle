@@ -1,12 +1,12 @@
 package servidor.persistencia.dominio;
 
-
 public class Pedido_Pieza_Reclamo_Fabrica extends ClaseGeneral {
 	
 	protected Pedido pedido;
 	protected Pieza pieza;
 	protected Reclamo_Fabrica reclamo_fabrica;
 	
+	public Pedido_Pieza_Reclamo_Fabrica(){} 
 	public Pedido_Pieza_Reclamo_Fabrica(Pedido pedido,
 			Pieza pieza, Reclamo_Fabrica reclamo_fabrica) {
 		super();

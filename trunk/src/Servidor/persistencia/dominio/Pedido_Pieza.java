@@ -1,6 +1,5 @@
 package servidor.persistencia.dominio;
 
-
 import java.sql.Date;
 
 public class Pedido_Pieza extends ClaseGeneral {
@@ -16,7 +15,8 @@ public class Pedido_Pieza extends ClaseGeneral {
 	protected Bdg bdg;
 	protected Recurso recurso;
 	protected Mano_Obra mano_obra;
-	
+
+	public Pedido_Pieza(){}
 	public Pedido_Pieza(Pedido pedido, Pieza pieza,
 			Boolean stock, Boolean propio, Muleto muleto,
 			Devolucion_Pieza devolucion_pieza, Estado_Pedido estado_pedido,

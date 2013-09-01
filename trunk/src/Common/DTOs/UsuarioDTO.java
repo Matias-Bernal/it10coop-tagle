@@ -7,6 +7,7 @@ public class UsuarioDTO extends ClaseGeneralDTO {
 	protected String clave;
 	protected String email;
 	
+	public UsuarioDTO(){}
 	public UsuarioDTO(String nombre_usuario, String clave, String email) {
 		super();
 		this.nombre_usuario = nombre_usuario;

@@ -5,7 +5,9 @@
         <class name="Estado_Pedido" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="estado_pedido" primary-key="true" value-strategy="identity"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
+			
+			<field name="estado_pedido" />
 			
 		</class>
    </package>

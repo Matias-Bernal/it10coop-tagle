@@ -5,7 +5,9 @@
         <class name="Marca" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="nombre_marca" primary-key="true" value-strategy="identity"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
+		
+			<field name="nombre_marca" />
 			
 		</class>
    </package>

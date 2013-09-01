@@ -6,6 +6,7 @@ public class ModeloDTO extends ClaseGeneralDTO {
 	protected String nombre_modelo;
 	protected MarcaDTO marca;
 	
+	public ModeloDTO(){}
 	public ModeloDTO(String nombre_modelo, MarcaDTO marca) {
 		super();
 		this.nombre_modelo = nombre_modelo;
@@ -17,10 +18,10 @@ public class ModeloDTO extends ClaseGeneralDTO {
 	public void setNombre_modelo(String nombre_modelo) {
 		this.nombre_modelo = nombre_modelo;
 	}
-	public MarcaDTO getmarca() {
+	public MarcaDTO getMarca() {
 		return marca;
 	}
-	public void setmarca(MarcaDTO marca) {
+	public void setMarca(MarcaDTO marca) {
 		this.marca = marca;
 	}
 

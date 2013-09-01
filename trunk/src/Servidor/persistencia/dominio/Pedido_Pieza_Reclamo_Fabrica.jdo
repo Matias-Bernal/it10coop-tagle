@@ -5,15 +5,17 @@
         <class name="Pedido_Pieza_Reclamo_Fabrica" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="numero_pedido" persistence-modifier="persistent" >
+			<field name="id" primary-key="true" value-strategy="identity"/>
+		
+			<field name="pedido" persistence-modifier="persistent" >
                 <foreign-key name="fk_numero_pedido" delete-action="cascade"/>
             </field>
 
-			<field name="numero_pieza" persistence-modifier="persistent" >
+			<field name="pieza" persistence-modifier="persistent" >
                 <foreign-key name="fk_numero_pieza" delete-action="cascade"/>
             </field>
             
-           	<field name="id_reclamo_fabrica" persistence-modifier="persistent" >
+           	<field name="reclamo_fabrica" persistence-modifier="persistent" >
                 <foreign-key name="fk_reclamo_fabrica" delete-action="cascade"/>
             </field>
 

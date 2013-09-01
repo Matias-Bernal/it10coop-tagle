@@ -9,6 +9,7 @@ public class Devolucion_PiezaDTO extends ClaseGeneralDTO {
 	protected Date fecha_devolucion;
 	protected String transporte;
 	
+	public Devolucion_PiezaDTO() {}
 	public Devolucion_PiezaDTO(String numero_remito, Date fecha_devolucion, String transporte) {
 		super();
 		this.numero_remito = numero_remito;

@@ -8,6 +8,7 @@ public class Mano_Obra extends ClaseGeneral{
 	protected String codigo_mano_obra;
 	protected Reclamo reclamo;
 	
+	public Mano_Obra(){}
 	public Mano_Obra(float cantidad_horas, float valor_mano_obra, String codigo_mano_obra, Reclamo reclamo) {
 		super();
 		this.cantidad_horas = cantidad_horas;

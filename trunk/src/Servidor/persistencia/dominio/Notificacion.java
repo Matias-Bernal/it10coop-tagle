@@ -3,12 +3,13 @@ package servidor.persistencia.dominio;
 
 import java.sql.Date;
 
-public class Notificacion  extends ClaseGeneral {
+public class Notificacion extends ClaseGeneral {
 	
 	protected Date fecha_notificacion;
 	protected Boolean concretada_notificacion;
 	protected String texto_notificacion;
 	
+	public Notificacion(){}	
 	public Notificacion( Date fecha_notificacion,
 			Boolean concretada_notificacion, String texto_notificacion) {
 		super();
@@ -16,7 +17,6 @@ public class Notificacion  extends ClaseGeneral {
 		this.concretada_notificacion = concretada_notificacion;
 		this.texto_notificacion = texto_notificacion;
 	}
-	
 	public Date getFecha_notificacion() {
 		return fecha_notificacion;
 	}

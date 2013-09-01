@@ -8,6 +8,7 @@ public class MuletoDTO extends ClaseGeneralDTO {
 	protected PedidoDTO pedido;
 	protected PiezaDTO pieza;
 	
+	public MuletoDTO(){}
 	public MuletoDTO(int id_muleto, String descripcion, String vin,PedidoDTO pedido, PiezaDTO pieza) {
 		super();
 		this.descripcion = descripcion;

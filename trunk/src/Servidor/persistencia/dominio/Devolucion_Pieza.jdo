@@ -5,7 +5,7 @@
         <class name="Devolucion_Pieza" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="id_devolucion_pieza" primary-key="true" value-strategy="identity"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
 			
 			<field name="numero_remito" />
 			

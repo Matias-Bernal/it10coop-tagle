@@ -6,6 +6,7 @@ public class MTelefonoDTO extends ClaseGeneralDTO {
 	protected ReclamanteDTO reclamante;
 	protected String telefono;
 
+	public MTelefonoDTO(){}
 	public MTelefonoDTO(ReclamanteDTO reclamante, String telefono) {
 		super();
 		this.reclamante = reclamante;

@@ -3,10 +3,9 @@
 <jdo>
     <package name="servidor.persistencia.dominio">
         <class name="Notificacion_Asignacion_Turnos" persistence-capable-superclass = "Notificacion_Area_Administracion" >
+        
         <inheritance strategy="new-table"/>
-            
-			<field name="id_asignacion_turnos" primary-key="true" value-strategy="identity"/>
-			
-       </class>
+       
+       	</class>
     </package>
 </jdo>

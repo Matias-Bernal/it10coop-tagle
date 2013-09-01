@@ -1,19 +1,14 @@
 package common.DTOs;
 
-public class EntidadDTO extends ClaseGeneralDTO {
+public class EntidadDTO extends RegistranteDTO {
 
 	protected static final long serialVersionUID = 1L;	
-	protected RegistranteDTO registrante;
 
-	public EntidadDTO(RegistranteDTO registrante) {
+	public EntidadDTO(){
 		super();
-		this.registrante = registrante;
 	}
-	public RegistranteDTO getRegistrante() {
-		return registrante;
-	}
-	public void setRegistrante(RegistranteDTO registrante) {
-		this.registrante = registrante;
+	public EntidadDTO(String nombre_entidad) {
+		super(nombre_entidad);
 	}
 
 }

@@ -10,6 +10,7 @@ public class Reclamo_FabricaDTO extends ClaseGeneralDTO {
 	protected PedidoDTO pedido;
 	protected UsuarioDTO usuario;
 
+	public Reclamo_FabricaDTO(){}
 	public Reclamo_FabricaDTO(Date fecha_reclamo_fabrica, PiezaDTO pieza,
 			PedidoDTO pedido, UsuarioDTO usuario) {
 		super();

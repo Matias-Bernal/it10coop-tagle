@@ -4,12 +4,14 @@
     <package name="servidor.persistencia.dominio">
         <class name="Reclamante_Reclamo" identity-type= "application">
 		<inheritance strategy="new-table"/>
+		
+			<field name="id" primary-key="true" value-strategy="identity"/>
 				
-			<field name="id_reclamante" persistence-modifier="persistent" >
+			<field name="reclamante" persistence-modifier="persistent" >
                 <foreign-key name="fk_reclamante" delete-action="cascade"/>
             </field>
             
-            <field name="id_reclamo" persistence-modifier="persistent" >
+            <field name="reclamo" persistence-modifier="persistent" >
                 <foreign-key name="fk_reclamo" delete-action="cascade"/>
             </field>
             

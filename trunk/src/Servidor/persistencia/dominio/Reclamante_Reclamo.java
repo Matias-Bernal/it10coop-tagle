@@ -6,6 +6,7 @@ public class Reclamante_Reclamo extends ClaseGeneral  {
 	protected Reclamante reclamante;
 	protected Reclamo reclamo;
 	
+	public Reclamante_Reclamo(){}
 	public Reclamante_Reclamo(Reclamante reclamante, Reclamo reclamo) {
 		super();
 		this.reclamante = reclamante;

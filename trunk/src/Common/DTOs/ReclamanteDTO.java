@@ -6,6 +6,7 @@ public class ReclamanteDTO extends ClaseGeneralDTO{
 	protected String nombre_apellido;
 	protected String email;
 	
+	public ReclamanteDTO(){}
 	public ReclamanteDTO(String nombre_apellido, String email) {
 		super();
 		this.nombre_apellido = nombre_apellido;
