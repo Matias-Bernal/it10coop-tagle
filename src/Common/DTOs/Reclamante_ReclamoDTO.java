@@ -6,6 +6,7 @@ public class Reclamante_ReclamoDTO extends ClaseGeneralDTO {
 	protected ReclamanteDTO reclamante;
 	protected ReclamoDTO reclamo;
 
+	public Reclamante_ReclamoDTO(){}
 	public Reclamante_ReclamoDTO(ReclamanteDTO reclamante, ReclamoDTO reclamo) {
 		super();
 		this.reclamante = reclamante;

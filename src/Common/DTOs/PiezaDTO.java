@@ -6,6 +6,7 @@ public class PiezaDTO extends ClaseGeneralDTO {
 	protected String numero_pieza;
 	protected String descripcion;
 	
+	public PiezaDTO(){}
 	public PiezaDTO(String numero_pieza, String descripcion) {
 		super();
 		this.numero_pieza = numero_pieza;

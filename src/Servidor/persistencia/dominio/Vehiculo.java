@@ -7,7 +7,8 @@ public class Vehiculo extends ClaseGeneral  {
 	protected String nombre_titular;
 	protected Marca marca;
 	protected Modelo modelo;
-	
+
+	public Vehiculo(){}
 	public Vehiculo(String dominio, String vin, String nombre_titular,
 			Marca marca, Modelo modelo) {
 		super();

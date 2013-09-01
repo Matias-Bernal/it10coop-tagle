@@ -17,6 +17,7 @@ public class Pedido_PiezaDTO extends ClaseGeneralDTO {
 	protected RecursoDTO recurso;
 	protected Mano_ObraDTO mano_obra;
 
+	public Pedido_PiezaDTO(){}
 	public Pedido_PiezaDTO(PedidoDTO pedido, PiezaDTO pieza, Boolean stock,
 			Boolean propio, MuletoDTO muleto,
 			Devolucion_PiezaDTO devolucion_pieza,

@@ -15,6 +15,7 @@ public class ReclamoDTO extends ClaseGeneralDTO{
 	protected Boolean peligroso;
 	protected UsuarioDTO usuario;
 
+	public ReclamoDTO(){}
 	public ReclamoDTO(Date fecha_reclamo, Date fecha_turno,
 			String estado_reclamo, RegistranteDTO registrante,
 			ReclamanteDTO reclamante, VehiculoDTO vehiculo,

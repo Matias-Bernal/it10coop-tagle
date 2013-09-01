@@ -9,6 +9,7 @@ public class VehiculoDTO extends ClaseGeneralDTO {
 	protected MarcaDTO marca;
 	protected ModeloDTO modelo;
 
+	public VehiculoDTO(){}
 	public VehiculoDTO(String dominio, String vin, String nombre_titular,
 			MarcaDTO marca, ModeloDTO modelo) {
 		super();

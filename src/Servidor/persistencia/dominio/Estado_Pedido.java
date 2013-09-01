@@ -5,6 +5,7 @@ public class Estado_Pedido extends ClaseGeneral{
 	
 	protected String estado_pedido;
 
+	public Estado_Pedido(){}
 	public Estado_Pedido(String estado_pedido) {
 		super();
 		this.estado_pedido = estado_pedido;

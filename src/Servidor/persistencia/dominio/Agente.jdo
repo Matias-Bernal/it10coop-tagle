@@ -3,10 +3,9 @@
 <jdo>
     <package name="servidor.persistencia.dominio">
         <class name="Agente" persistence-capable-superclass = "Registrante" >
+		
 		<inheritance strategy="new-table"/>
 		
-			<field name="id_agente" primary-key="true" value-strategy="identity"/>
-			
 		</class>
    </package>
 </jdo>

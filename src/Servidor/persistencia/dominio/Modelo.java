@@ -6,6 +6,7 @@ public class Modelo extends ClaseGeneral {
 	protected String nombre_modelo;
 	protected Marca marca;
 	
+	public Modelo(){}
 	public Modelo(String nombre_modelo, Marca marca) {
 		super();
 		this.nombre_modelo = nombre_modelo;

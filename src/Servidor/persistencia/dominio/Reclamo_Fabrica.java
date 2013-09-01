@@ -10,6 +10,7 @@ public class Reclamo_Fabrica extends ClaseGeneral  {
 	protected Pedido pedido;
 	protected Usuario usuario;
 	
+	public Reclamo_Fabrica(){}
 	public Reclamo_Fabrica(Date fecha_reclamo_fabrica, Pieza pieza,
 			Pedido pedido, Usuario usuario) {
 		super();
@@ -41,5 +42,6 @@ public class Reclamo_Fabrica extends ClaseGeneral  {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}	
+	}
+
 }

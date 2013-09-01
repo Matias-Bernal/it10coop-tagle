@@ -5,7 +5,9 @@
         <class name="Usuario" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="nombre_usuario" primary-key="true"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
+		
+			<field name="nombre_usuario"/>
 			
 			<field name="clave" />
 			

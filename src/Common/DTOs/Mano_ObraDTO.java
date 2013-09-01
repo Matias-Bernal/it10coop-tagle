@@ -8,6 +8,7 @@ public class Mano_ObraDTO extends ClaseGeneralDTO {
 	protected String codigo_mano_obra;
 	protected ReclamoDTO reclamo;
 	
+	public Mano_ObraDTO(){}
 	public Mano_ObraDTO(int id_mano_obra, float cantidad_horas,float valor_mano_obra, String codigo_mano_obra, ReclamoDTO reclamo) {
 		super();
 		this.cantidad_horas = cantidad_horas;

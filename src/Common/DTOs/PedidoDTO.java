@@ -13,7 +13,8 @@ public class PedidoDTO extends ClaseGeneralDTO {
 	protected String pnc;
 	protected Estado_PedidoDTO estado_pedido;
 	protected ReclamoDTO reclamo;
-	
+
+	public PedidoDTO() {}
 	public PedidoDTO(String numero_pedido, Date fecha_solicitud_pedido,
 			Date fecha_solicitud_fabrica, Date fecha_recepcion_fabrica,
 			String numero_orden_trabajo, String pnc,

@@ -9,6 +9,7 @@ public class BdgDTO extends ClaseGeneralDTO {
 	protected PiezaDTO pieza;
 	protected PedidoDTO pedido;
 	
+	public BdgDTO() {}
 	public BdgDTO(Date fecha_bdg, PiezaDTO pieza, PedidoDTO pedido) {
 		super();
 		this.fecha_bdg = fecha_bdg;

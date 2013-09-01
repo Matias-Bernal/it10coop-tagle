@@ -5,7 +5,7 @@
         <class name="Mano_Obra" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="id_mano_obra" primary-key="true" value-strategy="identity"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
 			
 			<field name="cantidad_horas" />
 			
@@ -13,7 +13,7 @@
 			
 			<field name="codigo_mano_obra" />
 			
-			<field name="id_reclamo" persistence-modifier="persistent" >
+			<field name="reclamo" persistence-modifier="persistent" >
                 <foreign-key name="fk_reclamo" delete-action="cascade"/>
             </field>
 

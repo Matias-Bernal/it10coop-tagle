@@ -6,13 +6,12 @@ public class Reclamante extends ClaseGeneral  {
 	protected String nombre_apellido;
 	protected String email;
 	
-	
+	public Reclamante(){}
 	public Reclamante(String nombre_apellido, String email) {
 		super();
 		this.nombre_apellido = nombre_apellido;
 		this.email = email;
 	}
-
 	public String getNombre_apellido() {
 		return nombre_apellido;
 	}
@@ -25,4 +24,5 @@ public class Reclamante extends ClaseGeneral  {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 }

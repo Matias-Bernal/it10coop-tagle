@@ -7,7 +7,8 @@ public class RecursoDTO extends ClaseGeneralDTO {
 	protected static final long serialVersionUID = 1L;
 	protected Date fecha_recurso;
 	protected String numero_recurso;
-	
+
+	public RecursoDTO(){}
 	public RecursoDTO(Date fecha_recurso, String numero_recurso) {
 		super();
 		this.fecha_recurso = fecha_recurso;

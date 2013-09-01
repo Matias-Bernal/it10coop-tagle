@@ -9,6 +9,7 @@ public class NotificacionDTO extends ClaseGeneralDTO{
 	protected Boolean concretada_notificacion;
 	protected String texto_notificacion;
 	
+	public NotificacionDTO() {}
 	public NotificacionDTO(Date fecha_notificacion, Boolean concretada_notificacion, String texto_notificacion) {
 		super();
 		this.fecha_notificacion = fecha_notificacion;

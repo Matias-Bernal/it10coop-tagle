@@ -5,7 +5,7 @@
         <class name="Recurso" identity-type= "application">
 		<inheritance strategy="new-table"/>
 		
-			<field name="id_recurso" primary-key="true" value-strategy="identity"/>
+			<field name="id" primary-key="true" value-strategy="identity"/>
 			
 			<field name="fecha_recurso" />
 			

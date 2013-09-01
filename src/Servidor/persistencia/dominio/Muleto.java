@@ -8,6 +8,7 @@ public class Muleto extends ClaseGeneral {
 	protected Pedido pedido;
 	protected Pieza pieza;
 	
+	public Muleto(){}
 	public Muleto(String descripcion, String vin,
 			Pedido pedido, Pieza pieza) {
 		super();

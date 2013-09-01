@@ -6,6 +6,7 @@ public class MTelefono extends ClaseGeneral {
 	protected Reclamante reclamante;
 	protected String telefono;
 
+	public MTelefono(){}
 	public MTelefono(Reclamante reclamante, String telefono) {
 		super();
 		this.reclamante = reclamante;

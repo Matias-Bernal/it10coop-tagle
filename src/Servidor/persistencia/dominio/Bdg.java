@@ -1,14 +1,14 @@
 package servidor.persistencia.dominio;
 
-
 import java.sql.Date;
 
-public class Bdg  extends ClaseGeneral {
+public class Bdg extends ClaseGeneral {
 	
 	protected Date fecha_bdg;
 	protected Pieza pieza;
 	protected Pedido pedido;
 	
+	public Bdg() {}
 	public Bdg(Date fecha_bdg, Pieza pieza,Pedido pedido) {
 		super();
 		this.fecha_bdg = fecha_bdg;
