@@ -1,11 +1,12 @@
 package common.GestionarRecurso;
 
+import java.rmi.Remote;
 import java.sql.Date;
 import java.util.Vector;
 
 import common.DTOs.RecursoDTO;
 
-public interface IControlRecurso {
+public interface IControlRecurso extends Remote{
 
 	public Long agregarRecurso(RecursoDTO Recurso)throws Exception;
 	public void eliminarRecurso(Long id)throws Exception;

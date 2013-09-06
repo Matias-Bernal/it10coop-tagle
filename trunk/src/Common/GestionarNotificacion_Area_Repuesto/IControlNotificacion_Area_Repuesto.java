@@ -1,10 +1,11 @@
 package common.GestionarNotificacion_Area_Repuesto;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Notificacion_Area_RepuestoDTO;
 
-public interface IControlNotificacion_Area_Repuesto {
+public interface IControlNotificacion_Area_Repuesto extends Remote{
 	
 	public Long agregarNotificacion_Area_Repuesto(Notificacion_Area_RepuestoDTO notificacion_area_repuesto)throws Exception;
 	public void eliminarNotificacion_Area_Repuesto(Long id)throws Exception;

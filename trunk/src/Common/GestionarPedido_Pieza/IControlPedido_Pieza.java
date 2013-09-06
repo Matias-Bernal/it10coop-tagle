@@ -1,5 +1,6 @@
 package common.GestionarPedido_Pieza;
 
+import java.rmi.Remote;
 import java.sql.Date;
 import java.util.Vector;
 
@@ -8,7 +9,7 @@ import common.DTOs.PedidoDTO;
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.PiezaDTO;
 
-public interface IControlPedido_Pieza {
+public interface IControlPedido_Pieza extends Remote{
 
 	public Long agregarPedido_Pieza(Pedido_PiezaDTO Pedido_Pieza)throws Exception;
 	public void eliminarPedido_Pieza(Long id)throws Exception;

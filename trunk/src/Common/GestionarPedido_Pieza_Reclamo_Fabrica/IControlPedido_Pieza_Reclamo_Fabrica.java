@@ -1,5 +1,6 @@
 package common.GestionarPedido_Pieza_Reclamo_Fabrica;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Pedido_Pieza_Reclamo_FabricaDTO;
@@ -7,7 +8,7 @@ import common.DTOs.PedidoDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.Reclamo_FabricaDTO;
 
-public interface IControlPedido_Pieza_Reclamo_Fabrica {
+public interface IControlPedido_Pieza_Reclamo_Fabrica extends Remote{
 	
 	public Long agregarPedido_Pieza_Reclamo_Fabrica(Pedido_Pieza_Reclamo_FabricaDTO Pedido_Pieza_Reclamo_Fabrica)throws Exception;
 	public void eliminarPedido_Pieza_Reclamo_Fabrica(Long id)throws Exception;

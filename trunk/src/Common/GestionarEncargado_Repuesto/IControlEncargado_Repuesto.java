@@ -1,10 +1,11 @@
 package common.GestionarEncargado_Repuesto;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Encargado_RepuestoDTO;
 
-public interface IControlEncargado_Repuesto {
+public interface IControlEncargado_Repuesto extends Remote{
 	
 	public Long agregarEncargado_Repuesto(Encargado_RepuestoDTO devolucion_pieza)throws Exception;
 	public void eliminarEncargado_Repuesto(Long id)throws Exception;

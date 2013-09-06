@@ -1,5 +1,6 @@
 package common.GestionarBdg;
 
+import java.rmi.Remote;
 import java.sql.Date;
 import java.util.Vector;
 
@@ -7,7 +8,7 @@ import common.DTOs.BdgDTO;
 import common.DTOs.PedidoDTO;
 import common.DTOs.PiezaDTO;
 
-public interface IControlBdg {
+public interface IControlBdg extends Remote{
 	
 	public Long agregarBdg(BdgDTO bdg)throws Exception;
 	public void eliminarBdg(Long id)throws Exception;

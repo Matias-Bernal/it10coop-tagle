@@ -1,10 +1,11 @@
 package common.GestionarNotificacion_Usuario;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Notificacion_UsuarioDTO;
 
-public interface IControlNotificacion_Usuario {
+public interface IControlNotificacion_Usuario extends Remote{
 
 	public Long agregarNotificacion_Usuario(Notificacion_UsuarioDTO notificacion_usuario)throws Exception;
 	public void eliminarNotificacion_Usuario(Long id)throws Exception;

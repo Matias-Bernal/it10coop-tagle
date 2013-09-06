@@ -1,12 +1,22 @@
 package common;
 
+import java.awt.Color;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import javax.swing.border.Border;
+
 
 public class Utils{
 
+	public static Color colorFondo = new Color(240,248,255);
+	public static Color colorPanel = new Color(135,206,250); 
+	public static Color colorNegro = new Color(0,0,0);
+	public static Color colorTextoDisabled = new Color(0,0,205); 
+	public static String tipoLetra = "Century Gothic";
+	public static Border b= javax.swing.BorderFactory.createLineBorder(new Color(0,0,205),2);
+	
 	public Utils(){ 
 	}
 

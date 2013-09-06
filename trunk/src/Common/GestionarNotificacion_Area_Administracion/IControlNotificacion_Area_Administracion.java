@@ -1,10 +1,11 @@
 package common.GestionarNotificacion_Area_Administracion;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Notificacion_Area_AdministracionDTO;
 
-public interface IControlNotificacion_Area_Administracion {
+public interface IControlNotificacion_Area_Administracion extends Remote{
 	
 	public Long agregarNotificacion_Area_Administracion(Notificacion_Area_AdministracionDTO notificacion_area_administracion)throws Exception;
 	public void eliminarNotificacion_Area_Administracion(Long id)throws Exception;
