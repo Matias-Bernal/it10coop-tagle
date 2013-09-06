@@ -13,11 +13,12 @@ public class Reclamo extends ClaseGeneral  {
 	protected Boolean inmovilizado;
 	protected Boolean peligroso;
 	protected Usuario usuario;
+	protected String descripcion;
 	
 	public Reclamo(){}
 	public Reclamo(Date fecha_reclamo, Date fecha_turno, String estado_reclamo,
 			Registrante registrante, Reclamante reclamante, Vehiculo vehiculo,
-			Boolean inmovilizado, Boolean peligroso, Usuario usuario) {
+			Boolean inmovilizado, Boolean peligroso, Usuario usuario,String descripcion) {
 		super();
 		this.fecha_reclamo = fecha_reclamo;
 		this.fecha_turno = fecha_turno;
@@ -28,6 +29,7 @@ public class Reclamo extends ClaseGeneral  {
 		this.inmovilizado = inmovilizado;
 		this.peligroso = peligroso;
 		this.usuario = usuario;
+		this.descripcion = descripcion;
 	}
 	public Date getFecha_reclamo() {
 		return fecha_reclamo;
@@ -82,6 +84,12 @@ public class Reclamo extends ClaseGeneral  {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setdescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

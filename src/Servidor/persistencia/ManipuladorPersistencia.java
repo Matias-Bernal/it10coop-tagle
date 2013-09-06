@@ -4,12 +4,6 @@ package servidor.persistencia;
 import java.util.Collection;
 import java.util.Vector;
 
-/*import javax.jdo.Extent;
-import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-import javax.jdo.Transaction;
-import server.SingletonPersistencia;*/
-
 public class ManipuladorPersistencia extends Thread{
 /*    private PersistenceManager pm;
     private Transaction tx;

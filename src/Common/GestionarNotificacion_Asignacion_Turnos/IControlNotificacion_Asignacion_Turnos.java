@@ -1,10 +1,11 @@
 package common.GestionarNotificacion_Asignacion_Turnos;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Notificacion_Asignacion_TurnosDTO;
 
-public interface IControlNotificacion_Asignacion_Turnos {
+public interface IControlNotificacion_Asignacion_Turnos extends Remote{
 	
 	public Long agregarNotificacion_Asignacion_Turnos(Notificacion_Asignacion_TurnosDTO notificacion_asignacion_turnos)throws Exception;
 	public void eliminarNotificacion_Asignacion_Turnos(Long id)throws Exception;

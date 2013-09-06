@@ -1,10 +1,11 @@
 package common.GestionarEstado_Pedido;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Estado_PedidoDTO;
 
-public interface IControlEstado_Pedido {
+public interface IControlEstado_Pedido extends Remote{
 
 	public Long agregarEstado_Pedido(Estado_PedidoDTO estado_pedido)throws Exception;
 	public void eliminarEstado_Pedido(Long id)throws Exception;

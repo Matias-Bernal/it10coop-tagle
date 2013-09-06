@@ -1,10 +1,11 @@
 package common.GestionarReclamante;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.ReclamanteDTO;
 
-public interface IControlReclamante {
+public interface IControlReclamante extends Remote{
 
 	public Long agregarReclamante(ReclamanteDTO Reclamante)throws Exception;
 	public void eliminarReclamante(Long id)throws Exception;

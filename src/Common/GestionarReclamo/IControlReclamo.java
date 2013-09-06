@@ -1,5 +1,6 @@
 package common.GestionarReclamo;
 
+import java.rmi.Remote;
 import java.sql.Date;
 import java.util.Vector;
 
@@ -7,7 +8,7 @@ import common.DTOs.ReclamanteDTO;
 import common.DTOs.ReclamoDTO;
 import common.DTOs.VehiculoDTO;
 
-public interface IControlReclamo {
+public interface IControlReclamo extends Remote{
 	
 	public Long agregarReclamo(ReclamoDTO Reclamo)throws Exception;
 	public void eliminarReclamo(Long id)throws Exception;

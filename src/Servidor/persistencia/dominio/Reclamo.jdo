@@ -32,6 +32,8 @@
             <field name="usuario" persistence-modifier="persistent" >
                 <foreign-key name="fk_nombre_usuario" delete-action="cascade"/>
             </field>
+            
+            <field name="descripcion" />
                         
 		</class>
    </package>

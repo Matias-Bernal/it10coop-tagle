@@ -1,10 +1,11 @@
 package common.GestionarPieza;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.PiezaDTO;
 
-public interface IControlPieza {
+public interface IControlPieza extends Remote{
 	
 	public Long agregarPieza(PiezaDTO Pieza)throws Exception;
 	public void eliminarPieza(Long id)throws Exception;

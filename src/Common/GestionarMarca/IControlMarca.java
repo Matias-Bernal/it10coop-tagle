@@ -1,10 +1,11 @@
 package common.GestionarMarca;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.MarcaDTO;
 
-public interface IControlMarca {
+public interface IControlMarca extends Remote{
 	
 	public Long agregarMarca(MarcaDTO marca)throws Exception;
 	public void eliminarMarca(Long id)throws Exception;

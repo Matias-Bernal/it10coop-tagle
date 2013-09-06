@@ -19,6 +19,7 @@ public class ReclamoAssembler {
 		reclamoDTO.setFecha_turno(reclamo.getFecha_turno());
 		reclamoDTO.setInmovilizado(reclamo.getInmovilizado());
 		reclamoDTO.setPeligroso(reclamo.getPeligroso());
+		reclamoDTO.setdescripcion(reclamo.getDescripcion());
 		ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler();
 		reclamoDTO.setReclamante(reclamanteAssemb.getReclamanteDTO(reclamo.getReclamante()) );
 		UsuarioAssembler usuarioAssemb = new UsuarioAssembler();
@@ -35,6 +36,7 @@ public class ReclamoAssembler {
 		reclamo.setFecha_turno(reclamoDTO.getFecha_turno());
 		reclamo.setInmovilizado(reclamoDTO.getInmovilizado());
 		reclamo.setPeligroso(reclamoDTO.getPeligroso());
+		reclamo.setdescripcion(reclamoDTO.getDescripcion());
 		ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler();
 		reclamo.setReclamante(reclamanteAssemb.getReclamante(reclamoDTO.getReclamante()) );
 		UsuarioAssembler usuarioAssemb = new UsuarioAssembler();

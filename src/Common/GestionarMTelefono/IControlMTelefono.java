@@ -1,11 +1,12 @@
 package common.GestionarMTelefono;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.MTelefonoDTO;
 import common.DTOs.ReclamanteDTO;
 
-public interface IControlMTelefono {
+public interface IControlMTelefono extends Remote{
 	
 	public Long agregarMTelefono(MTelefonoDTO mTelefono)throws Exception;
 	public void eliminarMTelefono(Long id)throws Exception;

@@ -1,12 +1,13 @@
 package common.GestionarMuleto;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.MuletoDTO;
 import common.DTOs.PedidoDTO;
 import common.DTOs.PiezaDTO;
 
-public interface IControlMuleto {
+public interface IControlMuleto extends Remote{
 
 	public Long agregarMuleto(MuletoDTO muleto)throws Exception;
 	public void eliminarMuleto(Long id)throws Exception;

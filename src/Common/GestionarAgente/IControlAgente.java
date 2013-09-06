@@ -1,10 +1,11 @@
 package common.GestionarAgente;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.AgenteDTO;
 
-public interface IControlAgente {
+public interface IControlAgente extends Remote{
 
 	public Long agregarAgente(AgenteDTO agente)throws Exception;
 	public void eliminarAgente(Long id)throws Exception;

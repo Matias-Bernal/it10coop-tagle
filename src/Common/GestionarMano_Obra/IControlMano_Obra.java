@@ -1,11 +1,12 @@
 package common.GestionarMano_Obra;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.Mano_ObraDTO;
 import common.DTOs.ReclamoDTO;
 
-public interface IControlMano_Obra {
+public interface IControlMano_Obra extends Remote{
 	
 	public Long agregarMano_Obra(Mano_ObraDTO mano_obra)throws Exception;
 	public void eliminarMano_Obra(Long id)throws Exception;

@@ -1,10 +1,11 @@
 package common.GestionarAdministrativo;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.AdministrativoDTO;
 
-public interface IControlAdministrativo {
+public interface IControlAdministrativo extends Remote{
 	
 	public Long agregarAdministrativo(AdministrativoDTO administrativo)throws Exception;
 	public void eliminarAdministrativo(Long id)throws Exception;

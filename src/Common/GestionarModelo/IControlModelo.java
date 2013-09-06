@@ -1,11 +1,12 @@
 package common.GestionarModelo;
 
+import java.rmi.Remote;
 import java.util.Vector;
 
 import common.DTOs.MarcaDTO;
 import common.DTOs.ModeloDTO;
 
-public interface IControlModelo {
+public interface IControlModelo extends Remote{
 
 	public Long agregarModelo(ModeloDTO modelo)throws Exception;
 	public void eliminarModelo(Long id)throws Exception;
