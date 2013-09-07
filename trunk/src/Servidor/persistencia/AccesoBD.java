@@ -10,33 +10,18 @@ import java.util.List;
 
 import javax.jdo.*;
 
+import servidor.SingletonConexion;
+
 public class AccesoBD{
-    protected Singleton singleton;
     protected PersistenceManager persistencia;
-    //-------------------------------------------
-    protected PersistenceManagerFactory pmf;
-    //-------------------------------------------
     protected Transaction tx;
     
-    /**
-     * Constructor necesario para la creacion de la base de datos.
-     * @param s parametro para distiguir un constructor de otro.
-     */
-    public  AccesoBD(String s){        
-    }
-    
+        
     /**
      * Constructor de la clase que nos garantiza que sea una unica instancia
      * a traves del singleton.
      */
     public  AccesoBD(){
-        singleton = Singleton.getInstance();
-    //-------------------------------------------
-    //  PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("jpox.properties");
-        pmf = JDOHelper.getPersistenceManagerFactory("jpox.properties");
-    //-------------------------------------------
-    //  PersistenceManager pm = pmf.getPersistenceManager();
-    //  persistencia = pm;
     }
     
     /**
@@ -88,7 +73,7 @@ public class AccesoBD{
                  concretarTransaccion();
              }
              //-----------------------------------------
-             persistencia = pmf.getPersistenceManager();
+             persistencia =SingletonConexion.getPmf().getPersistenceManager();
              //-----------------------------------------
              //setTransactionIsolation ???
              tx = persistencia.currentTransaction();

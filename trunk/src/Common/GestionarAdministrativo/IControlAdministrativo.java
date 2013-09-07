@@ -7,14 +7,11 @@ import common.DTOs.AdministrativoDTO;
 
 public interface IControlAdministrativo extends Remote{
 	
-	public Long agregarAdministrativo(AdministrativoDTO administrativo)throws Exception;
+	public Long agregarAdministrativo(AdministrativoDTO administrativoDTO)throws Exception;
 	public void eliminarAdministrativo(Long id)throws Exception;
 	public void modificarAdministrativo(Long id,AdministrativoDTO modificado)throws Exception;
 	
 	public Vector<AdministrativoDTO> obtenerAdministrativo()throws Exception;
-	public Vector<AdministrativoDTO> obtenerAdministrativo(Long id)throws Exception;
-	public Vector<AdministrativoDTO> obtenerAdministrativo_Nombre(String nombre_administrativo)throws Exception;
-	public Vector<AdministrativoDTO> obtenerAdministrativo_Email(String email)throws Exception;
 	
 	public boolean existeAdministrativo(Long id) throws Exception;
 	public boolean existeAdministrativo(String nombre_administrativo) throws Exception;
