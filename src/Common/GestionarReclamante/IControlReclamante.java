@@ -7,7 +7,7 @@ import common.DTOs.ReclamanteDTO;
 
 public interface IControlReclamante extends Remote{
 
-	public Long agregarReclamante(ReclamanteDTO Reclamante)throws Exception;
+	public Long agregarReclamante(ReclamanteDTO reclamanteDTO)throws Exception;
 	public void eliminarReclamante(Long id)throws Exception;
 	public void modificarReclamante(Long id,ReclamanteDTO modificado)throws Exception;
 	

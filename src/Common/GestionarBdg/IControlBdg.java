@@ -14,18 +14,17 @@ public interface IControlBdg extends Remote{
 	public void eliminarBdg(Long id)throws Exception;
 	public void modificarBdg(Long id,BdgDTO modificado)throws Exception;
 	
-	public Vector<BdgDTO> obtenerBdg()throws Exception;
-	public Vector<BdgDTO> obtenerBdg(Long id)throws Exception;
-	public Vector<BdgDTO> obtenerBdg(Date fecha_bdg)throws Exception;
-	public Vector<BdgDTO> obtenerBdg(PiezaDTO pieza)throws Exception;
-	public Vector<BdgDTO> obtenerBdg(PedidoDTO pedido)throws Exception;
+	public Vector<BdgDTO> obtenerBdgs()throws Exception;
+	public Vector<BdgDTO> obtenerBdgs(Date fecha_bdg)throws Exception;
+	public Vector<BdgDTO> obtenerBdgs(PiezaDTO pieza)throws Exception;
+	public Vector<BdgDTO> obtenerBdgs(PedidoDTO pedido)throws Exception;
 	
 	public boolean existeBdg(Long id) throws Exception;
 	public boolean existeBdg(PiezaDTO pieza, PedidoDTO pedido) throws Exception;
 	public boolean existeBdg(Date fecha_bdg, PiezaDTO pieza, PedidoDTO pedido) throws Exception;
 
-	public BdgDTO buscarAgente(Long id) throws Exception;
-	public BdgDTO buscarAgente(PiezaDTO pieza, PedidoDTO pedido) throws Exception;
-	public BdgDTO buscarAgente(Date fecha_bdg, PiezaDTO pieza, PedidoDTO pedido) throws Exception;
+	public BdgDTO buscarBdg(Long id) throws Exception;
+	public BdgDTO buscarBdg(PiezaDTO pieza, PedidoDTO pedido) throws Exception;
+	public BdgDTO buscarBdg(Date fecha_bdg, PiezaDTO pieza, PedidoDTO pedido) throws Exception;
 
 }

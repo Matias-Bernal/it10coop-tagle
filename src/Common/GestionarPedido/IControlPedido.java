@@ -14,7 +14,6 @@ public interface IControlPedido extends Remote{
 	public void modificarPedido(Long id,PedidoDTO modificado)throws Exception;
 	
 	public Vector<PedidoDTO> obtenerPedidos()throws Exception;
-	public Vector<PedidoDTO> obtenerPedidos(String numero_pedido)throws Exception;
 	public Vector<PedidoDTO> obtenerPedidos_Fecha_Solicitud_Pedido(Date fecha_solicitud_pedido)throws Exception;
 	public Vector<PedidoDTO> obtenerPedidos_Fecha_Solicitud_Fabrica(Date fecha_recepcion_fabrica)throws Exception;
 	public Vector<PedidoDTO> obtenerPedidos_Fecha_Recepcion_Fabrica(Date fecha_recepcion_fabrica)throws Exception;

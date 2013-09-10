@@ -46,13 +46,6 @@ public class ControlPedido extends UnicastRemoteObject implements IControlPedido
 	}
 
 	@Override
-	public Vector<PedidoDTO> obtenerPedidos(String numero_pedido)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Vector<PedidoDTO> obtenerPedidos_Fecha_Solicitud_Pedido(
 			Date fecha_solicitud_pedido) throws Exception {
 		// TODO Auto-generated method stub

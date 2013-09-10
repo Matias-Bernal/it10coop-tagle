@@ -8,6 +8,7 @@ public class Devolucion_PiezaDTO extends ClaseGeneralDTO {
 	protected String numero_remito;
 	protected Date fecha_devolucion;
 	protected String transporte;
+	protected String numero_retiro;
 	
 	public Devolucion_PiezaDTO() {}
 	public Devolucion_PiezaDTO(String numero_remito, Date fecha_devolucion, String transporte) {
@@ -33,6 +34,12 @@ public class Devolucion_PiezaDTO extends ClaseGeneralDTO {
 	}
 	public void setTransporte(String transporte) {
 		this.transporte = transporte;
+	}
+	public String getNumero_retiro() {
+		return numero_retiro;
+	}
+	public void setNumero_retiro(String numero_retiro) {
+		this.numero_retiro = numero_retiro;
 	}
 
 }

@@ -9,8 +9,8 @@ import common.DTOs.VehiculoDTO;
 
 public interface IControlVehiculo extends Remote{
 
-	public Long agregarVehiculoDTO(VehiculoDTO vehiculo)throws Exception;
-	public void eliminarVehiculoDTO(Long id)throws Exception;
+	public Long agregarVehiculo(VehiculoDTO vehiculoDTO)throws Exception;
+	public void eliminarVehiculo(Long id)throws Exception;
 	public void modificarVehiculo(Long id,VehiculoDTO modificado)throws Exception;
 	
 	public Vector<VehiculoDTO> obtenerVehiculos()throws Exception;
@@ -20,7 +20,7 @@ public interface IControlVehiculo extends Remote{
 	public boolean existeVehiculo(Long id) throws Exception;
 	public boolean existeVehiculo(String dominio) throws Exception;
 	
-	public VehiculoDTO buscarVehiculoDTO(Long id) throws Exception;
-	public VehiculoDTO buscarVehiculoDTO(String dominio) throws Exception;
+	public VehiculoDTO buscarVehiculo(Long id) throws Exception;
+	public VehiculoDTO buscarVehiculo(String dominio) throws Exception;
 
 }

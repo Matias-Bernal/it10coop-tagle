@@ -7,13 +7,11 @@ import common.DTOs.MarcaDTO;
 
 public interface IControlMarca extends Remote{
 	
-	public Long agregarMarca(MarcaDTO marca)throws Exception;
+	public Long agregarMarca(MarcaDTO marcaDTO)throws Exception;
 	public void eliminarMarca(Long id)throws Exception;
 	public void modificarMarca(Long id,MarcaDTO modificado)throws Exception;
 	
-	public Vector<MarcaDTO> obtenerAdministrativo()throws Exception;
-	public Vector<MarcaDTO> obtenerAdministrativo(Long id)throws Exception;
-	public Vector<MarcaDTO> obtenerAdministrativo_Nombre(String nombre_marca)throws Exception;
+	public Vector<MarcaDTO> obtenerMarcas()throws Exception;
 	
 	public boolean existeMarca(Long id) throws Exception;
 	public boolean existeMarca(String nombre_marca) throws Exception;
