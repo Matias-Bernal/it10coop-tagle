@@ -33,7 +33,7 @@ public class Servidor {
 		this.ip=(InetAddress.getLocalHost().getHostAddress()).toString();//RootAndIp.getIp();
 		System.out.println("Ip: " + this.ip);
 		
-		GUIServidorIniciado serv=new GUIServidorIniciado(ip);
+		GUIServidor serv = new GUIServidor();
 		serv.show();
 	}
 

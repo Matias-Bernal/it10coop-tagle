@@ -7,7 +7,7 @@ import common.DTOs.PiezaDTO;
 
 public interface IControlPieza extends Remote{
 	
-	public Long agregarPieza(PiezaDTO Pieza)throws Exception;
+	public Long agregarPieza(PiezaDTO piezaDTO)throws Exception;
 	public void eliminarPieza(Long id)throws Exception;
 	public void modificarPieza(Long id,PiezaDTO modificado)throws Exception;
 	

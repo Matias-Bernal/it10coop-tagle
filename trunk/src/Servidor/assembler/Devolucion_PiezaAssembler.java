@@ -18,6 +18,7 @@ public class Devolucion_PiezaAssembler {
 		devolucion_piezaDTO.setFecha_devolucion(devolucion_pieza.getFecha_devolucion());
 		devolucion_piezaDTO.setNumero_remito(devolucion_pieza.getNumero_remito());
 		devolucion_piezaDTO.setTransporte(devolucion_pieza.getTransporte());
+		devolucion_piezaDTO.setNumero_retiro(devolucion_pieza.getNumero_remito());
 		return devolucion_piezaDTO;
 	}
 	public static Devolucion_Pieza getDevolucion_Pieza(Devolucion_PiezaDTO devolucion_piezaDTO) {
@@ -26,6 +27,7 @@ public class Devolucion_PiezaAssembler {
 		devolucion_pieza.setFecha_devolucion(devolucion_piezaDTO.getFecha_devolucion());
 		devolucion_pieza.setNumero_remito(devolucion_piezaDTO.getNumero_remito());
 		devolucion_pieza.setTransporte(devolucion_piezaDTO.getTransporte());
+		devolucion_pieza.setNumero_retiro(devolucion_piezaDTO.getNumero_remito());
 		return devolucion_pieza;
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })

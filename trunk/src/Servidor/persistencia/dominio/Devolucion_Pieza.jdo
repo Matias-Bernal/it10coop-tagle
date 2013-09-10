@@ -12,6 +12,8 @@
 			<field name="fecha_devolucion" />
 
 			<field name="transporte" />
+			
+			<field name="numero_retiro" />
 
 		</class>
    </package>

@@ -8,14 +8,11 @@ import servidor.assembler.AdministrativoAssembler;
 import servidor.persistencia.AccesoBD;
 import servidor.persistencia.dominio.Administrativo;
 import common.DTOs.AdministrativoDTO;
-
 import common.GestionarAdministrativo.IControlAdministrativo;
 
 public class ControlAdministrativo extends UnicastRemoteObject implements IControlAdministrativo {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	protected ControlAdministrativo() throws RemoteException {
@@ -63,6 +60,7 @@ public class ControlAdministrativo extends UnicastRemoteObject implements IContr
 			administrativo.setClave(modificado.getClave());
 			administrativo.setEmail(modificado.getEmail());
 			
+			accesoBD.hacerPersistente(administrativo);
 			accesoBD.concretarTransaccion();
 		} finally {
 			accesoBD.rollbackTransaccion();
@@ -70,19 +68,19 @@ public class ControlAdministrativo extends UnicastRemoteObject implements IContr
 	}
 
 	@Override
-	public Vector<AdministrativoDTO> obtenerAdministrativo() throws Exception {
+	public Vector<AdministrativoDTO> obtenerAdministrativos() throws Exception {
 		AccesoBD accesoBD = new AccesoBD();
-		Vector administrativosDTO = new Vector();
+		Vector<AdministrativoDTO> administrativosDTO = new Vector<AdministrativoDTO>();
 		try {
 			accesoBD.iniciarTransaccion();
-			Vector administrativos= (Vector) accesoBD.buscarPorFiltro(Administrativo.class,"nombre_usuario ascending");
+			@SuppressWarnings("unchecked")
+			Vector<Administrativo> administrativos = (Vector<Administrativo>) accesoBD.buscarPorFiltro(Administrativo.class,"nombre_usuario ascending");
 			for(int i=0; i<administrativos.size();i++){
 				AdministrativoDTO adminDTO = new AdministrativoDTO();
-				Administrativo admin = (Administrativo)administrativos.elementAt(i);
-				adminDTO.setId(admin.getId());
-				adminDTO.setNombre_usuario(admin.getNombre_usuario());
-				adminDTO.setClave(admin.getClave());
-				adminDTO.setEmail(admin.getEmail());
+				adminDTO.setId(((Administrativo)administrativos.elementAt(i)).getId());
+				adminDTO.setNombre_usuario(((Administrativo)administrativos.elementAt(i)).getNombre_usuario());
+				adminDTO.setClave(((Administrativo)administrativos.elementAt(i)).getClave());
+				adminDTO.setEmail(((Administrativo)administrativos.elementAt(i)).getEmail());
 				administrativosDTO.add(adminDTO);
 			}
 			accesoBD.concretarTransaccion();
@@ -95,30 +93,69 @@ public class ControlAdministrativo extends UnicastRemoteObject implements IContr
 
 	@Override
 	public boolean existeAdministrativo(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		AccesoBD accesoBD = new AccesoBD();
+		boolean existe;
+		try {
+			accesoBD.iniciarTransaccion();
+			existe = ((Administrativo) accesoBD.buscarPorId(Administrativo.class,id) == null);
+			accesoBD.concretarTransaccion();
+		}  finally{
+			accesoBD.rollbackTransaccion();
+		}
+		return existe;
 	}
 
 	@Override
-	public boolean existeAdministrativo(String nombre_administrativo)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean existeAdministrativo(String nombre_usuario) throws Exception {		
+		AccesoBD accesoBD = new AccesoBD();
+		boolean existe = false;
+		try {
+			accesoBD.iniciarTransaccion();
+			Vector<AdministrativoDTO> administrativosDTO = obtenerAdministrativos();
+			for(int i=0; i<administrativosDTO.size();i++){
+				if (((AdministrativoDTO)administrativosDTO.elementAt(i)).getNombre_usuario().equals(nombre_usuario)){
+					existe = true;
+					break;
+				}
+			}
+			accesoBD.concretarTransaccion();
+		}  finally{
+			accesoBD.rollbackTransaccion();
+		}
+		return existe;
 	}
 
 	@Override
 	public AdministrativoDTO buscarAdministrativo(Long id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		AccesoBD accesoBD = new AccesoBD();
+		AdministrativoDTO administrativoDTO = null;
+		try {
+			accesoBD.iniciarTransaccion();
+			administrativoDTO = AdministrativoAssembler.getAdministrativoDTO((Administrativo) accesoBD.buscarPorId(Administrativo.class,id));
+			accesoBD.concretarTransaccion();
+		}  finally{
+			accesoBD.rollbackTransaccion();
+		}
+		return administrativoDTO;
 	}
 
 	@Override
-	public AdministrativoDTO buscarAdministrativo(String nombre_administrativo)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public AdministrativoDTO buscarAdministrativo(String nombre_usuario) throws Exception{
+		AccesoBD accesoBD = new AccesoBD();
+		AdministrativoDTO administrativoDTO = null;
+		try {
+			accesoBD.iniciarTransaccion();
+			Vector<AdministrativoDTO> administrativosDTO = obtenerAdministrativos();
+			for(int i=0; i<administrativosDTO.size();i++){
+				if (((AdministrativoDTO)administrativosDTO.elementAt(i)).getNombre_usuario().equals(nombre_usuario)){
+					administrativoDTO = (AdministrativoDTO)administrativosDTO.elementAt(i);
+					break;
+				}
+			}
+			accesoBD.concretarTransaccion();
+		}  finally{
+			accesoBD.rollbackTransaccion();
+		}
+		return administrativoDTO;
 	}
-	
-
-
 }
