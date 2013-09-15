@@ -8,7 +8,8 @@ import java.util.Vector;
 import common.DTOs.RecursoDTO;
 import common.GestionarRecurso.IControlRecurso;
 
-public class ControlRecurso extends UnicastRemoteObject implements IControlRecurso{
+public class ControlRecurso extends UnicastRemoteObject implements
+		IControlRecurso {
 
 	/**
 	 * 
@@ -29,14 +30,14 @@ public class ControlRecurso extends UnicastRemoteObject implements IControlRecur
 	@Override
 	public void eliminarRecurso(Long id) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void modificarRecurso(Long id, RecursoDTO modificado)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -75,6 +76,5 @@ public class ControlRecurso extends UnicastRemoteObject implements IControlRecur
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

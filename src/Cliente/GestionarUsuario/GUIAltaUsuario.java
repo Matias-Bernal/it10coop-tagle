@@ -4,7 +4,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,29 +25,39 @@ public class GUIAltaUsuario extends JFrame {
 	private JPasswordField passwordFieldConfirm;
 	private JTextField tFemail;
 	private MediadorUsuario medidador;
+	private JComboBox<String> comboBox;
+	private String[] tiposUsuarios;
 
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public GUIAltaUsuario(final MediadorUsuario medidador, String nombre_usuario, String email) {
+	public GUIAltaUsuario(final MediadorUsuario medidador, String nombre_usuario, String email, String tipo) {
 		this.medidador = medidador;
+		tiposUsuarios = new String[] {"Administrativo", "Encargado Repuesto"};
+		
 		initialize();
+		
 		tFnombre_usuario.setText(nombre_usuario);
 		tFemail.setText(email);
+		comboBox.setSelectedItem(tipo);
+		
 		SetVisible(true);
 	}
 	
 	public GUIAltaUsuario(final MediadorUsuario medidador) {
 		this.medidador = medidador;
+		tiposUsuarios = new String[] {"Administrativo", "Encargado Repuesto"};
+
 		initialize();
+		SetVisible(true);
 	}
 	
 	private void initialize() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaUsuario.class.getResource("/cliente/imagenes/add_user.ico")));
 		setTitle("AGREGAR USUARIO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 410, 210);
 		setResizable(false);
+		setBounds(100, 100, 410, 240);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -96,14 +108,14 @@ public class GUIAltaUsuario extends JFrame {
 					JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 				}else{
 					if (chequearContraseña()){
-						medidador.nuevoUsuario(tFnombre_usuario.getText(), passwordField.getText(), tFemail.getText());
+						medidador.nuevoUsuario(tFnombre_usuario.getText(), passwordField.getText(), tFemail.getText(),"Administrativo");
 					}else{
 						JOptionPane.showMessageDialog(contentPane,"Las contraseñas no coinciden.","Error",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
 		});
-		btnCrearUsuario.setBounds(225, 140, 110, 20);
+		btnCrearUsuario.setBounds(226, 169, 110, 20);
 		contentPane.add(btnCrearUsuario);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -112,10 +124,19 @@ public class GUIAltaUsuario extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(50, 140, 110, 20);
+		btnCancelar.setBounds(51, 169, 110, 20);
 		contentPane.add(btnCancelar);
 
+		JLabel lblTipoUsuario = new JLabel("Tipo Usuario");
+		lblTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTipoUsuario.setBounds(10, 131, 120, 20);
+		contentPane.add(lblTipoUsuario);
 		contentPane.setVisible(true);
+		
+		comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(tiposUsuarios));
+		comboBox.setBounds(135, 131, 154, 20);
+		contentPane.add(comboBox);
 		
 	}
 		
@@ -124,5 +145,13 @@ public class GUIAltaUsuario extends JFrame {
 	}
 	public void SetVisible(boolean visible){
 		contentPane.setVisible(visible);
+	}
+
+	public String[] getTiposUsuarios() {
+		return tiposUsuarios;
+	}
+
+	public void setTiposUsuarios(String[] tiposUsuarios) {
+		this.tiposUsuarios = tiposUsuarios;
 	}
 }

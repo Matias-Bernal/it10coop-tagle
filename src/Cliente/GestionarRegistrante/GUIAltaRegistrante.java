@@ -1,13 +1,15 @@
 package cliente.GestionarRegistrante;
 
-import java.awt.Choice;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -19,12 +21,15 @@ public class GUIAltaRegistrante extends JFrame {
 	private JPanel contentPane;
 	private JTextField tFnombre_usuario;
 	private MediadorRegistrante medidador;
-	private Choice choiceTipo;
+	private JComboBox<String> comboBox;
+	private String[] tiposRegistrantes;
 
 	public GUIAltaRegistrante(final MediadorRegistrante medidador, String nombre_usuario, String tipo) {
 		this.medidador = medidador;
+		tiposRegistrantes = new String[] {"Entidad", "Agente"};
 		initialize();
 		tFnombre_usuario.setText(nombre_usuario);
+		comboBox.setSelectedItem(tipo);
 		SetVisible(true);
 	}
 	
@@ -34,6 +39,7 @@ public class GUIAltaRegistrante extends JFrame {
 	public GUIAltaRegistrante(final MediadorRegistrante medidador) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaRegistrante.class.getResource("/cliente/imagenes/del_user.ico")));
 		this.medidador = medidador;
+		tiposRegistrantes = new String[] {"Entidad", "Agente"};
 		initialize();
 	}
 	
@@ -65,7 +71,11 @@ public class GUIAltaRegistrante extends JFrame {
 		JButton btnCrearUsuario = new JButton("Crear");
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				if (tFnombre_usuario.getText().isEmpty() ){
+					JOptionPane.showMessageDialog(contentPane,"Nombre de Registrante vacio.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					
+				}
 			}
 		});
 		btnCrearUsuario.setBounds(225, 140, 110, 20);
@@ -80,9 +90,10 @@ public class GUIAltaRegistrante extends JFrame {
 		btnCancelar.setBounds(50, 140, 110, 20);
 		contentPane.add(btnCancelar);
 		
-		choiceTipo = new Choice();
-		choiceTipo.setBounds(135, 40, 250, 20);
-		contentPane.add(choiceTipo);
+		comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(tiposRegistrantes));
+		comboBox.setBounds(135, 41, 253, 20);
+		contentPane.add(comboBox);
 
 		contentPane.setVisible(true);
 		
@@ -91,5 +102,4 @@ public class GUIAltaRegistrante extends JFrame {
 	public void SetVisible(boolean visible){
 		contentPane.setVisible(visible);
 	}
-
 }

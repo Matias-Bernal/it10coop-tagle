@@ -11,15 +11,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
 import common.DTOs.UsuarioDTO;
-import javax.swing.ListSelectionModel;
+
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class GUIGestionUsuario extends JFrame {
 
@@ -38,6 +42,8 @@ public class GUIGestionUsuario extends JFrame {
 	private JButton btnImprimir; 
 	private JButton btnVolver; 
 	private JButton btnListarUsuarios; 
+	private JLabel labelTipoUsuario;
+	private JComboBox<String> comboBox;
 	
 
 	public GUIGestionUsuario(MediadorUsuario mediador) {
@@ -102,48 +108,44 @@ public class GUIGestionUsuario extends JFrame {
 		lbl_email.setBounds(31, 70, 141, 24);
 		contentPane.add(lbl_email);
 		
-		ScrollPane scrollPaneTabla = new ScrollPane();
-		scrollPaneTabla.setBounds(10, 182, 764, 318);
-		contentPane.add(scrollPaneTabla);
-		
 		// usuario de prueba
-		UsuarioDTO usuariodto = new UsuarioDTO("Matias", "pass", "matias@matias.com");
+		UsuarioDTO usuariodto = new UsuarioDTO("Matias", "pass", "matias@matias.com", "Administrativo");
 		usuariodto.setId(new Long(1));
 		//
 		
 		datosTabla =  new Object[][]{
-				{new Long(0L), "Matias", "matias@matias.com"},
-				{new Long(1L), "Matias", "matias@matias.com"},
-				{new Long(2L), "Matias", "matias@matias.com"},
-				{new Long(3L), "Matias", "matias@matias.com"},
-				{new Long(4L), "Matias", "matias@matias.com"},
-				{new Long(5L), "Matias", "matias@matias.com"},
-				{new Long(6L), "Matias", "matias@matias.com"},
-				{new Long(7L), "Matias", "matias@matias.com"},
-				{new Long(8L), "Matias", "matias@matias.com"},
-				{new Long(9L), "Matias", "matias@matias.com"},
-				{new Long(10L), "Matias", "matias@matias.com"},
-				{new Long(11L), "Matias", "matias@matias.com"},
-				{new Long(12L), "Matias", "matias@matias.com"},
-				{new Long(13L), "Matias", "matias@matias.com"},
-				{new Long(14L), "Matias", "matias@matias.com"},
-				{new Long(15L), "Matias", "matias@matias.com"},
-				{new Long(16L), "Matias", "matias@matias.com"},
-				{new Long(17L), "Matias", "matias@matias.com"},
-				{new Long(18L), "Matias", "matias@matias.com"},
-				{new Long(19L), "Matias", "matias@matias.com"},
-				{new Long(20L), "Matias", "matias@matias.com"},
-				{new Long(21L), "Matias", "matias@matias.com"},
-				{new Long(22L), "Matias", "matias@matias.com"},
+				{new Long(0L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(1L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(2L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(3L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(4L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(5L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(6L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(7L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(8L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(9L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(10L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(11L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(12L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(13L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(14L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(15L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(16L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(17L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(18L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(19L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(20L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(21L), "Matias", "matias@matias.com","Administrativo"},
+				{new Long(22L), "Matias", "matias@matias.com","Administrativo"},
 		};
 		nombreColumnas = new String []{
-			"Id Usuario", "Nombre Usuario", "Email"
+			"ID Usuario", "Nombre Usuario", "Email", "Tipo"
 		};
 		
 		DefaultTableModel modelo = new DefaultTableModel(datosTabla, nombreColumnas);
 		tableUsuarios = new JTable(modelo) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false
+				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -151,12 +153,20 @@ public class GUIGestionUsuario extends JFrame {
 		};
 		tableUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableUsuarios.setBounds(0, 0, 765, 320);
-		scrollPaneTabla.add(tableUsuarios);
+		
+		JScrollPane scrollPaneTabla = new JScrollPane(tableUsuarios);
+		scrollPaneTabla.setBounds(10, 182, 764, 318);
+		contentPane.add(scrollPaneTabla);
 
+		comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Administrativo", "Encargado Repuesto"}));
+		comboBox.setBounds(192, 111, 150, 20);
+		contentPane.add(comboBox);
+		
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mediador.altaUsuario(tFnombre_usuario.getText(), tFemail.getText());
+				mediador.altaUsuario(tFnombre_usuario.getText(), tFemail.getText(),(String) comboBox.getSelectedItem());
 			}
 		});
 		btnAgregar.setBounds(493, 34, 220, 23);
@@ -173,6 +183,16 @@ public class GUIGestionUsuario extends JFrame {
 		btnListarUsuarios = new JButton("Listar Usuarios");
 		btnListarUsuarios.setBounds(493, 137, 220, 23);
 		contentPane.add(btnListarUsuarios);
+		
+		labelTipoUsuario = new JLabel("Tipo Usuario");
+		labelTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTipoUsuario.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		labelTipoUsuario.setBounds(31, 107, 141, 24);
+		contentPane.add(labelTipoUsuario);
+		
+
 
 	}
+	
+	
 }

@@ -6,13 +6,23 @@ public class UsuarioDTO extends ClaseGeneralDTO {
 	protected String nombre_usuario;
 	protected String clave;
 	protected String email;
+	protected String tipo;
+
 	
 	public UsuarioDTO(){}
-	public UsuarioDTO(String nombre_usuario, String clave, String email) {
+	
+	public UsuarioDTO(String nombre_usuario, String clave, String email, String tipo) {
 		super();
 		this.nombre_usuario = nombre_usuario;
 		this.clave = clave;
 		this.email = email;
+		this.tipo = tipo;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	public String getNombre_usuario() {
 		return nombre_usuario;

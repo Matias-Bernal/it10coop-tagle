@@ -1,57 +1,46 @@
 package servidor.assembler;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
+import servidor.persistencia.AccesoBD;
 import servidor.persistencia.dominio.Recurso;
+
 import common.DTOs.RecursoDTO;
 
 public class RecursoAssembler {
 	
-	public RecursoAssembler(){}
+	private AccesoBD accesoBD;
 
-	public static RecursoDTO getRecursoDTO(Recurso recurso) {
+	public RecursoAssembler(AccesoBD accesoBD) {
+		this.accesoBD = accesoBD;
+	}
+
+	public RecursoDTO getRecursoDTO(Recurso recurso) {
 		RecursoDTO recursoDTO = new RecursoDTO();
 		recursoDTO.setId(recurso.getId());
 		recursoDTO.setFecha_recurso(recurso.getFecha_recurso());
 		recursoDTO.setNumero_recurso(recurso.getNumero_recurso());
+		Pedido_PiezaAssembler pedido_piezaAssemb = new Pedido_PiezaAssembler(accesoBD);
+		recursoDTO.setPedido_pieza(pedido_piezaAssemb.getPedido_PiezaDTO(recurso.getPedido_pieza()));
 		return recursoDTO;
 	}
 
-	public static Recurso getRecurso(RecursoDTO recursoDTO) {
+	public Recurso getRecurso(RecursoDTO recursoDTO) {
+		Recurso recurso = (Recurso) accesoBD.buscarPorId(Recurso.class, recursoDTO.getId());
+		recurso.setId(recursoDTO.getId());
+		recurso.setFecha_recurso(recursoDTO.getFecha_recurso());
+		recurso.setNumero_recurso(recursoDTO.getNumero_recurso());
+		Pedido_PiezaAssembler pedido_piezaAssemb = new Pedido_PiezaAssembler(accesoBD);
+		recurso.setPedido_pieza(pedido_piezaAssemb.getPedido_Pieza(recursoDTO.getPedido_pieza()));
+		return recurso;
+	}
+	
+	public Recurso getRecursoNuevo(RecursoDTO recursoDTO) {
 		Recurso recurso = new Recurso();
 		recurso.setId(recursoDTO.getId());
 		recurso.setFecha_recurso(recursoDTO.getFecha_recurso());
 		recurso.setNumero_recurso(recursoDTO.getNumero_recurso());
+		Pedido_PiezaAssembler pedido_piezaAssemb = new Pedido_PiezaAssembler(accesoBD);
+		recurso.setPedido_pieza(pedido_piezaAssemb.getPedido_Pieza(recursoDTO.getPedido_pieza()));
 		return recurso;
-	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Set getConjunto(Vector v){
-		Set aux = new HashSet();
-		Iterator it = v.iterator();
-		Object obj;
-		while(it.hasNext()){
-			obj = it.next();
-			if (obj.getClass()==RecursoDTO.class) {
-				aux.add(getRecurso((RecursoDTO) obj));
-			}
-		}
-		return aux;
-	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Vector getVector (Set s) {
-		Vector auxDTO = new Vector();
-		auxDTO.clear();
-		Iterator it = s.iterator();
-		Object obj;
-		while(it.hasNext()){
-			obj = it.next();
-			if (obj.getClass()==Recurso.class) {
-				auxDTO.add(getRecursoDTO((Recurso) obj));
-			}
-		}
-		return auxDTO;
 	}
 
 }

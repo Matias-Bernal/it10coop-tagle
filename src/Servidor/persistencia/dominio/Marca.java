@@ -1,11 +1,13 @@
 package servidor.persistencia.dominio;
 
+public class Marca {
 
-public class Marca extends ClaseGeneral {
-	
 	protected String nombre_marca;
+	protected Long id;
 
-	public Marca(){}
+	public Marca() {
+	}
+
 	public Marca(String nombre_marca) {
 		super();
 		this.nombre_marca = nombre_marca;
@@ -18,6 +20,13 @@ public class Marca extends ClaseGeneral {
 	public void setNombre_marca(String nombre_marca) {
 		this.nombre_marca = nombre_marca;
 	}
-	
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

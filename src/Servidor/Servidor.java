@@ -6,34 +6,40 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 public class Servidor {
-	
-/*	private ControlAdminitr controlFacturaCliente =null;
-	private ControlFacturaProveedor controlFacturaProveedor = null;
-	private ControlKiosco controlKiosco =null;
-	private ControlLocalidad controlLocalidad = null;
-	private ControlMovimientoCaja controlMovimientoCaja =null;
-	private ControlProducto controlProducto =null;
-	private ControlProveedor controlProveedor =null;
-	private ControlProvincia controlProvincia = null;
-	private ControlUsuario controlUsuario =null;
-	private ControlBecaAsignada controlBecaAsignada=null;
-	private ControlSesion controlSesion =null;
-	private ControlRealizarPlanillaES controlRealizarPlanillaES =null;*/
+
+	/*
+	 * private ControlAdminitr controlFacturaCliente =null; private
+	 * ControlFacturaProveedor controlFacturaProveedor = null; private
+	 * ControlKiosco controlKiosco =null; private ControlLocalidad
+	 * controlLocalidad = null; private ControlMovimientoCaja
+	 * controlMovimientoCaja =null; private ControlProducto controlProducto
+	 * =null; private ControlProveedor controlProveedor =null; private
+	 * ControlProvincia controlProvincia = null; private ControlUsuario
+	 * controlUsuario =null; private ControlBecaAsignada
+	 * controlBecaAsignada=null; private ControlSesion controlSesion =null;
+	 * private ControlRealizarPlanillaES controlRealizarPlanillaES =null;
+	 */
 	private String classPath = "";
 	private String name = "";
 	private String ip = "";
 
-	public Servidor(){}
-	
-	public void iniciar() throws Exception{
-		Registry Naming =LocateRegistry.createRegistry(1099);
+	public Servidor() {
+	}
+
+	public void iniciar() throws Exception {
+		Registry Naming = LocateRegistry.createRegistry(1099);
 		System.setProperty("java.rmi.server.codebase", "file:" + this.classPath);
 		System.out.println("Iniciando servidor !!!");
-		
-		this.ip=(InetAddress.getLocalHost().getHostAddress()).toString();//RootAndIp.getIp();
+
+		this.ip = (InetAddress.getLocalHost().getHostAddress()).toString();// RootAndIp.getIp();
 		System.out.println("Ip: " + this.ip);
+<<<<<<< .mine
+
+		GUIServidor serv = new GUIServidor();
+=======
 		
 		GUIServidor serv = new GUIServidor();
+>>>>>>> .r18
 		serv.show();
 	}
 

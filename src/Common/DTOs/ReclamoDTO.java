@@ -13,6 +13,7 @@ public class ReclamoDTO extends ClaseGeneralDTO{
 	protected VehiculoDTO vehiculo;
 	protected Boolean inmovilizado;
 	protected Boolean peligroso;
+	protected OrdenDTO orden;
 	protected UsuarioDTO usuario;
 	protected String descripcion;
 
@@ -20,7 +21,7 @@ public class ReclamoDTO extends ClaseGeneralDTO{
 	public ReclamoDTO(Date fecha_reclamo, Date fecha_turno,
 			String estado_reclamo, RegistranteDTO registrante,
 			ReclamanteDTO reclamante, VehiculoDTO vehiculo,
-			Boolean inmovilizado, Boolean peligroso, UsuarioDTO usuario,String descripcion) {
+			Boolean inmovilizado, Boolean peligroso, UsuarioDTO usuario,String descripcion, OrdenDTO orden) {
 		super();
 		this.fecha_reclamo = fecha_reclamo;
 		this.fecha_turno = fecha_turno;
@@ -32,6 +33,7 @@ public class ReclamoDTO extends ClaseGeneralDTO{
 		this.peligroso = peligroso;
 		this.usuario = usuario;
 		this.descripcion = descripcion;
+		this.orden = orden;
 	}
 	public Date getFecha_reclamo() {
 		return fecha_reclamo;
@@ -91,6 +93,15 @@ public class ReclamoDTO extends ClaseGeneralDTO{
 		return descripcion;
 	}
 	public void setdescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	public OrdenDTO getOrden() {
+		return orden;
+	}
+	public void setOrden(OrdenDTO orden) {
+		this.orden = orden;
+	}
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 }

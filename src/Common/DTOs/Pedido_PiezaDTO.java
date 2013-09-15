@@ -14,7 +14,6 @@ public class Pedido_PiezaDTO extends ClaseGeneralDTO {
 	protected Estado_PedidoDTO estado_pedido;
 	protected Date fecha_estado;
 	protected BdgDTO bdg;
-	protected RecursoDTO recurso;
 	protected Mano_ObraDTO mano_obra;
 
 	public Pedido_PiezaDTO(){}
@@ -22,7 +21,7 @@ public class Pedido_PiezaDTO extends ClaseGeneralDTO {
 			Boolean propio, MuletoDTO muleto,
 			Devolucion_PiezaDTO devolucion_pieza,
 			Estado_PedidoDTO estado_pedido, Date fecha_estado, BdgDTO bdg,
-			RecursoDTO recurso, Mano_ObraDTO mano_obra) {
+			Mano_ObraDTO mano_obra) {
 		super();
 		this.pedido = pedido;
 		this.pieza = pieza;
@@ -33,7 +32,6 @@ public class Pedido_PiezaDTO extends ClaseGeneralDTO {
 		this.estado_pedido = estado_pedido;
 		this.fecha_estado = fecha_estado;
 		this.bdg = bdg;
-		this.recurso = recurso;
 		this.mano_obra = mano_obra;
 	}
 	public PedidoDTO getPedido() {
@@ -89,12 +87,6 @@ public class Pedido_PiezaDTO extends ClaseGeneralDTO {
 	}
 	public void setBdg(BdgDTO bdg) {
 		this.bdg = bdg;
-	}
-	public RecursoDTO getRecurso() {
-		return recurso;
-	}
-	public void setRecurso(RecursoDTO recurso) {
-		this.recurso = recurso;
 	}
 	public Mano_ObraDTO getMano_obra() {
 		return mano_obra;
