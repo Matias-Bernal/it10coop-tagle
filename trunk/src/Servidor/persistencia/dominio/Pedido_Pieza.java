@@ -2,8 +2,8 @@ package servidor.persistencia.dominio;
 
 import java.sql.Date;
 
-public class Pedido_Pieza extends ClaseGeneral {
-	
+public class Pedido_Pieza {
+
 	protected Pedido pedido;
 	protected Pieza pieza;
 	protected Boolean stock;
@@ -13,14 +13,15 @@ public class Pedido_Pieza extends ClaseGeneral {
 	protected Estado_Pedido estado_pedido;
 	protected Date fecha_estado;
 	protected Bdg bdg;
-	protected Recurso recurso;
 	protected Mano_Obra mano_obra;
+	protected Long id;
 
-	public Pedido_Pieza(){}
-	public Pedido_Pieza(Pedido pedido, Pieza pieza,
-			Boolean stock, Boolean propio, Muleto muleto,
-			Devolucion_Pieza devolucion_pieza, Estado_Pedido estado_pedido,
-			Date fecha_estado, Bdg bdg, Recurso recurso,
+	public Pedido_Pieza() {
+	}
+
+	public Pedido_Pieza(Pedido pedido, Pieza pieza, Boolean stock,
+			Boolean propio, Muleto muleto, Devolucion_Pieza devolucion_pieza,
+			Estado_Pedido estado_pedido, Date fecha_estado, Bdg bdg,
 			Mano_Obra mano_obra) {
 		super();
 		this.pedido = pedido;
@@ -32,7 +33,6 @@ public class Pedido_Pieza extends ClaseGeneral {
 		this.estado_pedido = estado_pedido;
 		this.fecha_estado = fecha_estado;
 		this.bdg = bdg;
-		this.recurso = recurso;
 		this.mano_obra = mano_obra;
 	}
 
@@ -108,14 +108,6 @@ public class Pedido_Pieza extends ClaseGeneral {
 		this.bdg = bdg;
 	}
 
-	public Recurso getRecurso() {
-		return recurso;
-	}
-
-	public void setRecurso(Recurso recurso) {
-		this.recurso = recurso;
-	}
-
 	public Mano_Obra getMano_obra() {
 		return mano_obra;
 	}
@@ -124,4 +116,11 @@ public class Pedido_Pieza extends ClaseGeneral {
 		this.mano_obra = mano_obra;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

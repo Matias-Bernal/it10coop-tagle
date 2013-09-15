@@ -1,16 +1,17 @@
 package cliente.GestionarRegistrante;
 
-import java.awt.Choice;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -22,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
 import common.DTOs.RegistranteDTO;
 
 public class GUIGestionRegistrante extends JFrame {
+
+	private static final long serialVersionUID = 1L;
 
 	protected MediadorRegistrante mediador;
 	
@@ -38,10 +41,14 @@ public class GUIGestionRegistrante extends JFrame {
 	private JButton btnImprimir;
 	private JButton btnVolver;
 	private JButton btnListarRegistrantes;
+	private JComboBox<String> comboBox;
+	private String[] tiposRegistrantes;
 
 	public GUIGestionRegistrante(MediadorRegistrante mediadorRegistrante) {
 		this.mediador = mediadorRegistrante;
+		tiposRegistrantes = new String[] {"Entidad", "Agente"};
 		initialize();
+
 	}
 	
 	public void initialize(){
@@ -94,10 +101,6 @@ public class GUIGestionRegistrante extends JFrame {
 		lbl_tipo_registrante.setBounds(31, 70, 141, 24);
 		contentPane.add(lbl_tipo_registrante);
 		
-		ScrollPane scrollPaneTabla = new ScrollPane();
-		scrollPaneTabla.setBounds(10, 182, 764, 318);
-		contentPane.add(scrollPaneTabla);
-		
 		// usuario de prueba
 		RegistranteDTO registratedto = new RegistranteDTO("Matias");
 		registratedto.setId(new Long(1));
@@ -129,7 +132,7 @@ public class GUIGestionRegistrante extends JFrame {
 				{new Long(22L), "Matias", "matias@matias.com"},
 		};
 		nombreColumnas = new String []{
-			"Id Registrante", "Nombre Usuario", "Tipo"
+			"ID Registrante", "Nombre Usuario", "Tipo"
 		};
 		
 		DefaultTableModel modelo = new DefaultTableModel(datosTabla, nombreColumnas);
@@ -143,22 +146,39 @@ public class GUIGestionRegistrante extends JFrame {
 		};
 		tableRegistrantes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableRegistrantes.setBounds(0, 0, 765, 320);
-		scrollPaneTabla.add(tableRegistrantes);
-
+		
+		JScrollPane scrollPaneTabla = new JScrollPane(tableRegistrantes);
+		scrollPaneTabla.setBounds(10, 182, 764, 318);
+		contentPane.add(scrollPaneTabla);
+		
+		comboBox = new JComboBox<String>();
+		comboBox.setModel(new DefaultComboBoxModel<String>(tiposRegistrantes));
+		comboBox.setBounds(192, 72, 230, 20);
+		contentPane.add(comboBox);
+		
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mediador.altaRegistrante(tFnombre_registrante.getText(), "administrativo");
+				mediador.altaRegistrante(tFnombre_registrante.getText(), (String) comboBox.getSelectedItem());
 			}
 		});
 		btnAgregar.setBounds(493, 34, 220, 23);
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
+		btnImprimir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnImprimir.setBounds(237, 528, 150, 23);
 		contentPane.add(btnImprimir);
 		
 		btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btnVolver.setBounds(397, 528, 150, 23);
 		contentPane.add(btnVolver);
 		
@@ -166,9 +186,7 @@ public class GUIGestionRegistrante extends JFrame {
 		btnListarRegistrantes.setBounds(493, 137, 220, 23);
 		contentPane.add(btnListarRegistrantes);
 		
-		Choice choice_tipo_registrante = new Choice();
-		choice_tipo_registrante.setBounds(192, 72, 230, 20);
-		contentPane.add(choice_tipo_registrante);
+
 
 	}
 

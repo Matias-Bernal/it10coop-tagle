@@ -7,11 +7,8 @@ import java.util.Vector;
 import common.DTOs.RegistranteDTO;
 import common.GestionarRegistrante.IControlRegistrante;
 
-public class ControlRegistrante extends UnicastRemoteObject implements IControlRegistrante{
+public class ControlRegistrante extends UnicastRemoteObject implements IControlRegistrante {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	protected ControlRegistrante() throws RemoteException {
@@ -29,14 +26,14 @@ public class ControlRegistrante extends UnicastRemoteObject implements IControlR
 	@Override
 	public void eliminarRegistranteDTO(Long id) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void modificarRegistrante(Long id, RegistranteDTO modificado)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -70,6 +67,5 @@ public class ControlRegistrante extends UnicastRemoteObject implements IControlR
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

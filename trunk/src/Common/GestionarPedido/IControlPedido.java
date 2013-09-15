@@ -15,9 +15,9 @@ public interface IControlPedido extends Remote{
 	
 	public Vector<PedidoDTO> obtenerPedidos()throws Exception;
 	public Vector<PedidoDTO> obtenerPedidos_Fecha_Solicitud_Pedido(Date fecha_solicitud_pedido)throws Exception;
-	public Vector<PedidoDTO> obtenerPedidos_Fecha_Solicitud_Fabrica(Date fecha_recepcion_fabrica)throws Exception;
+	public Vector<PedidoDTO> obtenerPedidos_Fecha_Solicitud_Fabrica(Date fecha_solicitud_fabrica)throws Exception;
 	public Vector<PedidoDTO> obtenerPedidos_Fecha_Recepcion_Fabrica(Date fecha_recepcion_fabrica)throws Exception;
-	public Vector<PedidoDTO> obtenerPedidos(ReclamoDTO reclamo)throws Exception;
+	public Vector<PedidoDTO> obtenerPedidos(ReclamoDTO reclamoDTO)throws Exception;
 	
 	public boolean existePedido(Long id) throws Exception;
 	public boolean existePedido(String numero_pedido) throws Exception;

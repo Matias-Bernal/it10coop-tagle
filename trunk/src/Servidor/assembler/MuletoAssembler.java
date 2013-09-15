@@ -1,64 +1,52 @@
 package servidor.assembler;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Vector;
+import servidor.persistencia.AccesoBD;
 import servidor.persistencia.dominio.Muleto;
+
 import common.DTOs.MuletoDTO;
 
 public class MuletoAssembler {
+
+	private AccesoBD accesoBD;
 	
-	public MuletoAssembler(){}
-	
-	public static MuletoDTO getMuletoDTO (Muleto muleto){
+	public MuletoAssembler(AccesoBD accesoBD) {
+		this.accesoBD = accesoBD;
+	}
+
+	public MuletoDTO getMuletoDTO(Muleto muleto) {
 		MuletoDTO muletoDTO = new MuletoDTO();
 		muletoDTO.setId(muleto.getId());
 		muletoDTO.setDescripcion(muleto.getDescripcion());
 		muletoDTO.setVin(muleto.getVin());
-		PedidoAssembler pedidoAssemb = new PedidoAssembler();
+		PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 		muletoDTO.setPedido(pedidoAssemb.getPedidoDTO(muleto.getPedido()));
-		PiezaAssembler piezaAssemb = new PiezaAssembler();
+		PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
 		muletoDTO.setPieza(piezaAssemb.getPiezaDTO(muleto.getPieza()));
 		return muletoDTO;
 	}
-	public static Muleto getMuleto (MuletoDTO muletoDTO){
-		Muleto muleto = new Muleto();
+
+	public Muleto getMuleto(MuletoDTO muletoDTO) {
+		Muleto muleto =  (Muleto) accesoBD.buscarPorId(Muleto.class, muletoDTO.getId());
 		muleto.setId(muletoDTO.getId());
 		muleto.setDescripcion(muletoDTO.getDescripcion());
 		muleto.setVin(muletoDTO.getVin());
-		PedidoAssembler pedidoAssemb = new PedidoAssembler();
+		PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 		muleto.setPedido(pedidoAssemb.getPedido(muletoDTO.getPedido()));
-		PiezaAssembler piezaAssemb = new PiezaAssembler();
+		PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
 		muleto.setPieza(piezaAssemb.getPieza(muletoDTO.getPieza()));
 		return muleto;
 	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Set getConjunto(Vector v){
-		Set aux = new HashSet();
-		Iterator it = v.iterator();
-		Object obj;
-		while(it.hasNext()){
-			obj = it.next();
-			if (obj.getClass()==MuletoDTO.class) {
-				aux.add(getMuleto((MuletoDTO) obj));
-			}
-		}
-		return aux;
-	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static Vector getVector (Set s) {
-		Vector auxDTO = new Vector();
-		auxDTO.clear();
-		Iterator it = s.iterator();
-		Object obj;
-		while(it.hasNext()){
-			obj = it.next();
-			if (obj.getClass()==Muleto.class) {
-				auxDTO.add(getMuletoDTO((Muleto) obj));
-			}
-		}
-		return auxDTO;
+
+	public Muleto getMuletoNuevo(MuletoDTO muletoDTO) {
+		Muleto muleto =  new Muleto();
+		muleto.setId(muletoDTO.getId());
+		muleto.setDescripcion(muletoDTO.getDescripcion());
+		muleto.setVin(muletoDTO.getVin());
+		PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+		muleto.setPedido(pedidoAssemb.getPedido(muletoDTO.getPedido()));
+		PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+		muleto.setPieza(piezaAssemb.getPieza(muletoDTO.getPieza()));
+		return muleto;
 	}
 
 }

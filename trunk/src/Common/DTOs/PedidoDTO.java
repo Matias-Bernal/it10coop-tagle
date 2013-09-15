@@ -9,7 +9,6 @@ public class PedidoDTO extends ClaseGeneralDTO {
 	protected Date fecha_solicitud_pedido;
 	protected Date fecha_solicitud_fabrica;
 	protected Date fecha_recepcion_fabrica;
-	protected String numero_orden_trabajo;
 	protected String pnc;
 	protected Estado_PedidoDTO estado_pedido;
 	protected ReclamoDTO reclamo;
@@ -17,14 +16,12 @@ public class PedidoDTO extends ClaseGeneralDTO {
 	public PedidoDTO() {}
 	public PedidoDTO(String numero_pedido, Date fecha_solicitud_pedido,
 			Date fecha_solicitud_fabrica, Date fecha_recepcion_fabrica,
-			String numero_orden_trabajo, String pnc,
-			Estado_PedidoDTO estado_pedido, ReclamoDTO reclamo) {
+			String pnc,Estado_PedidoDTO estado_pedido, ReclamoDTO reclamo) {
 		super();
 		this.numero_pedido = numero_pedido;
 		this.fecha_solicitud_pedido = fecha_solicitud_pedido;
 		this.fecha_solicitud_fabrica = fecha_solicitud_fabrica;
 		this.fecha_recepcion_fabrica = fecha_recepcion_fabrica;
-		this.numero_orden_trabajo = numero_orden_trabajo;
 		this.pnc = pnc;
 		this.estado_pedido = estado_pedido;
 		this.reclamo = reclamo;
@@ -52,12 +49,6 @@ public class PedidoDTO extends ClaseGeneralDTO {
 	}
 	public void setFecha_recepcion_fabrica(Date fecha_recepcion_fabrica) {
 		this.fecha_recepcion_fabrica = fecha_recepcion_fabrica;
-	}
-	public String getNumero_orden_trabajo() {
-		return numero_orden_trabajo;
-	}
-	public void setNumero_orden_trabajo(String numero_orden_trabajo) {
-		this.numero_orden_trabajo = numero_orden_trabajo;
 	}
 	public String getPnc() {
 		return pnc;

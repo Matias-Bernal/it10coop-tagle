@@ -12,6 +12,8 @@ public interface IControlUsuario extends Remote{
 	public void modificarUsuario(Long id,UsuarioDTO modificado)throws Exception;
 	
 	public Vector<UsuarioDTO> obtenerUsuarios()throws Exception;
+	public Vector<UsuarioDTO> obtenerUsuarios(String tipo)throws Exception;
+
 	public boolean login(String nombre_usuario, String password)throws Exception;
 	
 	public boolean existeUsuario(Long id) throws Exception;
