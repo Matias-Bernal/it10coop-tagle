@@ -6,15 +6,17 @@ public class Reclamo_AgenteDTO extends ClaseGeneralDTO {
 
 	protected static final long serialVersionUID = 1L;
 	protected Date fecha_reclamo_agente;
+	protected String descripcion;
 	protected PiezaDTO pieza;
 	protected PedidoDTO pedido;
 	protected UsuarioDTO usuario;
 
 	public Reclamo_AgenteDTO(){}
-	public Reclamo_AgenteDTO(Date fecha_reclamo_agente, PiezaDTO pieza,
+	public Reclamo_AgenteDTO(Date fecha_reclamo_agente,String descripcion, PiezaDTO pieza,
 			PedidoDTO pedido, UsuarioDTO usuario) {
 		super();
 		this.fecha_reclamo_agente = fecha_reclamo_agente;
+		this.descripcion = descripcion;
 		this.pieza = pieza;
 		this.pedido = pedido;
 		this.usuario = usuario;
@@ -42,6 +44,12 @@ public class Reclamo_AgenteDTO extends ClaseGeneralDTO {
 	}
 	public void setUsuario(UsuarioDTO usuario) {
 		this.usuario = usuario;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

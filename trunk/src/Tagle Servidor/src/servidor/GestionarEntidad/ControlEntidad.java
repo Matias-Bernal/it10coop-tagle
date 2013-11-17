@@ -6,9 +6,13 @@ import java.util.Collection;
 import java.util.Vector;
 
 import servidor.assembler.EntidadAssembler;
+import servidor.assembler.PiezaAssembler;
 import servidor.persistencia.AccesoBD;
+import servidor.persistencia.dominio.Agente;
 import servidor.persistencia.dominio.Entidad;
-
+import servidor.persistencia.dominio.Pieza;
+import servidor.persistencia.dominio.Registrante;
+import common.DTOs.AgenteDTO;
 import common.DTOs.EntidadDTO;
 import common.GestionarEntidad.IControlEntidad;
 
@@ -73,13 +77,16 @@ public class ControlEntidad extends UnicastRemoteObject implements IControlEntid
 		try {
 			accesoBD.iniciarTransaccion();
 			@SuppressWarnings("unchecked")
-			Vector<Entidad> entidades = new Vector<Entidad> (accesoBD.buscarPorFiltro(Entidad.class,""));
-			for (int i = 0; i < entidades.size(); i++) {
+			
+			Collection movCol = accesoBD.buscarPorFiltro(Entidad.class, "");
+			for (int i = 0; i < movCol.size(); i++) {
 				EntidadDTO entidadDTO = new EntidadDTO();
-				entidadDTO.setId(entidades.elementAt(i).getId());
-				entidadDTO.setNombre_registrante(entidades.elementAt(i).getNombre_registrante());
+
+				entidadDTO.setId( ((Registrante) movCol.toArray()[i]).getId());
+				entidadDTO.setNombre_registrante( ((Registrante) movCol.toArray()[i]).getNombre_registrante());
 				entidadesDTO.add(entidadDTO);
 			}
+			
 			accesoBD.concretarTransaccion();
 		} catch (Exception e) {
 			accesoBD.rollbackTransaccion();

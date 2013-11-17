@@ -20,14 +20,15 @@ public class GUIGestionNotificacion extends JFrame{
 	
 	private JCheckBox chTurnos;
 	private JCheckBox chContencion;
-	private JCheckBox chReclamos;
+	private JCheckBox chReclamoFabrica;
 	private JCheckBox chSugerencias;
+	private JCheckBox cbReclamoAgente;
 	
 	public GUIGestionNotificacion(MediadorNotificacion mediadorNotificacion, UsuarioDTO usuario) {
+		setResizable(false);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		setResizable(false);
+		setBounds(100, 100, 320, 260);
 		this.setMediadorNotificacion(mediadorNotificacion);
 		this.setUsuario(usuario);
 		setLocationRelativeTo(null);
@@ -42,7 +43,7 @@ public class GUIGestionNotificacion extends JFrame{
 		
 		JLabel lblNotificacionesRepuestos = new JLabel("NOTIFICACIONES AREA REPUESTOS");
 		lblNotificacionesRepuestos.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNotificacionesRepuestos.setBounds(10, 109, 207, 20);
+		lblNotificacionesRepuestos.setBounds(10, 92, 207, 20);
 		getContentPane().add(lblNotificacionesRepuestos);
 		
 		chTurnos = new JCheckBox("Gestion Turnos");
@@ -53,9 +54,9 @@ public class GUIGestionNotificacion extends JFrame{
 		chContencion.setBounds(109, 64, 207, 23);
 		getContentPane().add(chContencion);
 		
-		chReclamos = new JCheckBox("Reclamos a Fabrica");
-		chReclamos.setBounds(109, 136, 207, 23);
-		getContentPane().add(chReclamos);
+		chReclamoFabrica = new JCheckBox("Reclamos a Fabrica");
+		chReclamoFabrica.setBounds(109, 136, 207, 23);
+		getContentPane().add(chReclamoFabrica);
 		
 		chSugerencias = new JCheckBox("Sugerencias");
 		chSugerencias.setBounds(109, 162, 207, 23);
@@ -67,7 +68,7 @@ public class GUIGestionNotificacion extends JFrame{
 				actualizarNotificaciones();
 			}
 		});
-		btnActualizar.setBounds(89, 215, 120, 23);
+		btnActualizar.setBounds(10, 192, 120, 23);
 		getContentPane().add(btnActualizar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -76,20 +77,24 @@ public class GUIGestionNotificacion extends JFrame{
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(245, 215, 120, 23);
+		btnCancelar.setBounds(184, 192, 120, 23);
 		getContentPane().add(btnCancelar);
+		
+		cbReclamoAgente = new JCheckBox("Reclamos a Agente");
+		cbReclamoAgente.setBounds(109, 110, 207, 23);
+		getContentPane().add(cbReclamoAgente);
 		
 		if (mediadorNotificacion.esAdministrativo(usuario)){
 			chTurnos.setSelected(true);
 			chContencion.setSelected(true);
 		}else{
-			chReclamos.setSelected(true);
+			chReclamoFabrica.setSelected(true);
 			chSugerencias.setSelected(true);
 		}
 	}
 
 	protected void actualizarNotificaciones() {
-		if (mediadorNotificacion.setTiposNotificaciones(chTurnos.isSelected(),chContencion.isSelected(),chReclamos.isSelected(),chSugerencias.isSelected())){
+		if (mediadorNotificacion.setTiposNotificaciones(chTurnos.isSelected(),chContencion.isSelected(),cbReclamoAgente.isSelected(),chReclamoFabrica.isSelected(),chSugerencias.isSelected())){
 			JOptionPane.showMessageDialog(this,"Notificaciones Modificadas.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
 			dispose();
 		}else{
@@ -112,5 +117,4 @@ public class GUIGestionNotificacion extends JFrame{
 	public void setMediadorNotificacion(MediadorNotificacion mediadorNotificacion) {
 		this.mediadorNotificacion = mediadorNotificacion;
 	}
-
 }

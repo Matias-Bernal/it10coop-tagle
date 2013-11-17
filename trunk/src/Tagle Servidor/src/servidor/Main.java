@@ -11,6 +11,7 @@ import servidor.GestionarMarca.ControlMarca;
 import servidor.GestionarModelo.ControlModelo;
 import servidor.GestionarMuleto.ControlMuleto;
 import servidor.GestionarNotificacion.ControlNotificacion;
+import servidor.GestionarNotificacion_Reclamo.ControlNotificacion_Reclamo;
 import servidor.GestionarNotificacion_Usuario.ControlNotificacion_Usuario;
 import servidor.GestionarOrden.ControlOrden;
 import servidor.GestionarOrden_Reclamo.ControlOrden_Reclamo;
@@ -45,6 +46,7 @@ public class Main {
 			ControlMTelefono controlMTelefono = new ControlMTelefono();
 			ControlMuleto controlMuleto = new ControlMuleto();
 			ControlNotificacion controlNotificacion = new ControlNotificacion();
+			ControlNotificacion_Reclamo controlNotificacion_Reclamo = new ControlNotificacion_Reclamo();
 			ControlNotificacion_Usuario controlNotificacion_Usuario = new ControlNotificacion_Usuario();
 			ControlOrden controlOrden = new ControlOrden();
 			ControlOrden_Reclamo controlOrden_Reclamo = new ControlOrden_Reclamo();
@@ -83,6 +85,7 @@ public class Main {
 			servidor.setControlMTelefono(controlMTelefono);
 			servidor.setControlMuleto(controlMuleto);
 			servidor.setControlNotificacion(controlNotificacion);
+			servidor.setControlNotificacion_Reclamo(controlNotificacion_Reclamo);
 			servidor.setControlNotificacion_Usuario(controlNotificacion_Usuario);
 			servidor.setControlOrden(controlOrden);
 			servidor.setControlOrden_Reclamo(controlOrden_Reclamo);

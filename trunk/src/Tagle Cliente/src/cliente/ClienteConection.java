@@ -14,6 +14,7 @@ import common.GestionarMarca.IControlMarca;
 import common.GestionarModelo.IControlModelo;
 import common.GestionarMuleto.IControlMuleto;
 import common.GestionarNotificacion.IControlNotificacion;
+import common.GestionarNotificacion_Reclamo.IControlNotificacion_Reclamo;
 import common.GestionarNotificacion_Usuario.IControlNotificacion_Usuario;
 import common.GestionarOrden.IControlOrden;
 import common.GestionarOrden_Reclamo.IControlOrden_Reclamo;
@@ -46,6 +47,7 @@ public class ClienteConection {
 	private IControlMTelefono controlMTelefono = null;
 	private IControlMuleto controlMuleto = null;
 	private IControlNotificacion controlNotificacion = null;
+	private IControlNotificacion_Reclamo controlNotificacion_Reclamo = null;
 	private IControlNotificacion_Usuario controlNotificacion_Usuario = null;
 	private IControlOrden controlOrden = null;
 	private IControlOrden_Reclamo controlOrden_Reclamo = null;
@@ -106,6 +108,9 @@ public class ClienteConection {
 
 		nombreServer = "rmi://" + ip + "/IControlNotificacion";
 		setControlNotificacion((IControlNotificacion)Naming.lookup(nombreServer));
+		
+		nombreServer = "rmi://" + ip + "/IControlNotificacion_Reclamo";
+		setControlNotificacion_Reclamo((IControlNotificacion_Reclamo)Naming.lookup(nombreServer));
 		
 		nombreServer = "rmi://" + ip + "/IControlNotificacion_Usuario";
 		setControlNotificacion_Usuario((IControlNotificacion_Usuario)Naming.lookup(nombreServer));
@@ -390,6 +395,15 @@ public class ClienteConection {
 	public void setControlPedido_Pieza_Reclamo_Agente(
 			IControlPedido_Pieza_Reclamo_Agente controlPedido_Pieza_Reclamo_Agente) {
 		this.controlPedido_Pieza_Reclamo_Agente = controlPedido_Pieza_Reclamo_Agente;
+	}
+
+	public IControlNotificacion_Reclamo getControlNotificacion_Reclamo() {
+		return controlNotificacion_Reclamo;
+	}
+
+	public void setControlNotificacion_Reclamo(
+			IControlNotificacion_Reclamo controlNotificacion_Reclamo) {
+		this.controlNotificacion_Reclamo = controlNotificacion_Reclamo;
 	}
 
 }

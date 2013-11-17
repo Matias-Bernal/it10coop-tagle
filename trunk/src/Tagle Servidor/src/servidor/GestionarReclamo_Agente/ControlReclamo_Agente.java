@@ -69,6 +69,7 @@ public class ControlReclamo_Agente extends UnicastRemoteObject implements IContr
 			Reclamo_Agente reclamo_Agente = reclamo_AgenteAssemb.getReclamo_Agente(buscarReclamo_Agente(id));
 			
 			reclamo_Agente.setFecha_reclamo_agente(modificado.getFecha_reclamo_agente());
+			reclamo_Agente.setDescripcion(modificado.getDescripcion());
 			PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 			reclamo_Agente.setPedido(pedidoAssemb.getPedido(modificado.getPedido()));
 			PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
@@ -95,6 +96,7 @@ public class ControlReclamo_Agente extends UnicastRemoteObject implements IContr
 
 				reclamo_AgenteDTO.setId(reclamos_agente.elementAt(i).getId());
 				reclamo_AgenteDTO.setFecha_reclamo_agente(reclamos_agente.elementAt(i).getFecha_reclamo_agente());
+				reclamo_AgenteDTO.setDescripcion(reclamos_agente.elementAt(i).getDescripcion());
 				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 				reclamo_AgenteDTO.setPedido(pedidoAssemb.getPedidoDTO(reclamos_agente.elementAt(i).getPedido()));
 				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);

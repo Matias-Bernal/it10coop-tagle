@@ -17,6 +17,7 @@ import servidor.GestionarMarca.ControlMarca;
 import servidor.GestionarModelo.ControlModelo;
 import servidor.GestionarMuleto.ControlMuleto;
 import servidor.GestionarNotificacion.ControlNotificacion;
+import servidor.GestionarNotificacion_Reclamo.ControlNotificacion_Reclamo;
 import servidor.GestionarNotificacion_Usuario.ControlNotificacion_Usuario;
 import servidor.GestionarOrden.ControlOrden;
 import servidor.GestionarOrden_Reclamo.ControlOrden_Reclamo;
@@ -50,6 +51,7 @@ public class Servidor {
 	private ControlMTelefono controlMTelefono = null;
 	private ControlMuleto controlMuleto = null;
 	private ControlNotificacion controlNotificacion = null;
+	private ControlNotificacion_Reclamo controlNotificacion_Reclamo = null;
 	private ControlNotificacion_Usuario controlNotificacion_Usuario = null;
 	private ControlOrden controlOrden = null;
 	private ControlOrden_Reclamo controlOrden_Reclamo = null;
@@ -129,6 +131,10 @@ public class Servidor {
 		Naming.rebind(this.name, this.controlNotificacion);
 		System.out.println("Nombre: " + this.name);
 		
+		this.name = "rmi://" + this.ip + "/IControlNotificacion_Reclamo";
+		Naming.rebind(this.name, this.controlNotificacion_Reclamo);
+		System.out.println("Nombre: " + this.name);
+		
 		this.name = "rmi://" + this.ip + "/IControlNotificacion_Usuario";
 		Naming.rebind(this.name, this.controlNotificacion_Usuario);
 		System.out.println("Nombre: " + this.name);
@@ -201,7 +207,9 @@ public class Servidor {
 		Naming.rebind(this.name, this.controlVehiculo);
 		System.out.println("Nombre: " + this.name);
 		
-		GUIServidor serv = new GUIServidor();
+		System.out.println("Listo para conexiones");
+
+		//GUIServidor serv = new GUIServidor();
 	}
 
 	public String getName() {
@@ -455,6 +463,15 @@ public class Servidor {
 
 	public void setControlPedido_Pieza_Reclamo_Agente(ControlPedido_Pieza_Reclamo_Agente controlPedido_Pieza_Reclamo_Agente) {
 		this.controlPedido_Pieza_Reclamo_Agente = controlPedido_Pieza_Reclamo_Agente;
+	}
+
+	public ControlNotificacion_Reclamo getControlNotificacion_Reclamo() {
+		return controlNotificacion_Reclamo;
+	}
+
+	public void setControlNotificacion_Reclamo(
+			ControlNotificacion_Reclamo controlNotificacion_Reclamo) {
+		this.controlNotificacion_Reclamo = controlNotificacion_Reclamo;
 	}
 
 }

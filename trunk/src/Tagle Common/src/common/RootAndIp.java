@@ -11,6 +11,7 @@ public class RootAndIp {
 	private static String password = "root";
 	private static float valor_mano_obra_renault = new Float(199.80);
 	private static float valor_mano_obra_nissan = new Float(186.57);
+	private static String path_reportes = "C:";
 
 	public static void setConf(String nameFile) {
 		if ((nameFile == null)||(nameFile.trim().length() == 0)){
@@ -25,6 +26,7 @@ public class RootAndIp {
 		password = ini.getParameters("password");
 		valor_mano_obra_renault = Float.parseFloat(ini.getParameters("valor_mano_obra_renault"));
 		valor_mano_obra_nissan = Float.parseFloat(ini.getParameters("valor_mano_obra_nissan"));
+		path_reportes = ini.getParameters("path_reportes");
 	}
 
 	public static String getIp_servidor() {
@@ -89,6 +91,14 @@ public class RootAndIp {
 
 	public static void setValor_mano_obra_renault(float valor_mano_obra_renault) {
 		RootAndIp.valor_mano_obra_renault = valor_mano_obra_renault;
+	}
+
+	public static String getPath_reportes() {
+		return path_reportes;
+	}
+
+	public static void setPath_reportes(String path_reportes) {
+		RootAndIp.path_reportes = path_reportes;
 	}
 	
 }

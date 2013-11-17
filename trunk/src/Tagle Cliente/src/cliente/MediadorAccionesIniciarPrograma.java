@@ -10,6 +10,7 @@ import common.GestionarMarca.IControlMarca;
 import common.GestionarModelo.IControlModelo;
 import common.GestionarMuleto.IControlMuleto;
 import common.GestionarNotificacion.IControlNotificacion;
+import common.GestionarNotificacion_Reclamo.IControlNotificacion_Reclamo;
 import common.GestionarNotificacion_Usuario.IControlNotificacion_Usuario;
 import common.GestionarOrden.IControlOrden;
 import common.GestionarOrden_Reclamo.IControlOrden_Reclamo;
@@ -131,6 +132,16 @@ public final class MediadorAccionesIniciarPrograma{
 			System.out.println("Error en getControlNotificacion. Constructor");
 		}
 		return clienteConexion.getControlNotificacion();
+	}
+	
+	public static IControlNotificacion_Reclamo getControlNotificacion_Reclamo() {
+		ClienteConection clienteConexion = new ClienteConection();
+		try{
+			clienteConexion.iniciar();
+		}catch(Exception ex){
+			System.out.println("Error en getControlNotificacion_Reclamo. Constructor");
+		}
+		return clienteConexion.getControlNotificacion_Reclamo();
 	}
 	
 	public static IControlNotificacion_Usuario getControlNotificacion_Usuario() {

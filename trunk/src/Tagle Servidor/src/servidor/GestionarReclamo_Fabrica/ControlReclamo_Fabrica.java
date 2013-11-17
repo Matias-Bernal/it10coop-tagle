@@ -66,6 +66,7 @@ public class ControlReclamo_Fabrica extends UnicastRemoteObject implements ICont
 			Reclamo_Fabrica reclamo_Fabrica = reclamo_FabricaAssemb.getReclamo_Fabrica(buscarReclamo_FabricaDTO(id));
 			
 			reclamo_Fabrica.setFecha_reclamo_fabrica(modificado.getFecha_reclamo_fabrica());
+			reclamo_Fabrica.setDescripcion(modificado.getDescripcion());
 			PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 			reclamo_Fabrica.setPedido(pedidoAssemb.getPedido(modificado.getPedido()));
 			PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
@@ -92,6 +93,7 @@ public class ControlReclamo_Fabrica extends UnicastRemoteObject implements ICont
 
 				reclamo_FabricaDTO.setId(reclamos_fabrica.elementAt(i).getId());
 				reclamo_FabricaDTO.setFecha_reclamo_fabrica(reclamos_fabrica.elementAt(i).getFecha_reclamo_fabrica());
+				reclamo_FabricaDTO.setDescripcion(reclamos_fabrica.elementAt(i).getDescripcion());
 				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 				reclamo_FabricaDTO.setPedido(pedidoAssemb.getPedidoDTO(reclamos_fabrica.elementAt(i).getPedido()));
 				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
