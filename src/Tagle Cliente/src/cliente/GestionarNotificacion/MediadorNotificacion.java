@@ -19,8 +19,7 @@ public class MediadorNotificacion {
 	}
 
 	public void actualizarNotificaciones() {
-		// TODO Auto-generated method stub
-		
+		mediador.actualizarTablaNotificaciones();
 	}
 
 	public void notificacionCompletada(NotificacionDTO notificacionDTO) {
@@ -32,8 +31,8 @@ public class MediadorNotificacion {
 		return usuario.getTipo().equals("Administrativo");
 	}
 
-	public boolean setTiposNotificaciones(boolean turnos, boolean contencion, boolean reclamos, boolean sugerencias) {
-		mediador.setTiposNotificaciones(turnos,contencion,reclamos,sugerencias);
+	public boolean setTiposNotificaciones(boolean turnos, boolean contencion, boolean agentes, boolean reclamos, boolean sugerencias) {
+		mediador.setTiposNotificaciones(turnos,contencion,agentes, reclamos,sugerencias);
 		return true;
 	}
 

@@ -17,6 +17,7 @@ public class Reclamo_AgenteAssembler {
 		Reclamo_AgenteDTO reclamo_agenteDTO = new Reclamo_AgenteDTO();
 		reclamo_agenteDTO.setId(reclamo_agente.getId());
 		reclamo_agenteDTO.setFecha_reclamo_agente(reclamo_agente.getFecha_reclamo_agente());
+		reclamo_agenteDTO.setDescripcion(reclamo_agente.getDescripcion());
 		PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 		if(reclamo_agente.getPedido()!=null)
 			reclamo_agenteDTO.setPedido(pedidoAssemb.getPedidoDTO(reclamo_agente.getPedido()));
@@ -33,6 +34,7 @@ public class Reclamo_AgenteAssembler {
 		Reclamo_Agente reclamo_agente = (Reclamo_Agente) accesoBD.buscarPorId(Reclamo_Agente.class, reclamo_agenteDTO.getId());
 		reclamo_agente.setId(reclamo_agenteDTO.getId());
 		reclamo_agente.setFecha_reclamo_agente(reclamo_agenteDTO.getFecha_reclamo_agente());
+		reclamo_agente.setDescripcion(reclamo_agenteDTO.getDescripcion());
 		PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 		if(reclamo_agenteDTO.getPedido()!=null)
 			reclamo_agente.setPedido(pedidoAssemb.getPedido(reclamo_agenteDTO.getPedido()));
@@ -49,6 +51,7 @@ public class Reclamo_AgenteAssembler {
 		Reclamo_Agente reclamo_agente = new Reclamo_Agente();
 		reclamo_agente.setId(reclamo_agenteDTO.getId());
 		reclamo_agente.setFecha_reclamo_agente(reclamo_agenteDTO.getFecha_reclamo_agente());
+		reclamo_agente.setDescripcion(reclamo_agenteDTO.getDescripcion());
 		PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
 		if(reclamo_agenteDTO.getPedido()!=null)
 			reclamo_agente.setPedido(pedidoAssemb.getPedido(reclamo_agenteDTO.getPedido()));

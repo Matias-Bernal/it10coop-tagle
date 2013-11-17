@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class Reclamo_Agente {
 	protected Date fecha_reclamo_agente;
+	protected String descripcion;
 	protected Pieza pieza;
 	protected Pedido pedido;
 	protected Usuario usuario;
@@ -12,10 +13,11 @@ public class Reclamo_Agente {
 	public Reclamo_Agente() {
 	}
 
-	public Reclamo_Agente(Date fecha_reclamo_agente, Pieza pieza,
+	public Reclamo_Agente(Date fecha_reclamo_agente,String descripcion, Pieza pieza,
 			Pedido pedido, Usuario usuario) {
 		super();
 		this.fecha_reclamo_agente = fecha_reclamo_agente;
+		this.descripcion = descripcion;
 		this.pieza = pieza;
 		this.pedido = pedido;
 		this.usuario = usuario;
@@ -59,6 +61,14 @@ public class Reclamo_Agente {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

@@ -4,7 +4,6 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
 
     <persistence-unit name="MYSQL">
-        <!-- mapping-file>D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\Tagle Servidor\src\servidor\persistencia\dominio\package.jdo</mapping-file-->
     	<property name="javax.jdo.PersistenceManagerFactoryClass" value="org.datanucleus.jdo.JDOPersistenceManagerFactory"/>
         <property name="javax.jdo.option.ConnectionDriverName" value="org.gjt.mm.mysql.Driver"/>
         <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://localhost:3306/tagle_garantias"/>
@@ -15,7 +14,6 @@
     </persistence-unit>
     
     <persistence-unit name="POSTGRESQL">
-        <!-- mapping-file>D:\DESARROLLO\IT10 Cooperativa\Tagle\workspace\Tagle Servidor\src\servidor\persistencia\dominio\package.jdo</mapping-file-->
     	<property name="javax.jdo.PersistenceManagerFactoryClass" value="org.datanucleus.jdo.JDOPersistenceManagerFactory"/>
         <property name="javax.jdo.option.ConnectionDriverName" value="org.postgresql.Driver"/>
         <property name="javax.jdo.option.ConnectionURL" value="jdbc:postgresql://localhost:5432/tagle_garantias"/>

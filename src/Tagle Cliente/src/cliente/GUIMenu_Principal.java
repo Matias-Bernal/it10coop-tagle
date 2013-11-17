@@ -1,9 +1,16 @@
 package cliente;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,9 +21,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
+
+import common.DTOs.Notificacion_ReclamoDTO;
 
 public class GUIMenu_Principal extends JFrame{
 
@@ -24,10 +37,30 @@ public class GUIMenu_Principal extends JFrame{
 	private MediadorPrincipal mediadorPrincipal;
 	private JFrame frmPrincipal;
 	private JTable tablaNotificaciones;
+	private Vector<Integer> anchos;
+	private DefaultTableModel modelo;
+	private Vector<Vector<String>> datosTabla;
+	private Vector<String> nombreColumnas;
+	private JButton btnCompletado;
+	private JButton btnPosponer;
+	private JButton btnReportes;
+	private JButton btnReclamos_Piezas;
+	private JButton btnReclamos;
 	
 	public GUIMenu_Principal(MediadorPrincipal mediadorPrincipal) {
 		this.mediadorPrincipal= mediadorPrincipal;
+		cargarDatos();
 		initialize();
+	}
+
+	private void cargarDatos() {
+		nombreColumnas = new Vector<String>();
+		anchos = new Vector<Integer>();
+		nombreColumnas.add("TIPO");
+		anchos.add(100);
+		nombreColumnas.add("TEXTO");
+		anchos.add(300);
+		datosTabla = new Vector<Vector<String>>();
 	}
 
 	private void initialize() {
@@ -35,14 +68,25 @@ public class GUIMenu_Principal extends JFrame{
 		setLocationRelativeTo(null);
 		
 		frmPrincipal = new JFrame();
+		frmPrincipal.getContentPane().setBackground(Color.WHITE);
 		frmPrincipal.setResizable(false);
 		frmPrincipal.setLocationRelativeTo(null);
 
 		String titulo = "USUARIO: "+mediadorPrincipal.getUsuario().getNombre_usuario().toString() +" [ID: "+mediadorPrincipal.getUsuario().getId().toString()+" ]";
 		frmPrincipal.setTitle(titulo);
 		frmPrincipal.setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMenu_Principal.class.getResource("/cliente/imagenes/tagle.ico")));
-		frmPrincipal.setBounds(100, 100, 910, 570);
-		frmPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmPrincipal.setBounds(100, 100, 910, 570);		
+		frmPrincipal.setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
+
+		frmPrincipal.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent we){
+				int eleccion = JOptionPane.showConfirmDialog(null, "Desea salir?");
+				if ( eleccion == 0) {
+					mediadorPrincipal.matarThreads();
+					System.exit(0);
+				}	
+			}
+		});
 		
 		JMenuBar menuBar = new JMenuBar();
 		frmPrincipal.setJMenuBar(menuBar);
@@ -302,7 +346,7 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		mnAyuda.add(mntmAcercaDe);
 		
-		JButton btnReclamos = new JButton("RECLAMO RAPIDO");
+		btnReclamos = new JButton("RECLAMO RAPIDO");
 		btnReclamos.setBounds(104, 189, 250, 23);
 		btnReclamos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -313,8 +357,7 @@ public class GUIMenu_Principal extends JFrame{
 		frmPrincipal.getContentPane().setLayout(null);
 		frmPrincipal.getContentPane().add(btnReclamos);
 		
-		JButton btnReclamos_Piezas = new JButton("RECLAMOS DE PIEZAS");
-		btnReclamos_Piezas.setEnabled(false);
+		btnReclamos_Piezas = new JButton("RECLAMOS DE PIEZAS");
 		btnReclamos_Piezas.setBounds(104, 249, 250, 23);
 		btnReclamos_Piezas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -324,8 +367,7 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		frmPrincipal.getContentPane().add(btnReclamos_Piezas);
 		
-		JButton btnReportes = new JButton("REPORTES");
-		btnReportes.setEnabled(false);
+		btnReportes = new JButton("REPORTES");
 		btnReportes.setBounds(104, 310, 250, 23);
 		btnReportes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -336,47 +378,60 @@ public class GUIMenu_Principal extends JFrame{
 		frmPrincipal.getContentPane().add(btnReportes);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(535, 45, 330, 375);
+		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panel.setBounds(535, 45, 359, 375);
 		frmPrincipal.getContentPane().add(panel);
-		panel.setLayout(null);
 		
-		tablaNotificaciones = new JTable();
-		tablaNotificaciones.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-				{null, null},
-			},
-			new String[] {
-				"Notificacion", "Boton"
+		modelo = new DefaultTableModel(datosTabla, nombreColumnas);
+		
+		tablaNotificaciones = new JTable(modelo) {
+
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false, false,
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
-		));
-		tablaNotificaciones.setBounds(10, 11, 310, 354);
-		panel.add(tablaNotificaciones);
+		};
+		// Agregamos el ordenador para las tablas de los usuarios
+		// TableRowSorter<TableModel> ordenador = new TableRowSorter<TableModel>(modelo);
+		// tablaNotificaciones.setRowSorter(ordenador);
+		
+		tablaNotificaciones.getTableHeader().setReorderingAllowed(false);
+		for(int i = 0; i < tablaNotificaciones.getColumnCount(); i++) {
+			tablaNotificaciones.getColumnModel().getColumn(i).setPreferredWidth(anchos.elementAt(i));
+			tablaNotificaciones.getColumnModel().getColumn(i).setMinWidth(anchos.elementAt(i));
+		}
+		tablaNotificaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tablaNotificaciones.setBounds(0, 0, 765, 320);
+		
+		JScrollPane scrollPaneTabla = new JScrollPane(tablaNotificaciones);
+		scrollPaneTabla.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		tablaNotificaciones.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getClickCount() == 2)
+					verNotificacion();
+			    else{
+			    	e.consume();
+			    }   
+			}
+		});
+		panel.setLayout(new BorderLayout(0, 0));
+		panel.add(scrollPaneTabla);
 		
 		JLabel lblNotificaciones = new JLabel("NOTIFICACIONES");
+		lblNotificaciones.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lblNotificaciones.setBounds(638, 11, 126, 21);
 		lblNotificaciones.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNotificaciones.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNotificaciones.setAlignmentX(Component.CENTER_ALIGNMENT);
 		frmPrincipal.getContentPane().add(lblNotificaciones);
 		
-		JButton btnCompletado = new JButton("Completada");
-		btnCompletado.setBounds(534, 455, 138, 23);
+		btnCompletado = new JButton("Completada");
+		btnCompletado.setBounds(535, 455, 138, 23);
 		btnCompletado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				completada();
@@ -384,14 +439,23 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		frmPrincipal.getContentPane().add(btnCompletado);
 		
-		JButton btnPosponer = new JButton("Posponer");
-		btnPosponer.setBounds(727, 455, 138, 23);
+		btnPosponer = new JButton("Posponer");
+		btnPosponer.setBounds(756, 455, 138, 23);
 		btnPosponer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				posponer();
 			}
 		});
 		frmPrincipal.getContentPane().add(btnPosponer);
+	}
+
+	protected void verNotificacion() {
+		int row = tablaNotificaciones.getSelectedRow();
+		if (row >= 0) {
+			mediadorPrincipal.verNotificacion(row);
+		}else{
+			JOptionPane.showMessageDialog(tablaNotificaciones,"Seleccione una notificacion primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	protected void posponer() {
@@ -421,5 +485,19 @@ public class GUIMenu_Principal extends JFrame{
 	}
 	public void show() {
 		// TODO Auto-generated method stub
+	}
+
+	public void actualizarTabla(Vector<Notificacion_ReclamoDTO> notificaciones) {
+		datosTabla = new Vector<>();
+		for(int i =0; i<notificaciones.size();i++){
+			Vector<String> row = new Vector<String> ();
+			
+			row.add(notificaciones.elementAt(i).getNotificacion().getTipo_notificacion());
+			row.add(notificaciones.elementAt(i).getNotificacion().getTexto_notificacion());
+			
+			datosTabla.add(row);
+		}
+		modelo.setDataVector(datosTabla, nombreColumnas);
+		modelo.fireTableStructureChanged();
 	}
 }

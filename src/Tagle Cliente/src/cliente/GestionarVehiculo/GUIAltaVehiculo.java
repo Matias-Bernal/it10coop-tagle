@@ -148,7 +148,7 @@ public class GUIAltaVehiculo extends JFrame {
 		
 		comboBox_modelo = new JComboBox<String>();
 		comboBox_modelo.setModel(new DefaultComboBoxModel<String>(modelos));
-		comboBox_modelo.setBounds(135, 101, 154, 20);
+		comboBox_modelo.setBounds(135, 131, 154, 20);
 		contentPane.add(comboBox_modelo);
 		
 		tFDominio = new JTextField();
@@ -195,7 +195,7 @@ public class GUIAltaVehiculo extends JFrame {
 		
 		comboBox_marca = new JComboBox<String>();
 		comboBox_marca.setModel(new DefaultComboBoxModel<String>(marcas));
-		comboBox_marca.setBounds(135, 131, 154, 20);
+		comboBox_marca.setBounds(135, 101, 154, 20);
 		contentPane.add(comboBox_marca);
 		
 	}

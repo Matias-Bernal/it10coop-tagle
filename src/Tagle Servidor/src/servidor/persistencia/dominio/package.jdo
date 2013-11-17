@@ -95,6 +95,18 @@
                 <foreign-key name="fk_pie_04" delete-action="cascade"/>
             </field>
         </class>
+		<class
+              name="Notificacion_Reclamo">
+			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
+			
+			<field name="notificacion" persistence-modifier="persistent">
+                <foreign-key name="fk_notif_r_05" delete-action="cascade"/>
+            </field>
+            
+            <field name="reclamo" persistence-modifier="persistent" >
+                <foreign-key name="fk_usua_r_05" delete-action="cascade"/>
+            </field>
+        </class>
         <class
               name="Notificacion_Usuario">
 			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
@@ -287,6 +299,8 @@
 			
 			<field name="fecha_reclamo_agente" persistence-modifier="persistent"/>
 			
+			<field name="descripcion" persistence-modifier="persistent"/>
+			
 			<field name="pieza" persistence-modifier="persistent">
                 <foreign-key name="fk_pieza_13a" delete-action="cascade"/>
             </field>
@@ -304,6 +318,8 @@
 			<field name="id" primary-key="true" value-strategy="identity" persistence-modifier="persistent"/>
 			
 			<field name="fecha_reclamo_fabrica" persistence-modifier="persistent"/>
+			
+			<field name="descripcion" persistence-modifier="persistent"/>
 			
 			<field name="pieza" persistence-modifier="persistent">
                 <foreign-key name="fk_pieza_13f" delete-action="cascade"/>
