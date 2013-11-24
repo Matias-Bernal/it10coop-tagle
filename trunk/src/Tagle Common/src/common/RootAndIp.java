@@ -3,15 +3,22 @@ package common;
 public class RootAndIp {
 
 	/* Valores por defecto - verificar el conf.ini */
-	private static String ip_servidor="localhost";
+	private static String ip_servidor="";
 	private static String ip_cliente="";
 	private static int port= 43210;
-	private static String db="MYSQL";
-	private static String username = "root";
-	private static String password = "root";
-	private static float valor_mano_obra_renault = new Float(199.80);
-	private static float valor_mano_obra_nissan = new Float(186.57);
-	private static String path_reportes = "C:";
+	private static String db="";
+	private static String username = "";
+	private static String password = "";
+	private static float valor_mano_obra_renault = new Float(0);
+	private static float valor_mano_obra_nissan = new Float(0);
+	private static String path_manual = "";
+	private static String path_reportes = "";
+	private static String smtpHost = "";
+	private static String smtpserverport = "";
+	private static String mailfabirca = "";
+	private static String mailrepuestos = "";
+	private static String passrepuestos = "";
+	
 
 	public static void setConf(String nameFile) {
 		if ((nameFile == null)||(nameFile.trim().length() == 0)){
@@ -27,6 +34,12 @@ public class RootAndIp {
 		valor_mano_obra_renault = Float.parseFloat(ini.getParameters("valor_mano_obra_renault"));
 		valor_mano_obra_nissan = Float.parseFloat(ini.getParameters("valor_mano_obra_nissan"));
 		path_reportes = ini.getParameters("path_reportes");
+		smtpHost = ini.getParameters("smtpHost");
+		smtpserverport = ini.getParameters("smtpserverport");
+		mailrepuestos = ini.getParameters("mailrepuestos");
+		passrepuestos = ini.getParameters("passrepuestos");
+		path_manual = ini.getParameters("path_manual");
+		mailfabirca = ini.getParameters("mailfabrica");
 	}
 
 	public static String getIp_servidor() {
@@ -99,6 +112,54 @@ public class RootAndIp {
 
 	public static void setPath_reportes(String path_reportes) {
 		RootAndIp.path_reportes = path_reportes;
+	}
+
+	public static String getSmtpHost() {
+		return smtpHost;
+	}
+
+	public static void setSmtpHost(String smtpHost) {
+		RootAndIp.smtpHost = smtpHost;
+	}
+
+	public static String getSmtpserverport() {
+		return smtpserverport;
+	}
+
+	public static void setSmtpserverport(String smtpserverport) {
+		RootAndIp.smtpserverport = smtpserverport;
+	}
+
+	public static String getMailrepuestos() {
+		return mailrepuestos;
+	}
+
+	public static void setMailrepuestos(String mailrepuestos) {
+		RootAndIp.mailrepuestos = mailrepuestos;
+	}
+
+	public static String getPath_manual() {
+		return path_manual;
+	}
+
+	public static void setPath_manual(String path_manual) {
+		RootAndIp.path_manual = path_manual;
+	}
+
+	public static String getMailfabirca() {
+		return mailfabirca;
+	}
+
+	public static void setMailfabirca(String mailfabirca) {
+		RootAndIp.mailfabirca = mailfabirca;
+	}
+
+	public static String getPassrepuestos() {
+		return passrepuestos;
+	}
+
+	public static void setPassrepuestos(String passrepuestos) {
+		RootAndIp.passrepuestos = passrepuestos;
 	}
 	
 }
