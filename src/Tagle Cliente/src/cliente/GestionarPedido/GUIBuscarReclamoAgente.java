@@ -1,6 +1,7 @@
 package cliente.GestionarPedido;
 
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
@@ -30,6 +31,8 @@ public class GUIBuscarReclamoAgente extends JFrame {
 	
 	
 	public GUIBuscarReclamoAgente(MediadorPedido mediadorPedido) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIBuscarReclamoAgente.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
+		setTitle("BUSCAR RECLAMO AGENTE");
 		this.mediador = mediadorPedido;
 		cargarDatos();
 		initialize();
@@ -37,7 +40,6 @@ public class GUIBuscarReclamoAgente extends JFrame {
 	}
 	
 	public void initialize() {
-		setType(Type.POPUP);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 855, 459);
 		contentPane = new JPanel();

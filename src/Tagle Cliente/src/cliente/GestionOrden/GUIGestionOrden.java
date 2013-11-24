@@ -39,6 +39,8 @@ import common.DTOs.ReclamoDTO;
 import common.DTOs.RecursoDTO;
 
 import javax.swing.ScrollPaneConstants;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIGestionOrden extends JFrame {
 
@@ -81,7 +83,6 @@ public class GUIGestionOrden extends JFrame {
 	private DefaultComboBoxModel<String> cmbEstado_reclamo;
 	
 	public GUIGestionOrden(MediadorOrden mediador) {
-		setResizable(false);
 		this.mediador = mediador;
 		cargarDatos();
 		initialize();
@@ -91,6 +92,10 @@ public class GUIGestionOrden extends JFrame {
 	public void initialize(){
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 770, 600);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/ordenen.png")));
+		setResizable(false);
+		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
 		setTitle("GESTIONAR ORDEN");
 		
 		contentPane = new JPanel();
@@ -122,6 +127,7 @@ public class GUIGestionOrden extends JFrame {
 		tFnumero_orden.setColumns(10);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -131,6 +137,7 @@ public class GUIGestionOrden extends JFrame {
 		contentPane.add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				eliminar();
@@ -203,15 +210,17 @@ public class GUIGestionOrden extends JFrame {
 		contentPane.add(cbEstadoOrden);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//mediador
+				mediador.altaOrden();
 			}
 		});
 		btnAgregar.setBounds(484, 15, 220, 23);
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
+		btnImprimir.setIcon(new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/printer.png")));
 		btnImprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -221,19 +230,21 @@ public class GUIGestionOrden extends JFrame {
 				}
 			}
 		});
-		btnImprimir.setBounds(170, 527, 150, 23);
+		btnImprimir.setBounds(156, 527, 150, 23);
 		contentPane.add(btnImprimir);
 		
 		btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnVolver.setBounds(395, 527, 150, 23);
+		btnVolver.setBounds(458, 527, 150, 23);
 		contentPane.add(btnVolver);
 		
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/1refresh.png")));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actualizarDatos();
@@ -294,7 +305,7 @@ public class GUIGestionOrden extends JFrame {
 		if (row >= 0) {
 			int aux = tablaOrdenes.convertRowIndexToModel(row);
 			Long id = new Long (tablaOrdenes.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Orden [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Modificar Orden [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.modificarOrden(id);
 				actualizarDatos();
 			}
@@ -307,7 +318,7 @@ public class GUIGestionOrden extends JFrame {
 		if (row >= 0) {
 			int aux = tablaOrdenes.convertRowIndexToModel(row);
 			Long id = new Long (tablaOrdenes.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Orden [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Orden [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionOrden.class.getResource("/cliente/Resources/Icons/delete.png"))) == JOptionPane.YES_OPTION){ 
 				if (mediador.eliminarOrden(id)){
 					JOptionPane.showMessageDialog(contentPane,"Orden eliminado.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 					actualizarDatos();

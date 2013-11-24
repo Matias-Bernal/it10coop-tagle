@@ -23,6 +23,8 @@ import common.DTOs.OrdenDTO;
 import common.DTOs.ReclamanteDTO;
 import common.DTOs.VehiculoDTO;
 import javax.swing.border.EtchedBorder;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIAltaReclamoAgente extends JFrame {
 
@@ -63,6 +65,7 @@ public class GUIAltaReclamoAgente extends JFrame {
 	 * @wbp.parser.constructor
 	 */
 	public GUIAltaReclamoAgente(final MediadorReclamo mediador) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/add_reclamo_agente.png")));
 		this.mediador = mediador;		
 		cargardatos();
 		initialize();
@@ -104,6 +107,7 @@ public class GUIAltaReclamoAgente extends JFrame {
 		tfReclamo.setColumns(10);
 		
 		JButton btn_buscar_reclamante = new JButton("Buscar");
+		btn_buscar_reclamante.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btn_buscar_reclamante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarReclamante();
@@ -113,21 +117,23 @@ public class GUIAltaReclamoAgente extends JFrame {
 		contentPane.add(btn_buscar_reclamante);
 		
 		button_1 = new JButton("Cancelar");
+		button_1.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		button_1.setBounds(110, 265, 110, 20);
+		button_1.setBounds(67, 265, 110, 20);
 		contentPane.add(button_1);
 		
 		button_2 = new JButton("Crear");
+		button_2.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/add.png")));
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nuevoReclamoAgente();
 			}
 		});
-		button_2.setBounds(255, 265, 110, 20);
+		button_2.setBounds(287, 265, 110, 20);
 		contentPane.add(button_2);
 		
 		lblAgente = new JLabel("Agente");
@@ -177,6 +183,7 @@ public class GUIAltaReclamoAgente extends JFrame {
 		contentPane.add(tfVehiculo);
 		
 		JButton btn_buscar_Vehivulo = new JButton("Buscar");
+		btn_buscar_Vehivulo.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btn_buscar_Vehivulo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarVehiculo();
@@ -195,6 +202,7 @@ public class GUIAltaReclamoAgente extends JFrame {
 		contentPane.add(tfAgente);
 		
 		btn_agente = new JButton("Buscar");
+		btn_agente.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btn_agente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarAgente();
@@ -216,6 +224,7 @@ public class GUIAltaReclamoAgente extends JFrame {
 		contentPane.add(tfOrden);
 		
 		JButton btnOrden = new JButton("Buscar");
+		btnOrden.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnOrden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediador.buscarOrden();

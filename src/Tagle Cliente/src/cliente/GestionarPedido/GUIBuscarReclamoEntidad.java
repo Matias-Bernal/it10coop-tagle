@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import common.DTOs.ReclamoDTO;
+import java.awt.Toolkit;
 
 public class GUIBuscarReclamoEntidad extends JFrame {
 
@@ -30,6 +31,8 @@ public class GUIBuscarReclamoEntidad extends JFrame {
 	
 	
 	public GUIBuscarReclamoEntidad(MediadorPedido mediadorPedido) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIBuscarReclamoEntidad.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
+		setTitle("BUSCAR RECLAMO ENTIDAD");
 		this.mediador = mediadorPedido;
 		cargarDatos();
 		initialize();
@@ -37,7 +40,6 @@ public class GUIBuscarReclamoEntidad extends JFrame {
 	}
 	
 	public void initialize() {
-		setType(Type.POPUP);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 855, 459);
 		contentPane = new JPanel();

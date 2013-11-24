@@ -6,9 +6,11 @@ import java.util.Vector;
 import cliente.MediadorAccionesIniciarPrograma;
 import cliente.MediadorPrincipal;
 import common.DTOs.MTelefonoDTO;
+import common.DTOs.PedidoDTO;
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.Pedido_Pieza_Reclamo_AgenteDTO;
 import common.DTOs.Pedido_Pieza_Reclamo_FabricaDTO;
+import common.DTOs.PiezaDTO;
 import common.DTOs.Reclamo_AgenteDTO;
 import common.DTOs.Reclamo_FabricaDTO;
 import common.DTOs.RegistranteDTO;
@@ -55,7 +57,6 @@ public class MediadorReclamoPiezas {
 					pedios_piezas.add(pedios_piezasDTO.elementAt(i));
 				}
 			}
-			
 		} catch (Exception e) {
 			System.out.println("Error al cargar los pedidos_piezas de agentes");
 			e.printStackTrace();
@@ -63,19 +64,16 @@ public class MediadorReclamoPiezas {
 		return pedios_piezas;
 	}
 
-	public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza_Entidad() {
+	public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza() {
 		Vector<Pedido_PiezaDTO> pedios_piezas = new Vector<Pedido_PiezaDTO>();
 		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
 		try {
 			Vector<Pedido_PiezaDTO> pedios_piezasDTO = iControlPedido_Pieza.obtenerPedido_Pieza();
 			for (int i = 0; i<pedios_piezasDTO.size();i++){
-				if (esEntidad(pedios_piezasDTO.elementAt(i).getPedido().getReclamo().getRegistrante())){
 					pedios_piezas.add(pedios_piezasDTO.elementAt(i));
-				}
 			}
-			
 		} catch (Exception e) {
-			System.out.println("Error al cargar los pedidos_piezas de agentes");
+			System.out.println("Error al cargar los pedidos_piezas");
 			e.printStackTrace();
 		}
 		return pedios_piezas;
@@ -110,7 +108,7 @@ public class MediadorReclamoPiezas {
 			Vector<Reclamo_FabricaDTO> reclamosDTO = iControlReclamo_Fabrica.obtenerReclamo_Fabrica();
 			Vector<Reclamo_FabricaDTO> reclamos = new Vector<Reclamo_FabricaDTO>();
 			for (int i = 0;i<reclamosDTO.size();i++){
-				if(reclamosDTO.elementAt(i).getPedido().getId()==pedido_pieza.getPedido().getId() && reclamosDTO.elementAt(i).getPieza().getId()==pedido_pieza.getPieza().getId())
+				if(reclamosDTO.elementAt(i).getPedido().getId().equals(pedido_pieza.getPedido().getId()) && reclamosDTO.elementAt(i).getPieza().getId().equals(pedido_pieza.getPieza().getId()))
 					reclamos.add(reclamosDTO.elementAt(i));
 			}
 			res = reclamos.size();
@@ -127,7 +125,7 @@ public class MediadorReclamoPiezas {
 			Vector<Reclamo_AgenteDTO> reclamosDTO = iControlReclamo_Agente.obtenerReclamo_Agente();
 			Vector<Reclamo_AgenteDTO> reclamos = new Vector<Reclamo_AgenteDTO>();
 			for (int i = 0;i<reclamosDTO.size();i++){
-				if(reclamosDTO.elementAt(i).getPedido().getId()==pedido_pieza.getPedido().getId() && reclamosDTO.elementAt(i).getPieza().getId()==pedido_pieza.getPieza().getId())
+				if(reclamosDTO.elementAt(i).getPedido().getId().equals(pedido_pieza.getPedido().getId()) && reclamosDTO.elementAt(i).getPieza().getId().equals(pedido_pieza.getPieza().getId()))
 					reclamos.add(reclamosDTO.elementAt(i));
 			}
 			res = reclamos.size();
@@ -144,7 +142,7 @@ public class MediadorReclamoPiezas {
 			Vector<Reclamo_FabricaDTO> reclamosDTO = iControlReclamo_Fabrica.obtenerReclamo_Fabrica();
 			Vector<Reclamo_FabricaDTO> reclamos = new Vector<Reclamo_FabricaDTO>();
 			for (int i = 0;i<reclamosDTO.size();i++){
-				if(reclamosDTO.elementAt(i).getPedido().getId()==pedido_pieza.getPedido().getId() && reclamosDTO.elementAt(i).getPieza().getId()==pedido_pieza.getPieza().getId())
+				if(reclamosDTO.elementAt(i).getPedido().getId().equals(pedido_pieza.getPedido().getId()) && reclamosDTO.elementAt(i).getPieza().getId().equals(pedido_pieza.getPieza().getId()))
 					reclamos.add(reclamosDTO.elementAt(i));
 			}
 			java.util.Date hoy = new java.util.Date();
@@ -169,7 +167,7 @@ public class MediadorReclamoPiezas {
 			Vector<Reclamo_AgenteDTO> reclamosDTO = iControlReclamo_Agente.obtenerReclamo_Agente();
 			Vector<Reclamo_AgenteDTO> reclamos = new Vector<Reclamo_AgenteDTO>();
 			for (int i = 0;i<reclamosDTO.size();i++){
-				if(reclamosDTO.elementAt(i).getPedido().getId()==pedido_pieza.getPedido().getId() && reclamosDTO.elementAt(i).getPieza().getId()==pedido_pieza.getPieza().getId())
+				if(reclamosDTO.elementAt(i).getPedido().getId().equals(pedido_pieza.getPedido().getId()) && reclamosDTO.elementAt(i).getPieza().getId().equals(pedido_pieza.getPieza().getId()))
 					reclamos.add(reclamosDTO.elementAt(i));
 			}
 			java.util.Date hoy = new java.util.Date();
@@ -201,7 +199,8 @@ public class MediadorReclamoPiezas {
 		return tel;
 	}
 
-	public void guardarReclamoFabrica(Pedido_PiezaDTO pedido_pieza, String descripcion) {
+	public boolean guardarReclamoFabrica(Pedido_PiezaDTO pedido_pieza, String descripcion) {
+		boolean res = false;
 		try {
 			IControlReclamo_Fabrica iControlReclamo_Fabrica = MediadorAccionesIniciarPrograma.getControlReclamo_Fabrica();
 			Reclamo_FabricaDTO reclamo_fabricaDTO = new Reclamo_FabricaDTO();
@@ -224,9 +223,12 @@ public class MediadorReclamoPiezas {
 			pedido_pieza_reclamo_fabrica.setReclamo_fabrica(reclamo_fabricaDTO);
 			
 			iControlPedio_Pieza_Reclamo_Fabrica.agregarPedido_Pieza_Reclamo_Fabrica(pedido_pieza_reclamo_fabrica);
+			res = true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			res = false;
 		}
+		return res;
 	}
 
 	public Pedido_PiezaDTO buscarPedido_Pieza(Long id) {
@@ -255,7 +257,8 @@ public class MediadorReclamoPiezas {
 		this.guiReclamo = guiReclamo;
 	}
 
-	public void guardarReclamoAgente(Pedido_PiezaDTO pedido_pieza, String descripcion) {
+	public boolean guardarReclamoAgente(Pedido_PiezaDTO pedido_pieza, String descripcion) {
+		boolean res = false;
 		try {
 			IControlReclamo_Agente iControlReclamo_Agente = MediadorAccionesIniciarPrograma.getControlReclamo_Agente();
 			Reclamo_AgenteDTO reclamo_agenteDTO = new Reclamo_AgenteDTO();
@@ -278,8 +281,112 @@ public class MediadorReclamoPiezas {
 			pedido_pieza_reclamo_agente.setReclamo_agente(reclamo_agenteDTO);
 			
 			iControlPedio_Pieza_Reclamo_Agente.agregarPedido_Pieza_Reclamo_Agente(pedido_pieza_reclamo_agente);
+			res = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			res = false;
+		}
+		return res;
+	}
+
+	public Reclamo_FabricaDTO buscarReclamoFabrica(Long id) {
+		Reclamo_FabricaDTO reclamo = null;
+		try {
+			IControlPedido_Pieza_Reclamo_Fabrica iControlPedio_Pieza_Reclamo_Fabrica = MediadorAccionesIniciarPrograma.getControlPedido_Pieza_Reclamo_Fabrica();
+
+			reclamo = iControlPedio_Pieza_Reclamo_Fabrica.buscarPedido_Pieza_Reclamo_Fabrica(id).getReclamo_fabrica();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return reclamo;
+	}
+	public Reclamo_AgenteDTO buscarReclamoAgente(Long id) {
+		Reclamo_AgenteDTO reclamo = null;
+		try {
+			IControlPedido_Pieza_Reclamo_Agente iControlPedio_Pieza_Reclamo_Agente = MediadorAccionesIniciarPrograma.getControlPedido_Pieza_Reclamo_Agente();
+
+			reclamo = iControlPedio_Pieza_Reclamo_Agente.buscarPedido_Pieza_Reclamo_Agente(id).getReclamo_agente();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reclamo;
+	}
+	public Vector<Pedido_Pieza_Reclamo_FabricaDTO> obtenerReclamoFabrica(Pedido_PiezaDTO pedido_pieza) {
+		Vector<Pedido_Pieza_Reclamo_FabricaDTO> reclamos = new Vector<Pedido_Pieza_Reclamo_FabricaDTO>();
+		try {
+			IControlPedido_Pieza_Reclamo_Fabrica iControlPedio_Pieza_Reclamo_Fabrica = MediadorAccionesIniciarPrograma.getControlPedido_Pieza_Reclamo_Fabrica();
+			Vector<Pedido_Pieza_Reclamo_FabricaDTO> reclamosDTO = iControlPedio_Pieza_Reclamo_Fabrica.obtenerPedido_Pieza_Reclamo_Fabrica();
+			for (int i = 0; i< reclamosDTO.size();i++){
+				if(reclamosDTO.elementAt(i).getPedido().getId().equals(pedido_pieza.getPedido().getId()) && reclamosDTO.elementAt(i).getPieza().getId().equals(pedido_pieza.getPieza().getId()))
+					reclamos.add(reclamosDTO.elementAt(i));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reclamos;
+	}
+	public Vector<Pedido_Pieza_Reclamo_AgenteDTO> obtenerReclamoAgente(Pedido_PiezaDTO pedido_pieza) {
+		Vector<Pedido_Pieza_Reclamo_AgenteDTO> reclamos = new Vector<Pedido_Pieza_Reclamo_AgenteDTO>();
+		try {
+			IControlPedido_Pieza_Reclamo_Agente iControlPedio_Pieza_Reclamo_Agente = MediadorAccionesIniciarPrograma.getControlPedido_Pieza_Reclamo_Agente();
+			Vector<Pedido_Pieza_Reclamo_AgenteDTO> reclamosDTO = iControlPedio_Pieza_Reclamo_Agente.obtenerPedido_Pieza_Reclamo_Agente();
+			for (int i = 0; i< reclamosDTO.size();i++){
+				if(reclamosDTO.elementAt(i).getPedido().getId().equals(pedido_pieza.getPedido().getId()) && reclamosDTO.elementAt(i).getPieza().getId().equals(pedido_pieza.getPieza().getId()))
+					reclamos.add(reclamosDTO.elementAt(i));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reclamos;
+	}
+
+	public void verReclamosFabrica(Long id) {
+		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
+		Pedido_PiezaDTO pedido_pieza;
+		try {
+			pedido_pieza = iControlPedido_Pieza.buscarPedido_Pieza(id);
+			GUIVerReclamosFabrica guiVerReclamoFabrica = new GUIVerReclamosFabrica(this, pedido_pieza);
+			guiVerReclamoFabrica.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void verReclamosAgente(Long id) {
+		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
+		Pedido_PiezaDTO pedido_pieza;
+		try {
+			pedido_pieza = iControlPedido_Pieza.buscarPedido_Pieza(id);
+			GUIVerReclamosAgente guiVerReclamosAgente = new GUIVerReclamosAgente(this, pedido_pieza);
+			guiVerReclamosAgente.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void verReclamoFabrica(Reclamo_FabricaDTO reclamo_fabrica) {
+			VerReclamoFabrica guiVerReclamoFabrica = new VerReclamoFabrica(this, reclamo_fabrica);
+			guiVerReclamoFabrica.setVisible(true);
+	}
+	public void verReclamoAgente(Reclamo_AgenteDTO reclamo_agente) {
+		VerReclamoAgente guiVerReclamoAgente = new VerReclamoAgente(this, reclamo_agente);
+		guiVerReclamoAgente.setVisible(true);
+	}
+
+	public Pedido_PiezaDTO obtenerPedido_Pieza(PedidoDTO pedido, PiezaDTO pieza) {
+		Pedido_PiezaDTO pedido_pieza = null;
+		IControlPedido_Pieza iControlPedido_Pieza = MediadorAccionesIniciarPrograma.getControlPedido_Pieza();
+		try {
+			pedido_pieza = iControlPedido_Pieza.buscarPedido_Pieza(pedido,pieza);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pedido_pieza;
+	}
+	
+	public void actualizarReclamosFabrica(){
+		guiReclamo.actualizarReclamosFabrica();
+	}
+	public void actualizarReclamosAgente(){
+		guiReclamo.actualizarReclamosAgente();
 	}
 }

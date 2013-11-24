@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import common.DTOs.ReclamanteDTO;
+import java.awt.Toolkit;
 
 public class GUIBuscarReclamante extends JFrame{
 
@@ -30,6 +31,7 @@ public class GUIBuscarReclamante extends JFrame{
 	
 	
 	public GUIBuscarReclamante(MediadorReclamo mediadorReclamo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIBuscarReclamante.class.getResource("/cliente/Resources/Icons/1find.png")));
 		this.mediador = mediadorReclamo;
 		cargarDatos();
 		initialize();

@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUINotificacion extends JFrame {
 
@@ -22,13 +24,6 @@ public class GUINotificacion extends JFrame {
 	private JButton btnCompletada;
 
 	public GUINotificacion(MediadorEjecutarNotificacion mediador,String titulo, String text) {
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-		this.addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent we){
-				posponer();
-			}
-		});
 		this.setMediador(mediador);
 		initialize();
 		setVisible(false);
@@ -39,13 +34,22 @@ public class GUINotificacion extends JFrame {
 		setResizable(false);
 		setType(Type.POPUP);
 		setBounds(100, 100, 375, 270);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUINotificacion.class.getResource("/cliente/Resources/Icons/notificaciones.png")));
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent we){
+				posponer();
+			}
+		});
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		btnCompletada = new JButton("COMPLETADA");
-		btnCompletada.setBounds(10, 208, 124, 23);
+		btnCompletada.setIcon(new ImageIcon(GUINotificacion.class.getResource("/cliente/Resources/Icons/Check.png")));
+		btnCompletada.setBounds(10, 210, 145, 25);
 		btnCompletada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediador.setCompletada(true);
@@ -56,7 +60,8 @@ public class GUINotificacion extends JFrame {
 		contentPane.add(btnCompletada);
 		
 		btnPosponer = new JButton("POSPONER");
-		btnPosponer.setBounds(236, 208, 124, 23);
+		btnPosponer.setIcon(new ImageIcon(GUINotificacion.class.getResource("/cliente/Resources/Icons/posponer.png")));
+		btnPosponer.setBounds(214, 210, 145, 25);
 		btnPosponer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				posponer();

@@ -31,6 +31,8 @@ import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
 import common.DTOs.ReclamoDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIModificarPedidoEntidad extends JFrame {
 
@@ -122,7 +124,9 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		setTitle("MODIFICAR PEDIDO ENTIDAD");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 865, 700);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit_pedido_entidad.png")));
 		getContentPane().setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel lblFechaSolicitud = new JLabel("Fecha Solicitud Pedido");
 		lblFechaSolicitud.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -143,21 +147,23 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		tfNumeroOrden.setColumns(10);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(300, 630, 110, 20);
+		btnCancelar.setBounds(259, 630, 110, 20);
 		getContentPane().add(btnCancelar);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
 			}
 		});
-		btnModificar.setBounds(440, 630, 110, 20);
+		btnModificar.setBounds(479, 630, 110, 20);
 		getContentPane().add(btnModificar);
 		
 		JLabel lblNumeroPedido = new JLabel("Numero Pedido");
@@ -174,7 +180,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		JPanel panel_piezas = new JPanel();
 		panel_piezas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_piezas.setBounds(10, 105, 415, 515);
+		panel_piezas.setBounds(10, 105, 424, 515);
 		getContentPane().add(panel_piezas);
 		panel_piezas.setLayout(null);
 		
@@ -275,12 +281,13 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_piezas.add(lblEstadoPedido);
 		
 		JButton btnModificarPieza = new JButton("Modificar");
+		btnModificarPieza.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificarPieza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarPieza();
 			}
 		});
-		btnModificarPieza.setBounds(310, 40, 90, 20);
+		btnModificarPieza.setBounds(305, 40, 110, 20);
 		panel_piezas.add(btnModificarPieza);
 		
 		tfEstado_Pedido = new JTextField();
@@ -297,7 +304,7 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		
 		JPanel panel_claves_foraneas = new JPanel();
 		panel_claves_foraneas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel_claves_foraneas.setBounds(425, 105, 415, 515);
+		panel_claves_foraneas.setBounds(438, 105, 402, 515);
 		getContentPane().add(panel_claves_foraneas);
 		panel_claves_foraneas.setLayout(null);
 		

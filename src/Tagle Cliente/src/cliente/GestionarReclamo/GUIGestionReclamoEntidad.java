@@ -38,6 +38,8 @@ import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIGestionReclamoEntidad extends JFrame {
 
@@ -67,6 +69,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 	private Vector<Integer> anchos;
 
 	public GUIGestionReclamoEntidad(MediadorReclamo mediadorReclamo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/reclamo.png")));
 		this.setMediadorReclamo(mediadorReclamo);
 		cargarDatos();
 		initialize();
@@ -273,6 +276,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(scrollPaneTabla);
 
 		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/1refresh.png")));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				actualizarDatos();
@@ -282,6 +286,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(btnActualizar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminar();
@@ -291,6 +296,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(btnEliminar);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modificar();
@@ -300,6 +306,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(btnModificar);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				agregarNuevoReclamoEntidad();
@@ -309,6 +316,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(btnAgregar);
 		
 		JButton btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -318,6 +326,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(btnVolver);
 		
 		JButton btnImprimir = new JButton("Imprimir");
+		btnImprimir.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/printer.png")));
 		btnImprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -331,6 +340,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		contentPane.add(btnImprimir);
 		
 		JButton btnVer = new JButton("Ver Reclamante");
+		btnVer.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
 		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				verReclamante();
@@ -580,7 +590,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		int row = tablaReclamo.getSelectedRow();
 		if (row >= 0) {
 			Long id = new Long (tablaReclamo.getValueAt(row, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Reclamo [ID:"+id+"]?, Esto eliminara todos sus componenetes.", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Reclamo [ID:"+id+"]?, Esto eliminara todos sus componenetes.", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/delete.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.eliminarReclamoEntidad(id);
 				actualizarDatos();
 			}
@@ -594,7 +604,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		if (row >= 0) {
 			int aux = tablaReclamo.convertRowIndexToModel(row);
 			Long id = new Long (tablaReclamo.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Reclamo [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Modificar Reclamo [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.modificarReclamoEntidad(id);;
 				actualizarDatos();
 			}

@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 public class GUIAltaVehiculo extends JFrame {
 	
@@ -89,7 +90,7 @@ public class GUIAltaVehiculo extends JFrame {
 	
 	private void initialize() {
 		setResizable(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaVehiculo.class.getResource("/cliente/imagenes/del_user.ico")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaVehiculo.class.getResource("/cliente/Resources/Icons/add_vehiculo.png")));
 		setTitle("AGREGAR VEHICULO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 410, 240);
@@ -124,6 +125,7 @@ public class GUIAltaVehiculo extends JFrame {
 		contentPane.add(lblModelo);
 		
 		JButton btnCrearUsuario = new JButton("Crear");
+		btnCrearUsuario.setIcon(new ImageIcon(GUIAltaVehiculo.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				agregarVehiculo();
@@ -133,6 +135,7 @@ public class GUIAltaVehiculo extends JFrame {
 		contentPane.add(btnCrearUsuario);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIAltaVehiculo.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();

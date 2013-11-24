@@ -17,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 import common.DTOs.OrdenDTO;
 import common.DTOs.RecursoDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIModificarOrden extends JFrame {
 
@@ -38,6 +40,7 @@ public class GUIModificarOrden extends JFrame {
 	private JDateChooser cdFechaRecurso;
 	
 	public GUIModificarOrden(final MediadorOrden medidador, OrdenDTO orden) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/edit_orden.png")));
 		this.orden = orden;
 		this.mediador = medidador;
 		initialize();
@@ -86,21 +89,23 @@ public class GUIModificarOrden extends JFrame {
 		contentPane.add(fecha_apertura);
 		
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(110, 207, 110, 20);
+		btnCancelar.setBounds(58, 207, 110, 20);
 		contentPane.add(btnCancelar);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarOrden();
 			}
 		});
-		btnModificar.setBounds(259, 207, 110, 20);
+		btnModificar.setBounds(278, 207, 110, 20);
 		contentPane.add(btnModificar);
 		
 		lblFcierre = new JLabel("Fecha Cierre");

@@ -20,6 +20,8 @@ import com.toedter.calendar.JDateChooser;
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
 import common.DTOs.ReclamoDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIAltaPedidoEntidad extends JFrame {
 
@@ -65,6 +67,8 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		setTitle("AGREGAR PEDIDO ENTIDAD");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/add_pedido_entidad.png")));
+		setLocationRelativeTo(null);
 		setBounds(100, 100, 446, 362);
 		getContentPane().setLayout(null);
 		
@@ -100,12 +104,13 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		tfReclamo.setColumns(10);
 		
 		btnBuscarReclamo = new JButton("Buscar");
+		btnBuscarReclamo.setIcon(new ImageIcon(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnBuscarReclamo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarReclamoEntidad();
 			}
 		});
-		btnBuscarReclamo.setBounds(307, 72, 87, 22);
+		btnBuscarReclamo.setBounds(307, 72, 110, 20);
 		getContentPane().add(btnBuscarReclamo);
 		
 		JLabel lblPiezas = new JLabel("Piezas");
@@ -120,39 +125,43 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		getContentPane().add(cbPiezas);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				agregar();
 			}
 		});
-		btnAgregar.setBounds(307, 103, 89, 20);
+		btnAgregar.setBounds(307, 103, 110, 20);
 		getContentPane().add(btnAgregar);
 		
 		btnQuitar = new JButton("Quitar");
+		btnQuitar.setIcon(new ImageIcon(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnQuitar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				quitar();
 			}
 		});
-		btnQuitar.setBounds(307, 127, 89, 20);
+		btnQuitar.setBounds(307, 127, 110, 20);
 		getContentPane().add(btnQuitar);
 		
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(98, 283, 110, 20);
+		btnCancelar.setBounds(54, 283, 110, 20);
 		getContentPane().add(btnCancelar);
 		
 		btnCrear = new JButton("Crear");
+		btnCrear.setIcon(new ImageIcon(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				crear();
 			}
 		});
-		btnCrear.setBounds(236, 283, 110, 20);
+		btnCrear.setBounds(273, 283, 110, 20);
 		getContentPane().add(btnCrear);
 		
 		lblNumeroPieza = new JLabel("Numero Pieza");

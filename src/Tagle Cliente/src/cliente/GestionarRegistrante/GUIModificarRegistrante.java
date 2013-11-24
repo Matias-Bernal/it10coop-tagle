@@ -20,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import common.DTOs.AgenteDTO;
 import common.DTOs.EntidadDTO;
 import common.DTOs.RegistranteDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIModificarRegistrante extends JFrame {
 
@@ -37,9 +39,10 @@ public class GUIModificarRegistrante extends JFrame {
 	 * @wbp.parser.constructor
 	 */
 	public GUIModificarRegistrante(final MediadorRegistrante mediadorRegistrante, AgenteDTO agente) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarRegistrante.class.getResource("/cliente/Resources/Icons/edit_registrante.png")));
 		this.mediador = mediadorRegistrante;
 		registrante = agente;
-		setTitle("MODIFICAR AGENTE");
+		setTitle("MODIFICAR REGISTRANTE");
 		initialize();
 		tFnombre_usuario.setText(registrante.getNombre_registrante());
 		comboBox.setSelectedItem("Agente");
@@ -72,11 +75,11 @@ public class GUIModificarRegistrante extends JFrame {
 		
 		JLabel lblNombreDelRegistrante = new JLabel("Nombre Del Registrante");
 		lblNombreDelRegistrante.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombreDelRegistrante.setBounds(0, 10, 130, 20);
+		lblNombreDelRegistrante.setBounds(0, 10, 156, 20);
 		contentPane.add(lblNombreDelRegistrante);
 		
 		tFnombre_usuario = new JTextField();
-		tFnombre_usuario.setBounds(135, 10, 250, 20);
+		tFnombre_usuario.setBounds(155, 10, 230, 20);
 		tFnombre_usuario.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {
 				if (tFnombre_usuario.getText().length()>=limite){
@@ -101,10 +104,11 @@ public class GUIModificarRegistrante extends JFrame {
 		
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTipo.setBounds(0, 40, 130, 20);
+		lblTipo.setBounds(0, 40, 156, 20);
 		contentPane.add(lblTipo);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarRegistrante.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modificar();
@@ -114,6 +118,7 @@ public class GUIModificarRegistrante extends JFrame {
 		contentPane.add(btnModificar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIModificarRegistrante.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -131,7 +136,7 @@ public class GUIModificarRegistrante extends JFrame {
 		comboBox = new JComboBox<String>();
 		comboBox.setEnabled(false);
 		comboBox.setModel(new DefaultComboBoxModel<String>(tiposRegistrantes));
-		comboBox.setBounds(135, 41, 253, 20);
+		comboBox.setBounds(155, 41, 233, 20);
 		contentPane.add(comboBox);
 	
 	}

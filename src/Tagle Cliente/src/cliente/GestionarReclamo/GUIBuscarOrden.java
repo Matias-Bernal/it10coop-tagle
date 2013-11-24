@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import common.DTOs.OrdenDTO;
+import java.awt.Toolkit;
 
 public class GUIBuscarOrden extends JFrame {
 
@@ -29,6 +30,7 @@ public class GUIBuscarOrden extends JFrame {
 	private DefaultTableModel modelo;
 	
 	public GUIBuscarOrden(MediadorReclamo mediadorReclamo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIBuscarOrden.class.getResource("/cliente/Resources/Icons/1find.png")));
 		this.mediador = mediadorReclamo;
 		cargarDatos();
 		initialize();

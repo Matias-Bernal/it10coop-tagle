@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 public class GUIAltaUsuario extends JFrame {
 
@@ -58,7 +59,7 @@ public class GUIAltaUsuario extends JFrame {
 	}
 	
 	private void initialize() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaUsuario.class.getResource("/cliente/imagenes/add_user.ico")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaUsuario.class.getResource("/cliente/Resources/Icons/add_users.png")));
 		setTitle("AGREGAR USUARIO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
@@ -70,7 +71,7 @@ public class GUIAltaUsuario extends JFrame {
 		
 		JLabel lblNombreDeUsuario = new JLabel("Nombre De Usuario");
 		lblNombreDeUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombreDeUsuario.setBounds(0, 10, 135, 20);
+		lblNombreDeUsuario.setBounds(0, 10, 145, 20);
 		contentPane.add(lblNombreDeUsuario);
 		
 		tFnombre_usuario = new JTextField();
@@ -90,13 +91,13 @@ public class GUIAltaUsuario extends JFrame {
 			public void keyReleased(KeyEvent arg0) {				
 			}
 		});
-		tFnombre_usuario.setBounds(135, 10, 250, 20);
+		tFnombre_usuario.setBounds(145, 10, 250, 20);
 		contentPane.add(tFnombre_usuario);
 		tFnombre_usuario.setColumns(10);
 		
 		JLabel lblContrasea = new JLabel("Contrasena");
 		lblContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-		lblContrasea.setBounds(0, 40, 135, 20);
+		lblContrasea.setBounds(0, 40, 145, 20);
 		contentPane.add(lblContrasea);
 		
 		passwordField = new JPasswordField();
@@ -117,7 +118,7 @@ public class GUIAltaUsuario extends JFrame {
 			public void keyReleased(KeyEvent arg0) {				
 			}
 		});
-		passwordField.setBounds(135, 40, 250, 20);
+		passwordField.setBounds(145, 40, 250, 20);
 		contentPane.add(passwordField);
 		
 		passwordFieldConfirm = new JPasswordField();
@@ -138,17 +139,17 @@ public class GUIAltaUsuario extends JFrame {
 			public void keyReleased(KeyEvent arg0) {				
 			}
 		});
-		passwordFieldConfirm.setBounds(135, 70, 250, 20);
+		passwordFieldConfirm.setBounds(145, 70, 250, 20);
 		contentPane.add(passwordFieldConfirm);
 		
 		JLabel lblConfirmar = new JLabel("Confirmar Contrasena");
 		lblConfirmar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConfirmar.setBounds(0, 70, 135, 20);
+		lblConfirmar.setBounds(0, 70, 145, 20);
 		contentPane.add(lblConfirmar);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmail.setBounds(0, 100, 135, 20);
+		lblEmail.setBounds(0, 100, 145, 20);
 		contentPane.add(lblEmail);
 		
 		tFemail = new JTextField();
@@ -168,11 +169,12 @@ public class GUIAltaUsuario extends JFrame {
 			public void keyReleased(KeyEvent arg0) {				
 			}
 		});
-		tFemail.setBounds(135, 100, 250, 20);
+		tFemail.setBounds(145, 100, 250, 20);
 		contentPane.add(tFemail);
 		tFemail.setColumns(10);
 		
 		JButton btnCrearUsuario = new JButton("Crear");
+		btnCrearUsuario.setIcon(new ImageIcon(GUIAltaUsuario.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				crear();
@@ -182,6 +184,7 @@ public class GUIAltaUsuario extends JFrame {
 		contentPane.add(btnCrearUsuario);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIAltaUsuario.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -192,13 +195,13 @@ public class GUIAltaUsuario extends JFrame {
 
 		JLabel lblTipoUsuario = new JLabel("Tipo Usuario");
 		lblTipoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTipoUsuario.setBounds(0, 131, 135, 20);
+		lblTipoUsuario.setBounds(0, 131, 145, 20);
 		contentPane.add(lblTipoUsuario);
 		contentPane.setVisible(true);
 		
 		comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<String>(tiposUsuarios));
-		comboBox.setBounds(135, 131, 154, 20);
+		comboBox.setBounds(145, 131, 154, 20);
 		contentPane.add(comboBox);
 		
 	}

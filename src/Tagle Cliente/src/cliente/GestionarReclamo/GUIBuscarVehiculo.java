@@ -16,6 +16,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import common.DTOs.VehiculoDTO;
+import java.awt.Toolkit;
 
 public class GUIBuscarVehiculo extends JFrame{
 
@@ -31,6 +32,8 @@ public class GUIBuscarVehiculo extends JFrame{
 	
 	
 	public GUIBuscarVehiculo(MediadorReclamo mediadorReclamo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIBuscarVehiculo.class.getResource("/cliente/Resources/Icons/1find.png")));
+		setTitle("BUSCAR VEHICULO");
 
 		this.mediador = mediadorReclamo;
 		cargarDatos();

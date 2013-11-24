@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import java.awt.event.KeyAdapter;
 
 public class GUILogin extends JFrame{
 
@@ -38,8 +40,8 @@ public class GUILogin extends JFrame{
 	private void initialize() {
 		
 		LoginFrame = new JFrame();
+		LoginFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUILogin.class.getResource("/cliente/Resources/Icons/login.png")));
 		LoginFrame.setTitle("LOGIN");
-		LoginFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUILogin.class.getResource("/cliente/imagenes/tagle.ico")));
 		LoginFrame.setResizable(false);
 		LoginFrame.setMinimumSize(new Dimension(375, 225));
 		LoginFrame.setLocationRelativeTo(null);
@@ -114,6 +116,14 @@ public class GUILogin extends JFrame{
 		jPanel_sur.setLayout(gbl_jPanel_sur);
 		
 		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER)
+					login();
+			}
+		});
+		btnAceptar.setIcon(new ImageIcon(GUILogin.class.getResource("/cliente/Resources/Icons/Check.png")));
 		btnAceptar.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -128,6 +138,7 @@ public class GUILogin extends JFrame{
 		jPanel_sur.add(btnAceptar, gbc_btnAceptar);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setIcon(new ImageIcon(GUILogin.class.getResource("/cliente/Resources/Icons/exit_1.png")));
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				LoginFrame.dispose();
