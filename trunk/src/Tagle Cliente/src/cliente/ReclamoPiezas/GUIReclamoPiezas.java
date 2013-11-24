@@ -21,33 +21,44 @@ import common.DTOs.Pedido_PiezaDTO;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ImageIcon;
 
 public class GUIReclamoPiezas extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private MediadorReclamoPiezas mediador;
-	private NuevoReclamoFabrica reclamo_fabrica;
-	private NuevoReclamoAgente reclamo_agente;
+	private GUINuevoReclamoFabrica reclamo_fabrica;
+	private GUINuevoReclamoAgente reclamo_agente;
 	
-	private JTable tabla_reclamos_fabrica_A;
-	private Vector<Vector<String>> datosTabla_A;
-	private Vector<String> nombreColumnas_A;
-	private DefaultTableModel modelo_A;
-	private Vector<Integer> anchos_A;
-	private Vector<Pedido_PiezaDTO> pedidos_piezas_A;
+	//tabla reclamos a fabrica
+	private JPanel reclamos_Fabrica;
+	private JTable tabla_reclamos_agentes;
+	private Vector<Vector<String>> datosTabla_reclamos_agentes;
+	private Vector<String> nombreColumnas_reclamos_agentes;
+	private DefaultTableModel modelo_reclamos_agentes;
+	private Vector<Integer> anchos_tabla_reclamo_agente;
+	private Vector<Pedido_PiezaDTO> pedidos_piezas_reclamo_agentes;
+	private JButton btnNuevoReclamoFabrica;
+	private JButton btnVerReclamosFabrica;
 	
-	
-	private JTable tabla_reclamos_fabrica_E;
-	private Vector<Vector<String>> datosTabla_E;
-	private Vector<String> nombreColumnas_E;
-	private DefaultTableModel modelo_E;
-	private Vector<Integer> anchos_E;
-	private Vector<Pedido_PiezaDTO> pedidos_piezas_E;
+	//tabla reclamos a agente
+	private JPanel reclamos_Agente;
+	private JTable tabla_reclamos_fabrica;
+	private Vector<Vector<String>> datosTabla_reclamos_fabrica;
+	private Vector<String> nombreColumnas_reclamos_fabrica;
+	private DefaultTableModel modelo_reclamos_fabrica;
+	private Vector<Integer> anchos_tabla_reclamo_fabrica;
+	private Vector<Pedido_PiezaDTO> pedidos_piezas_reclamo_fabrica;
+	private JButton btnNuevoReclamoAgente;
+	private JButton btnVerReclamosAgente;
+	private JButton btnActualizarReclamosAgente;
+	private JButton btnActualizarReclamosFabrica;
+	private JButton btnVolver;
 
 	
 	public GUIReclamoPiezas(MediadorReclamoPiezas mediadorRepuesto) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIReclamoPiezas.class.getResource("/cliente/imagenes/tagle.ico")));
-		setResizable(false);
 		mediador = mediadorRepuesto;
 		cargarDatos();
 		initialize();
@@ -59,186 +70,187 @@ public class GUIReclamoPiezas extends JFrame{
 		int mediano = 150;
 		int grande = 230;
 		
-		anchos_A = new Vector<Integer>();
-		anchos_E = new Vector<Integer>();
-		
-		nombreColumnas_A = new Vector<String>();
-		nombreColumnas_E = new Vector<String>();
-		
-		nombreColumnas_A.add("ID Pedido_Pieza");//0
-		anchos_A.add(75);
-		nombreColumnas_A.add("Numero Pedido");//1
-		anchos_A.add(mediano);		
-		nombreColumnas_A.add("Numero Pieza");//2
-		anchos_A.add(mediano);		
-		nombreColumnas_A.add("Descripcion");//3
-		anchos_A.add(grande);		
-		nombreColumnas_A.add("Numero Orden");//4
-		anchos_A.add(mediano);
-		nombreColumnas_A.add("Fecha Solicitud Fabrica");//5
-		anchos_A.add(mediano);		
-		nombreColumnas_A.add("Fecha Recepcion Fabrica");//6
-		anchos_A.add(mediano);
-		nombreColumnas_A.add("Fecha Envio Agente");//7
-		anchos_A.add(mediano);
-		nombreColumnas_A.add("Fecha Recepcion Agente");//8
-		anchos_A.add(mediano);		
-		nombreColumnas_A.add("Cantidad de Reclamos Fabrica");//9
-		anchos_A.add(chico);
-		nombreColumnas_A.add("Fecha Ultimo Reclamo Fabrica");//10
-		anchos_A.add(grande);		
-		nombreColumnas_A.add("Cantidad de Reclamos Agente");//11
-		anchos_A.add(chico);
-		nombreColumnas_A.add("Fecha Ultimo Reclamo Agente");//12
-		anchos_A.add(grande);
-		
-		nombreColumnas_E.add("ID Pedido_Pieza");//0
-		anchos_E.add(75);
-		nombreColumnas_E.add("Numero Pedido");//1
-		anchos_E.add(mediano);
-		nombreColumnas_E.add("Numero Pieza");//2
-		anchos_E.add(mediano);
-		nombreColumnas_E.add("Descripcion");//3
-		anchos_E.add(grande);
-		nombreColumnas_E.add("Numero Orden");//4
-		anchos_E.add(mediano);
-		nombreColumnas_E.add("Fecha Solicitud Fabrica");//5
-		anchos_E.add(mediano);
-		nombreColumnas_E.add("Fecha Recepcion Fabrica");//6
-		anchos_E.add(mediano);
-		nombreColumnas_E.add("Cantidad de Reclamos Fabrica");//7
-		anchos_E.add(chico);
-		nombreColumnas_E.add("Fecha Ultimo Reclamo Fabrica");//8
-		anchos_E.add(grande);
-		
+		//TABLA RECLAMOS FABRICA
+		anchos_tabla_reclamo_fabrica = new Vector<Integer>();	
+		nombreColumnas_reclamos_fabrica = new Vector<String>();
 
+		nombreColumnas_reclamos_fabrica.add("ID Pedido_Pieza");//0
+		anchos_tabla_reclamo_fabrica.add(75);
+		nombreColumnas_reclamos_fabrica.add("Numero Pedido");//1
+		anchos_tabla_reclamo_fabrica.add(mediano);
+		nombreColumnas_reclamos_fabrica.add("Numero Pieza");//2
+		anchos_tabla_reclamo_fabrica.add(mediano);
+		nombreColumnas_reclamos_fabrica.add("Descripcion");//3
+		anchos_tabla_reclamo_fabrica.add(grande);
+		nombreColumnas_reclamos_fabrica.add("Estado Pedido");//4
+		anchos_tabla_reclamo_fabrica.add(grande);
+		nombreColumnas_reclamos_fabrica.add("Numero Orden");//5
+		anchos_tabla_reclamo_fabrica.add(mediano);
+		nombreColumnas_reclamos_fabrica.add("Registrante");//6
+		anchos_tabla_reclamo_fabrica.add(grande);
+		nombreColumnas_reclamos_fabrica.add("Fecha Solicitud Fabrica");//7
+		anchos_tabla_reclamo_fabrica.add(mediano);
+		nombreColumnas_reclamos_fabrica.add("Fecha Recepcion Fabrica");//8
+		anchos_tabla_reclamo_fabrica.add(mediano);
+		nombreColumnas_reclamos_fabrica.add("Cantidad de Reclamos Fabrica");//9
+		anchos_tabla_reclamo_fabrica.add(chico);
+		nombreColumnas_reclamos_fabrica.add("Fecha Ultimo Reclamo Fabrica");//10
+		anchos_tabla_reclamo_fabrica.add(grande);
 		
-		modelo_A = new DefaultTableModel();
-		modelo_E = new DefaultTableModel();
+		modelo_reclamos_fabrica = new DefaultTableModel();
+		datosTabla_reclamos_fabrica = new Vector<Vector<String>>();
+		pedidos_piezas_reclamo_fabrica = mediador.obtenerPedido_Pieza();
 		
-		datosTabla_A = new Vector<Vector<String>>();
-		datosTabla_E = new Vector<Vector<String>>();
-
-		pedidos_piezas_A = mediador.obtenerPedido_Pieza_Agente();
-		pedidos_piezas_E = mediador.obtenerPedido_Pieza_Entidad();
-		
-		for (int i=0; i< pedidos_piezas_E.size();i++){
+		for (int i=0; i< pedidos_piezas_reclamo_fabrica.size();i++){
 			Vector<String> row = new Vector<String> ();
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 			
-			row.add(pedidos_piezas_E.elementAt(i).getId().toString());//ID Pedido_Pieza
-			row.add(pedidos_piezas_E.elementAt(i).getNumero_pedido());//Numero Pedido
-			row.add(pedidos_piezas_E.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
-			row.add(pedidos_piezas_E.elementAt(i).getPieza().getDescripcion());//Descripcion
-			row.add(pedidos_piezas_E.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getId().toString());//ID Pedido_Pieza
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getNumero_pedido());//Numero Pedido
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPieza().getDescripcion());//Descripcion
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getEstado_pedido());//Estado Pedido
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
 			
-			if(pedidos_piezas_E.elementAt(i).getFecha_solicitud_fabrica()!=null){
-				java.sql.Date fSf = new java.sql.Date(pedidos_piezas_E.elementAt(i).getFecha_solicitud_fabrica().getTime());
+			if(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_solicitud_fabrica()!=null){
+				java.sql.Date fSf = new java.sql.Date(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_solicitud_fabrica().getTime());
 				row.add(format2.format(fSf));//Fecha Solicitud Fabrica
 			}else{
 				row.add("");
 			}
 			
-			if(pedidos_piezas_E.elementAt(i).getFecha_recepcion_fabrica()!=null){
-				java.sql.Date fRf = new java.sql.Date(pedidos_piezas_E.elementAt(i).getFecha_recepcion_fabrica().getTime());
+			if(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_recepcion_fabrica()!=null){
+				java.sql.Date fRf = new java.sql.Date(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_recepcion_fabrica().getTime());
 				row.add(format2.format(fRf));//Fecha Recepcion Fabrica
 			}else{
 				row.add("");
 			}
 			
-			row.add(mediador.cantidadReclamosFabrica(pedidos_piezas_E.elementAt(i)).toString());
+			row.add(mediador.cantidadReclamosFabrica(pedidos_piezas_reclamo_fabrica.elementAt(i)).toString());
 						
-			Date fecha_ultimo_reclamo_fabrica = mediador.obtenerUltimoReclamoFabrica(pedidos_piezas_E.elementAt(i));
+			Date fecha_ultimo_reclamo_fabrica = mediador.obtenerUltimoReclamoFabrica(pedidos_piezas_reclamo_fabrica.elementAt(i));
 			if(fecha_ultimo_reclamo_fabrica!=null){
 				row.add(format2.format(fecha_ultimo_reclamo_fabrica.getTime()));//Fecha Ultimo Reclamo Fabrica
 			}else{
 				row.add("");
 			}
-			
-			datosTabla_E.add(row);
+			datosTabla_reclamos_fabrica.add(row);
 		}
-		modelo_E.setDataVector(datosTabla_E, nombreColumnas_E);
-		modelo_E.fireTableStructureChanged();
+		modelo_reclamos_fabrica.setDataVector(datosTabla_reclamos_fabrica, nombreColumnas_reclamos_fabrica);
+		modelo_reclamos_fabrica.fireTableStructureChanged();
 		
-		for (int i=0; i< pedidos_piezas_A.size();i++){
+		//TABLA RECLAMOS AGENTE
+		
+		anchos_tabla_reclamo_agente = new Vector<Integer>();
+		nombreColumnas_reclamos_agentes = new Vector<String>();
+		
+		nombreColumnas_reclamos_agentes.add("ID Pedido_Pieza");//0
+		anchos_tabla_reclamo_agente.add(75);
+		nombreColumnas_reclamos_agentes.add("Numero Pedido");//1
+		anchos_tabla_reclamo_agente.add(mediano);		
+		nombreColumnas_reclamos_agentes.add("Numero Pieza");//2
+		anchos_tabla_reclamo_agente.add(mediano);		
+		nombreColumnas_reclamos_agentes.add("Descripcion");//3
+		anchos_tabla_reclamo_agente.add(grande);
+		nombreColumnas_reclamos_agentes.add("Estado Pedido");//4
+		anchos_tabla_reclamo_agente.add(grande);
+		nombreColumnas_reclamos_agentes.add("Numero Orden");//5
+		anchos_tabla_reclamo_agente.add(mediano);
+		nombreColumnas_reclamos_agentes.add("Registrante");//6
+		anchos_tabla_reclamo_agente.add(grande);
+		nombreColumnas_reclamos_agentes.add("Fecha Solicitud Fabrica");//7
+		anchos_tabla_reclamo_agente.add(mediano);		
+		nombreColumnas_reclamos_agentes.add("Fecha Recepcion Fabrica");//8
+		anchos_tabla_reclamo_agente.add(mediano);
+		nombreColumnas_reclamos_agentes.add("Fecha Envio Agente");//9
+		anchos_tabla_reclamo_agente.add(mediano);
+		nombreColumnas_reclamos_agentes.add("Fecha Recepcion Agente");//10
+		anchos_tabla_reclamo_agente.add(mediano);		
+		nombreColumnas_reclamos_agentes.add("Cantidad de Reclamos Agente");//11
+		anchos_tabla_reclamo_agente.add(chico);
+		nombreColumnas_reclamos_agentes.add("Fecha Ultimo Reclamo Agente");//12
+		anchos_tabla_reclamo_agente.add(grande);
+		
+		datosTabla_reclamos_agentes = new Vector<Vector<String>>();
+		modelo_reclamos_agentes = new DefaultTableModel();
+		pedidos_piezas_reclamo_agentes = mediador.obtenerPedido_Pieza_Agente();
+
+		for (int i=0; i< pedidos_piezas_reclamo_agentes.size();i++){
 			Vector<String> row = new Vector<String> ();
 			
 			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
 			
-			row.add(pedidos_piezas_A.elementAt(i).getId().toString());//ID Pedido_Pieza
-			row.add(pedidos_piezas_A.elementAt(i).getNumero_pedido());//Numero Pedido
-			row.add(pedidos_piezas_A.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
-			row.add(pedidos_piezas_A.elementAt(i).getPieza().getDescripcion());//Descripcion
-			row.add(pedidos_piezas_A.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
-			
-			if(pedidos_piezas_A.elementAt(i).getFecha_solicitud_fabrica()!=null){
-				java.sql.Date fSf = new java.sql.Date(pedidos_piezas_A.elementAt(i).getFecha_solicitud_fabrica().getTime());
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getId().toString());//ID Pedido_Pieza
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getNumero_pedido());//Numero Pedido
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPieza().getDescripcion());//Descripcion
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getEstado_pedido());//Estado Pedido
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_solicitud_fabrica()!=null){
+				java.sql.Date fSf = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_solicitud_fabrica().getTime());
 				row.add(format2.format(fSf));//Fecha Solicitud Fabrica
 			}else{
 				row.add("");
 			}
 			
-			if(pedidos_piezas_A.elementAt(i).getFecha_recepcion_fabrica()!=null){
-				java.sql.Date fRf = new java.sql.Date(pedidos_piezas_A.elementAt(i).getFecha_recepcion_fabrica().getTime());
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_fabrica()!=null){
+				java.sql.Date fRf = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_fabrica().getTime());
 				row.add(format2.format(fRf));//Fecha Recepcion Fabrica
 			}else{
 				row.add("");
 			}
 			
-			if(pedidos_piezas_A.elementAt(i).getFecha_envio_agente()!=null){
-				java.sql.Date fEa = new java.sql.Date(pedidos_piezas_A.elementAt(i).getFecha_envio_agente().getTime());
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_envio_agente()!=null){
+				java.sql.Date fEa = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_envio_agente().getTime());
 				row.add(format2.format(fEa));//Fecha Envio Agente
 			}else{
 				row.add("");
 			}
 			
-			if(pedidos_piezas_A.elementAt(i).getFecha_recepcion_agente()!=null){
-				java.sql.Date fRa = new java.sql.Date(pedidos_piezas_A.elementAt(i).getFecha_recepcion_agente().getTime());
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_agente()!=null){
+				java.sql.Date fRa = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_agente().getTime());
 				row.add(format2.format(fRa));//Fecha Recepcion Agente
 			}else{
 				row.add("");
 			}
 			
-			row.add(mediador.cantidadReclamosFabrica(pedidos_piezas_A.elementAt(i)).toString()); //Cantidad Reclamos Fabrica
+			row.add(mediador.cantidadReclamosAgente(pedidos_piezas_reclamo_agentes.elementAt(i)).toString());//Cantidad Reclamos Agente
 			
-			Date fecha_ultimo_reclamo_fabrica = mediador.obtenerUltimoReclamoFabrica(pedidos_piezas_A.elementAt(i));
-			if(fecha_ultimo_reclamo_fabrica!=null){
-				row.add(format2.format(fecha_ultimo_reclamo_fabrica.getTime()));//Fecha Ultimo Reclamo Fabrica
-			}else{
-				row.add("");
-			}
-			
-			row.add(mediador.cantidadReclamosAgente(pedidos_piezas_A.elementAt(i)).toString());//Cantidad Reclamos Agente
-			
-			Date fecha_ultimo_reclamo_agente = mediador.obtenerUltimoReclamoAgente(pedidos_piezas_A.elementAt(i));
+			Date fecha_ultimo_reclamo_agente = mediador.obtenerUltimoReclamoAgente(pedidos_piezas_reclamo_agentes.elementAt(i));
 			if(fecha_ultimo_reclamo_agente!=null){
 				row.add(format2.format(fecha_ultimo_reclamo_agente.getTime()));//Fecha Ultimo Reclamo Agente
 			}else{
 				row.add("");
 			}
-			datosTabla_A.add(row);
+			datosTabla_reclamos_agentes.add(row);
 		}
-		modelo_A.setDataVector(datosTabla_A, nombreColumnas_A);
-		modelo_A.fireTableStructureChanged();
+		modelo_reclamos_agentes.setDataVector(datosTabla_reclamos_agentes, nombreColumnas_reclamos_agentes);
+		modelo_reclamos_agentes.fireTableStructureChanged();
 	}
 	
 	public void initialize(){
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1161, 680);
-		setTitle("RECLAMOS");
+		setTitle("RECLAMOS DE PIEZAS");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/reclamospie.png")));
+		setResizable(false);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 1134, 620);
+		tabbedPane.setBounds(0, 0, 1155, 609);
 		getContentPane().add(tabbedPane);
 		
-		JPanel entidad = new JPanel();
-		tabbedPane.addTab("ENTIDAD", null, entidad, null);
-		entidad.setLayout(null);
+		reclamos_Fabrica = new JPanel();
+		tabbedPane.addTab("RECLAMOS A FABRICA", new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/entidad.png")), reclamos_Fabrica, null);
+		reclamos_Fabrica.setLayout(null);
 			
-		modelo_E = new DefaultTableModel(datosTabla_E, nombreColumnas_E);
+		modelo_reclamos_fabrica = new DefaultTableModel(datosTabla_reclamos_fabrica, nombreColumnas_reclamos_fabrica);
 		
-		tabla_reclamos_fabrica_E = new JTable(modelo_E) {
+		tabla_reclamos_fabrica = new JTable(modelo_reclamos_fabrica) {
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 					false, false, false, false, false, false, false, false, false, false, false, false, false
@@ -247,83 +259,72 @@ public class GUIReclamoPiezas extends JFrame{
 				return columnEditables[column];
 			}
 		};
-//		tabla_reclamos_fabrica_E.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				if (e.getClickCount() == 2)
-//					
-//					//verReclamante();
-//			    else{
-//			    	e.consume();
-//			    }   
-//			}
-//		});
-		// Agregamos el ordenador para las tablas de los usuarios
-		TableRowSorter<TableModel> ordenador_E = new TableRowSorter<TableModel>(modelo_E);
-		tabla_reclamos_fabrica_E.setRowSorter(ordenador_E);
-		//
-		tabla_reclamos_fabrica_E.getTableHeader().setReorderingAllowed(false);
-		for(int i = 0; i < tabla_reclamos_fabrica_E.getColumnCount(); i++) {
-			tabla_reclamos_fabrica_E.getColumnModel().getColumn(i).setPreferredWidth(anchos_E.elementAt(i));
-			tabla_reclamos_fabrica_E.getColumnModel().getColumn(i).setMinWidth(anchos_E.elementAt(i));
-		}
-		tabla_reclamos_fabrica_E.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		JScrollPane scrollPaneTabla_E = new JScrollPane(tabla_reclamos_fabrica_E);
-		scrollPaneTabla_E.setViewportView(tabla_reclamos_fabrica_E);
-		tabla_reclamos_fabrica_E.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
-		scrollPaneTabla_E.setBounds(0, 90, 1129, 503);
-		entidad.add(scrollPaneTabla_E);
-		
-		JButton btnModificarReclamoA = new JButton("Modificar Reclamo a Fabrica");
-		btnModificarReclamoA.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		tabla_reclamos_fabrica.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getClickCount() == 2)
+					
+					verReclamosFabrica();
+			    else{
+			    	e.consume();
+			    }   
 			}
 		});
-		btnModificarReclamoA.setBounds(215, 11, 195, 25);
-		entidad.add(btnModificarReclamoA);
+		// Agregamos el ordenador para las tablas de los usuarios
+		TableRowSorter<TableModel> ordenador_reclamos_fabrica = new TableRowSorter<TableModel>(modelo_reclamos_fabrica);
+		tabla_reclamos_fabrica.setRowSorter(ordenador_reclamos_fabrica);
+		//
+		tabla_reclamos_fabrica.getTableHeader().setReorderingAllowed(false);
+		for(int i = 0; i < tabla_reclamos_fabrica.getColumnCount(); i++) {
+			tabla_reclamos_fabrica.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_reclamo_fabrica.elementAt(i));
+			tabla_reclamos_fabrica.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_reclamo_fabrica.elementAt(i));
+		}
+		tabla_reclamos_fabrica.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JButton btnHacerReclamoFabrica = new JButton("Crear Reclamo a Fabrica");
-		btnHacerReclamoFabrica.addActionListener(new ActionListener() {
+		JScrollPane scrollPaneTabla_reclamos_fabrica = new JScrollPane(tabla_reclamos_fabrica);
+		scrollPaneTabla_reclamos_fabrica.setViewportView(tabla_reclamos_fabrica);
+		tabla_reclamos_fabrica.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		scrollPaneTabla_reclamos_fabrica.setBounds(0, 50, 1140, 513);
+		reclamos_Fabrica.add(scrollPaneTabla_reclamos_fabrica);
+		
+		btnNuevoReclamoFabrica = new JButton("Nuevo Reclamo a Fabrica");
+		btnNuevoReclamoFabrica.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/new_reclamo.png")));
+		btnNuevoReclamoFabrica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				crearReclamoFabricaE();
+				crearReclamoFabrica();
 			}
 		});
-		btnHacerReclamoFabrica.setBounds(10, 11, 195, 25);
-		entidad.add(btnHacerReclamoFabrica);
+		btnNuevoReclamoFabrica.setBounds(10, 11, 215, 25);
+		reclamos_Fabrica.add(btnNuevoReclamoFabrica);
 		
-		JButton btnEliminarReclamoA = new JButton("Eliminar Reclamo a Fabrica");
-		btnEliminarReclamoA.addActionListener(new ActionListener() {
+		btnActualizarReclamosFabrica = new JButton("Actualizar");
+		btnActualizarReclamosFabrica.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/1refresh.png")));
+		btnActualizarReclamosFabrica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				actualizarReclamosFabrica();
 			}
 		});
-		btnEliminarReclamoA.setBounds(420, 11, 195, 25);
-		entidad.add(btnEliminarReclamoA);
+		btnActualizarReclamosFabrica.setBounds(990, 11, 150, 25);
+		reclamos_Fabrica.add(btnActualizarReclamosFabrica);
 		
-		JButton button_3 = new JButton("Actualizar");
-		button_3.addActionListener(new ActionListener() {
+		btnVerReclamosFabrica = new JButton("Ver Reclamo/s a Fabrica");
+		btnVerReclamosFabrica.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
+		btnVerReclamosFabrica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				verReclamosFabrica();
 			}
 		});
-		button_3.setBounds(965, 11, 150, 25);
-		entidad.add(button_3);
+		btnVerReclamosFabrica.setBounds(250, 11, 215, 25);
+		reclamos_Fabrica.add(btnVerReclamosFabrica);
 		
-		JButton btnVerReclamosA = new JButton("Ver Reclamo/s a Fabrica");
-		btnVerReclamosA.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnVerReclamosA.setBounds(625, 11, 195, 25);
-		entidad.add(btnVerReclamosA);
-		
-		JPanel agente = new JPanel();
-		tabbedPane.addTab("AGENTE", null, agente, null);
-		agente.setLayout(null);
+		reclamos_Agente = new JPanel();
+		tabbedPane.addTab("RECLAMOS A AGENTE", new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/registrante_solo.png")), reclamos_Agente, null);
+		reclamos_Agente.setLayout(null);
 				
-		modelo_A = new DefaultTableModel(datosTabla_A, nombreColumnas_A);
+		modelo_reclamos_agentes = new DefaultTableModel(datosTabla_reclamos_agentes, nombreColumnas_reclamos_agentes);
 		
-		tabla_reclamos_fabrica_A = new JTable(modelo_A) {
+		tabla_reclamos_agentes = new JTable(modelo_reclamos_agentes) {
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 					false, false, false, false, false, false, false, false, false, false, false, false, false
@@ -332,133 +333,236 @@ public class GUIReclamoPiezas extends JFrame{
 				return columnEditables[column];
 			}
 		};
-//		tabla_reclamos_fabrica_A.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				if (e.getClickCount() == 2)
-//					
-//					//verReclamante();
-//			    else{
-//			    	e.consume();
-//			    }   
-//			}
-//		});
+		tabla_reclamos_agentes.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getClickCount() == 2)
+					verReclamosAgente();
+			    else{
+			    	e.consume();
+			    }   
+			}
+		});
 		// Agregamos el ordenador para las tablas de los usuarios
-		TableRowSorter<TableModel> ordenador_A = new TableRowSorter<TableModel>(modelo_A);
-		tabla_reclamos_fabrica_A.setRowSorter(ordenador_A);
+		TableRowSorter<TableModel> ordenador_reclamos_agentes = new TableRowSorter<TableModel>(modelo_reclamos_agentes);
+		tabla_reclamos_agentes.setRowSorter(ordenador_reclamos_agentes);
 		//
-		tabla_reclamos_fabrica_A.getTableHeader().setReorderingAllowed(false);
-		for(int i = 0; i < tabla_reclamos_fabrica_A.getColumnCount(); i++) {
-			tabla_reclamos_fabrica_A.getColumnModel().getColumn(i).setPreferredWidth(anchos_A.elementAt(i));
-			tabla_reclamos_fabrica_A.getColumnModel().getColumn(i).setMinWidth(anchos_A.elementAt(i));
+		tabla_reclamos_agentes.getTableHeader().setReorderingAllowed(false);
+		for(int i = 0; i < tabla_reclamos_agentes.getColumnCount(); i++) {
+			tabla_reclamos_agentes.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_reclamo_agente.elementAt(i));
+			tabla_reclamos_agentes.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_reclamo_agente.elementAt(i));
 		}
-		tabla_reclamos_fabrica_A.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabla_reclamos_agentes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JScrollPane scrollPaneTabla_A = new JScrollPane(tabla_reclamos_fabrica_A);
-		scrollPaneTabla_A.setViewportView(tabla_reclamos_fabrica_A);
-		tabla_reclamos_fabrica_A.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPaneTabla_reclamos_agentes = new JScrollPane(tabla_reclamos_agentes);
+		scrollPaneTabla_reclamos_agentes.setViewportView(tabla_reclamos_agentes);
+		tabla_reclamos_agentes.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		scrollPaneTabla_A.setBounds(0, 90, 1129, 502);
-		agente.add(scrollPaneTabla_A);
+		scrollPaneTabla_reclamos_agentes.setBounds(0, 50, 1140, 513);
+		reclamos_Agente.add(scrollPaneTabla_reclamos_agentes);
 		
-		JButton button = new JButton("Ver Reclamo/s a Fabrica");
-		button.addActionListener(new ActionListener() {
+		btnActualizarReclamosAgente = new JButton("Actualizar");
+		btnActualizarReclamosAgente.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/1refresh.png")));
+		btnActualizarReclamosAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				actualizarReclamosAgente();
 			}
 		});
-		button.setBounds(625, 11, 195, 25);
-		agente.add(button);
+		btnActualizarReclamosAgente.setBounds(990, 11, 150, 25);
+		reclamos_Agente.add(btnActualizarReclamosAgente);
 		
-		JButton button_1 = new JButton("Actualizar");
-		button_1.addActionListener(new ActionListener() {
+		btnVerReclamosAgente = new JButton("Ver Reclamo/s a Agente");
+		btnVerReclamosAgente.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
+		btnVerReclamosAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				verReclamosAgente();
 			}
 		});
-		button_1.setBounds(965, 11, 150, 25);
-		agente.add(button_1);
+		btnVerReclamosAgente.setBounds(250, 11, 215, 25);
+		reclamos_Agente.add(btnVerReclamosAgente);
 		
-		JButton button_2 = new JButton("Crear Reclamo a Fabrica");
-		button_2.addActionListener(new ActionListener() {
+		btnNuevoReclamoAgente = new JButton("Nuevo Reclamo a Agente");
+		btnNuevoReclamoAgente.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/new_reclamo.png")));
+		btnNuevoReclamoAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				crearReclamoAgente();
 			}
 		});
-		button_2.setBounds(10, 11, 195, 25);
-		agente.add(button_2);
+		btnNuevoReclamoAgente.setBounds(10, 11, 215, 25);
+		reclamos_Agente.add(btnNuevoReclamoAgente);
 		
-		JButton button_4 = new JButton("Modificar Reclamo a Fabrica");
-		button_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/back.png")));
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
 			}
 		});
-		button_4.setBounds(215, 11, 195, 25);
-		agente.add(button_4);
-		
-		JButton button_5 = new JButton("Eliminar Reclamo a Fabrica");
-		button_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button_5.setBounds(420, 11, 195, 25);
-		agente.add(button_5);
-		
-		JButton btnVerReclamosA_1 = new JButton("Ver Reclamo/s a Agente");
-		btnVerReclamosA_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnVerReclamosA_1.setBounds(625, 47, 195, 25);
-		agente.add(btnVerReclamosA_1);
-		
-		JButton btnCrearReclamoA = new JButton("Crear Reclamo a Agente");
-		btnCrearReclamoA.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int row = tabla_reclamos_fabrica_A.getSelectedRow();
-				if (row >= 0) {
-					int aux = tabla_reclamos_fabrica_A.convertRowIndexToModel(row);
-					Long id = new Long (tabla_reclamos_fabrica_A.getValueAt(aux, 0).toString());
-
-					Pedido_PiezaDTO pedido_pieza = mediador.buscarPedido_Pieza(id);
-					if(pedido_pieza!=null)
-						reclamo_agente = new NuevoReclamoAgente(mediador, pedido_pieza, mediador.getMediadorPrincipal().getUsuario());
-						reclamo_agente.setVisible(true);
-				}else{
-					JOptionPane.showMessageDialog(null,"Seleccione un usuario primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-		});
-		btnCrearReclamoA.setBounds(10, 47, 195, 25);
-		agente.add(btnCrearReclamoA);
-		
-		JButton btnModificarReclamoA_1 = new JButton("Modificar Reclamo a Agente");
-		btnModificarReclamoA_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnModificarReclamoA_1.setBounds(215, 47, 195, 25);
-		agente.add(btnModificarReclamoA_1);
-		
-		JButton btnEliminarReclamoA_1 = new JButton("Eliminar Reclamo a Agente");
-		btnEliminarReclamoA_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnEliminarReclamoA_1.setBounds(420, 47, 195, 25);
-		agente.add(btnEliminarReclamoA_1);
+		btnVolver.setBounds(515, 620, 125, 23);
+		getContentPane().add(btnVolver);
 	}
 
-	protected void crearReclamoFabricaE() {
-		int row = tabla_reclamos_fabrica_E.getSelectedRow();
+	protected void actualizarReclamosAgente() {
+		datosTabla_reclamos_agentes = new Vector<Vector<String>>();
+		pedidos_piezas_reclamo_agentes = mediador.obtenerPedido_Pieza_Agente();
+
+		for (int i=0; i< pedidos_piezas_reclamo_agentes.size();i++){
+			Vector<String> row = new Vector<String> ();
+			
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getId().toString());//ID Pedido_Pieza
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getNumero_pedido());//Numero Pedido
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPieza().getDescripcion());//Descripcion
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getEstado_pedido());//Estado Pedido
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+			row.add(pedidos_piezas_reclamo_agentes.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_solicitud_fabrica()!=null){
+				java.sql.Date fSf = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_solicitud_fabrica().getTime());
+				row.add(format2.format(fSf));//Fecha Solicitud Fabrica
+			}else{
+				row.add("");
+			}
+			
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_fabrica()!=null){
+				java.sql.Date fRf = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_fabrica().getTime());
+				row.add(format2.format(fRf));//Fecha Recepcion Fabrica
+			}else{
+				row.add("");
+			}
+			
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_envio_agente()!=null){
+				java.sql.Date fEa = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_envio_agente().getTime());
+				row.add(format2.format(fEa));//Fecha Envio Agente
+			}else{
+				row.add("");
+			}
+			
+			if(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_agente()!=null){
+				java.sql.Date fRa = new java.sql.Date(pedidos_piezas_reclamo_agentes.elementAt(i).getFecha_recepcion_agente().getTime());
+				row.add(format2.format(fRa));//Fecha Recepcion Agente
+			}else{
+				row.add("");
+			}
+			
+			row.add(mediador.cantidadReclamosAgente(pedidos_piezas_reclamo_agentes.elementAt(i)).toString());//Cantidad Reclamos Agente
+			
+			Date fecha_ultimo_reclamo_agente = mediador.obtenerUltimoReclamoAgente(pedidos_piezas_reclamo_agentes.elementAt(i));
+			if(fecha_ultimo_reclamo_agente!=null){
+				row.add(format2.format(fecha_ultimo_reclamo_agente.getTime()));//Fecha Ultimo Reclamo Agente
+			}else{
+				row.add("");
+			}
+			datosTabla_reclamos_agentes.add(row);
+		}
+		modelo_reclamos_agentes.setDataVector(datosTabla_reclamos_agentes, nombreColumnas_reclamos_agentes);
+		modelo_reclamos_agentes.fireTableStructureChanged();
+		
+		for(int i = 0; i < tabla_reclamos_fabrica.getColumnCount(); i++) {
+			tabla_reclamos_agentes.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_reclamo_agente.elementAt(i));
+			tabla_reclamos_agentes.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_reclamo_agente.elementAt(i));
+		}
+	}
+
+	protected void actualizarReclamosFabrica() {
+		datosTabla_reclamos_fabrica = new Vector<Vector<String>>();
+		pedidos_piezas_reclamo_fabrica = mediador.obtenerPedido_Pieza();
+		
+		for (int i=0; i< pedidos_piezas_reclamo_fabrica.size();i++){
+			Vector<String> row = new Vector<String> ();
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getId().toString());//ID Pedido_Pieza
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getNumero_pedido());//Numero Pedido
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPieza().getDescripcion());//Descripcion
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getEstado_pedido());//Estado Pedido
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+			row.add(pedidos_piezas_reclamo_fabrica.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+			
+			if(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_solicitud_fabrica()!=null){
+				java.sql.Date fSf = new java.sql.Date(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_solicitud_fabrica().getTime());
+				row.add(format2.format(fSf));//Fecha Solicitud Fabrica
+			}else{
+				row.add("");
+			}
+			
+			if(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_recepcion_fabrica()!=null){
+				java.sql.Date fRf = new java.sql.Date(pedidos_piezas_reclamo_fabrica.elementAt(i).getFecha_recepcion_fabrica().getTime());
+				row.add(format2.format(fRf));//Fecha Recepcion Fabrica
+			}else{
+				row.add("");
+			}
+			
+			row.add(mediador.cantidadReclamosFabrica(pedidos_piezas_reclamo_fabrica.elementAt(i)).toString());
+						
+			Date fecha_ultimo_reclamo_fabrica = mediador.obtenerUltimoReclamoFabrica(pedidos_piezas_reclamo_fabrica.elementAt(i));
+			if(fecha_ultimo_reclamo_fabrica!=null){
+				row.add(format2.format(fecha_ultimo_reclamo_fabrica.getTime()));//Fecha Ultimo Reclamo Fabrica
+			}else{
+				row.add("");
+			}
+			datosTabla_reclamos_fabrica.add(row);
+		}
+		modelo_reclamos_fabrica.setDataVector(datosTabla_reclamos_fabrica, nombreColumnas_reclamos_fabrica);
+		modelo_reclamos_fabrica.fireTableStructureChanged();
+		
+		for(int i = 0; i < tabla_reclamos_fabrica.getColumnCount(); i++) {
+			tabla_reclamos_fabrica.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_reclamo_fabrica.elementAt(i));
+			tabla_reclamos_fabrica.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_reclamo_fabrica.elementAt(i));
+		}
+		
+	}
+	protected void crearReclamoFabrica() {
+		int row = tabla_reclamos_fabrica.getSelectedRow();
 		if (row >= 0) {
-			int aux = tabla_reclamos_fabrica_E.convertRowIndexToModel(row);
-			Long id = new Long (tabla_reclamos_fabrica_E.getValueAt(aux, 0).toString());
+			int aux = tabla_reclamos_fabrica.convertRowIndexToModel(row);
+			Long id = new Long (tabla_reclamos_fabrica.getValueAt(aux, 0).toString());
 
 			Pedido_PiezaDTO pedido_pieza = mediador.buscarPedido_Pieza(id);
 			if(pedido_pieza!=null)
-				reclamo_fabrica = new NuevoReclamoFabrica(mediador, pedido_pieza, mediador.getMediadorPrincipal().getUsuario());
+				reclamo_fabrica = new GUINuevoReclamoFabrica(mediador, pedido_pieza, mediador.getMediadorPrincipal().getUsuario());
 				reclamo_fabrica.setVisible(true);
 		}else{
-			JOptionPane.showMessageDialog(null,"Seleccione un usuario primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Seleccione un reclamo primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}
-		
+	}
+	
+	protected void crearReclamoAgente(){
+		int row = tabla_reclamos_agentes.getSelectedRow();
+		if (row >= 0) {
+			int aux = tabla_reclamos_agentes.convertRowIndexToModel(row);
+			Long id = new Long (tabla_reclamos_agentes.getValueAt(aux, 0).toString());
+
+			Pedido_PiezaDTO pedido_pieza = mediador.buscarPedido_Pieza(id);
+			if(pedido_pieza!=null)
+				reclamo_agente = new GUINuevoReclamoAgente(mediador, pedido_pieza, mediador.getMediadorPrincipal().getUsuario());
+				reclamo_agente.setVisible(true);
+		}else{
+			JOptionPane.showMessageDialog(null,"Seleccione un reclamo primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	protected void verReclamosFabrica(){
+		int row = tabla_reclamos_fabrica.getSelectedRow();
+		if (row >= 0) {
+			int aux = tabla_reclamos_fabrica.convertRowIndexToModel(row);
+			Long id = new Long (tabla_reclamos_fabrica.getValueAt(aux, 0).toString());
+			mediador.verReclamosFabrica(id);
+		}else{
+			JOptionPane.showMessageDialog(null,"Seleccione un reclamo primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	protected void verReclamosAgente(){
+		int row = tabla_reclamos_agentes.getSelectedRow();
+		if (row >= 0) {
+			int aux = tabla_reclamos_agentes.convertRowIndexToModel(row);
+			Long id = new Long (tabla_reclamos_agentes.getValueAt(aux, 0).toString());
+			mediador.verReclamosAgente(id);
+		}else{
+			JOptionPane.showMessageDialog(null,"Seleccione un reclamo primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}		
 	}
 }

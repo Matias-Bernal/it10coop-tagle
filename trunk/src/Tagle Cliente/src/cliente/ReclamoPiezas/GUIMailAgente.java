@@ -25,13 +25,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import common.RootAndIp;
 import common.DTOs.UsuarioDTO;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class GUIMailAgente extends JFrame {
 
 	
 	private static final long serialVersionUID = 1L;
-	private NuevoReclamoAgente reclamo;
+	private GUINuevoReclamoAgente reclamo;
 	private UsuarioDTO usuario;
 	private JPanel contentPane;
 	private JEditorPane epCuerpo;
@@ -39,17 +42,17 @@ public class GUIMailAgente extends JFrame {
 	private JTextField tfTo;
 	private JTextField tfAsunto;
 	private JPasswordField pw_email;
+	private JButton btnCancelar;
+	private JButton btnEnviar;
 
-	public GUIMailAgente (NuevoReclamoAgente reclamo, UsuarioDTO usuario) {
+	public GUIMailAgente (GUINuevoReclamoAgente reclamo, UsuarioDTO usuario) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMailAgente.class.getResource("/cliente/Resources/Icons/mail_agente.png")));
+		setResizable(false);
 		this.reclamo = reclamo;
 		this.setUsuario(usuario);
 		initialize();
-		//tfFrom.setText(usuario.getEmail());
-		//pw_email.setText(usuario.getClave());
-
-		tfFrom.setText("payomaty666@gmail.com");
-		pw_email.setText("pass011235word");
-
+		tfFrom.setText(RootAndIp.getMailrepuestos());
+		pw_email.setText(RootAndIp.getPassrepuestos());
 	}
 	
 	public void initialize(){
@@ -70,7 +73,8 @@ public class GUIMailAgente extends JFrame {
 		contentPane.add(pw_email);
 	
 		epCuerpo = new JEditorPane();
-		epCuerpo.setText("hola viste soy un test de email");
+		epCuerpo.setText("");
+		//TODO aca agregar el cuerpo del mensaje
 		epCuerpo.setBounds(0, 0, 106, 20);
 		
 		JScrollPane scrollPane = new JScrollPane(epCuerpo);
@@ -95,58 +99,62 @@ public class GUIMailAgente extends JFrame {
 		tfFrom.setColumns(10);
 		
 		tfTo = new JTextField();
-		tfTo.setText("matiasbernal.it10@gmail.com");
+		tfTo.setText("");
 		tfTo.setBounds(80, 35, 180, 20);
 		contentPane.add(tfTo);
 		tfTo.setColumns(10);
 		
 		tfAsunto = new JTextField();
-		tfAsunto.setText("Test de envio de Email");
+		tfAsunto.setText("");
+		//TODO aca agregar el asunto del mensaje
 		tfAsunto.setBounds(80, 60, 250, 20);
 		contentPane.add(tfAsunto);
 		tfAsunto.setColumns(10);
 		
-		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar = new JButton("Enviar");
+		btnEnviar.setIcon(new ImageIcon(GUIMailAgente.class.getResource("/cliente/Resources/Icons/mail.png")));
 		btnEnviar.addActionListener(new ActionListener() {
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				if(enviarMail()){
-					JOptionPane.showMessageDialog(contentPane,"Reclamo enviado.","Informacion",JOptionPane.INFORMATION_MESSAGE);
-					reclamo.guardarReclamo();
-					dispose();
+				if(tfFrom.getText().isEmpty() || pw_email.getText().isEmpty() || tfTo.getText().isEmpty() || tfAsunto.getText().isEmpty() || epCuerpo.getText().isEmpty()){
+					JOptionPane.showMessageDialog(contentPane,"Faltan campos..","Error",JOptionPane.ERROR_MESSAGE);
 				}else{
-					JOptionPane.showMessageDialog(contentPane,"No se ha podido enviar..","Erro",JOptionPane.ERROR_MESSAGE);
+					if(enviarMail()){
+						JOptionPane.showMessageDialog(contentPane,"Reclamo enviado.","Informacion",JOptionPane.INFORMATION_MESSAGE);
+						reclamo.guardarReclamo();
+						dispose();
+					}else{
+						JOptionPane.showMessageDialog(contentPane,"No se ha podido enviar..","Error",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
-		btnEnviar.setBounds(311, 308, 89, 23);
+		btnEnviar.setBounds(330, 305, 110, 25);
 		contentPane.add(btnEnviar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIMailAgente.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(131, 308, 89, 23);
+		btnCancelar.setBounds(100, 305, 110, 25);
 		contentPane.add(btnCancelar);
 	}
 
     @SuppressWarnings("deprecation")
 	public boolean enviarMail (){
         /* Se obtienen las propiedades del Sistema */
-        String smtpHost = "smtp.gmail.com";
-        String port = "465";
         Properties props = new Properties();
         props.put("mail.smtp.user", tfFrom.getText());
         props.put("mail.smtp.password", pw_email.getText());
-        props.put("mail.smtp.host", smtpHost);
-        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", RootAndIp.getSmtpHost());
+        props.put("mail.smtp.port", RootAndIp.getSmtpserverport());
         props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", port);
-        props.put("mail.smtp.debug", "false");
-        props.put("mail.smtp.socketFactory.port", port);
-        props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
+        props.put("mail.smtp.ssl.checkserveridentity", "true");
+        props.put("mail.smtp.connectiontimeout", 30000);
+        props.put("mail.transport.protocol", "smtp");
         /*Se Obtiene una seesion con las propiedades anteririor mente definidas*/
         Session session = Session.getDefaultInstance(props,null);
         session.setDebug(false);
@@ -175,13 +183,13 @@ public class GUIMailAgente extends JFrame {
 			mensaje.setContent(multipart);
 			     
             Transport t = session.getTransport("smtp");
-            t.connect(smtpHost,tfFrom.getText(), pw_email.getText());
+            t.connect(RootAndIp.getSmtpHost(),tfFrom.getText(), pw_email.getText());
             t.sendMessage(mensaje,mensaje.getAllRecipients());
             t.close();
             return true;
         }
         catch (MessagingException e){
-            System.out.println("\n\n\n\n ERROR \n\n\n\n\n");
+        	e.printStackTrace();
             System.err.println(e.getMessage());
             return false;
         }

@@ -26,8 +26,11 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.ReclamoDTO;
+
+import java.awt.Toolkit;
 
 public class GUIReportes extends JFrame{
 
@@ -1764,6 +1767,7 @@ public class GUIReportes extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		setTitle("REPORTES");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIReportes.class.getResource("/cliente/Resources/Icons/tablas.png")));
 		setResizable(false);
 		setLocationRelativeTo(null);
 		
@@ -3719,7 +3723,6 @@ public class GUIReportes extends JFrame{
 	}
 
 	protected void filtrarAnioSDPSN() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -3844,7 +3847,6 @@ public class GUIReportes extends JFrame{
 	}
 
 	protected void filtrarHoyPDev() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -3853,23 +3855,273 @@ public class GUIReportes extends JFrame{
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void filtrarUAnioPLL() {
-		System.out.println("hoal soy un filtro de año");		
+		java.util.Date hoy = new java.util.Date();
+		java.util.Date iniAnioPasado = new java.util.Date();
+		iniAnioPasado.setYear(hoy.getYear()-1);
+		iniAnioPasado.setMonth(1);
+		iniAnioPasado.setDate(1);
+		java.util.Date finAnioPasado = new java.util.Date();
+		finAnioPasado.setYear(hoy.getYear()-1);
+		finAnioPasado.setMonth(12);
+		finAnioPasado.setDate(31);
 		
+		
+		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy"); 
+		datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+		
+		for (int i=0; i< pedidos_piezas.size();i++){
+			boolean resp = false;
+			if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}else{
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}					
+			if(resp){
+				
+				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(iniAnioPasado) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(finAnioPasado)){
+					Vector<String> row = new Vector<String> ();
+	
+					row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+					row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+					row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+					row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+					
+					if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+						java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+						row.add(format2.format(fsp));//Fecha Solicitud Pedido
+					}else{
+						row.add("");
+					}			    
+					
+					if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+						java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+						row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+					}else{
+						row.add("");
+					}
+					if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+						java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+						row.add(format2.format(frf));//Fecha Recepcion Fabrica
+					}else{
+						row.add("");
+					}
+	
+					datosTabla_piezas_llegadas.add(row);
+				}
+			}
+		}
+		modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+		modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+		
+		for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+		}		
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void filtrarUMesPLL() {
-		System.out.println("hoal soy un filtro de ultimo mes");		
+		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+		Calendar c = Calendar.getInstance();
+		c.setFirstDayOfWeek(c.SUNDAY);
+
+		java.util.Date iniUltimoMes = c.getTime();
+		iniUltimoMes.setDate(1);
 		
+		java.sql.Date hoy = new java.sql.Date(new java.util.Date().getTime());
+
+		
+		datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+		
+		for (int i=0; i< pedidos_piezas.size();i++){
+			boolean resp = false;
+			if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}else{
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}					
+			if(resp){
+				
+				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(iniUltimoMes) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(hoy)){
+					Vector<String> row = new Vector<String> ();
+	
+					row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+					row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+					row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+					row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+					
+					if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+						java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+						row.add(format2.format(fsp));//Fecha Solicitud Pedido
+					}else{
+						row.add("");
+					}			    
+					
+					if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+						java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+						row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+					}else{
+						row.add("");
+					}
+					if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+						java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+						row.add(format2.format(frf));//Fecha Recepcion Fabrica
+					}else{
+						row.add("");
+					}
+	
+					datosTabla_piezas_llegadas.add(row);
+				}
+			}
+		}
+		modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+		modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+		
+		for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+		}
 	}
 
 	protected void filtrarUSemanaPLL() {
-		System.out.println("hoal soy un filtro de ultima semana");		
+		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+		Calendar c = Calendar.getInstance();
+		c.setFirstDayOfWeek(c.SUNDAY);
+		c.add(c.WEEK_OF_YEAR, -1);
+		Calendar d = Calendar.getInstance();
+		d.setFirstDayOfWeek(d.SUNDAY);
+		d.add(d.WEEK_OF_YEAR, -1);
+
+		c.set(c.DAY_OF_WEEK,c.MONDAY);
+		java.util.Date iniSemanaPasado = c.getTime();
+		
+		d.set(d.DAY_OF_WEEK,d.FRIDAY);
+		
+		java.util.Date finSemanaPasado = d.getTime();
+		
+		
+		datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+		
+		for (int i=0; i< pedidos_piezas.size();i++){
+			boolean resp = false;
+			if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}else{
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}					
+			if(resp){
+				
+				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(iniSemanaPasado) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(finSemanaPasado)){
+					Vector<String> row = new Vector<String> ();
+	
+					row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+					row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+					row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+					row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+					
+					if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+						java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+						row.add(format2.format(fsp));//Fecha Solicitud Pedido
+					}else{
+						row.add("");
+					}			    
+					
+					if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+						java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+						row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+					}else{
+						row.add("");
+					}
+					if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+						java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+						row.add(format2.format(frf));//Fecha Recepcion Fabrica
+					}else{
+						row.add("");
+					}
+	
+					datosTabla_piezas_llegadas.add(row);
+				}
+			}
+		}
+		modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+		modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+		
+		for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+		}	
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void filtrarHoyPLL() {
-		System.out.println("hoal soy un filtro de hoy");
+		java.sql.Date hoy = new java.sql.Date(new java.util.Date().getTime());
+		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy"); 
+		datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+		
+		for (int i=0; i< pedidos_piezas.size();i++){
+			boolean resp = false;
+			if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}else{
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}					
+			if(resp){
+				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getDate()==hoy.getDate() &&
+						pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getMonth()==hoy.getMonth() &&
+							pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getYear()==hoy.getYear()){
+					Vector<String> row = new Vector<String> ();
+	
+					row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+					row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+					row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+					row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+					
+					if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+						java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+						row.add(format2.format(fsp));//Fecha Solicitud Pedido
+					}else{
+						row.add("");
+					}			    
+					
+					if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+						java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+						row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+					}else{
+						row.add("");
+					}
+					if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+						java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+						row.add(format2.format(frf));//Fecha Recepcion Fabrica
+					}else{
+						row.add("");
+					}
+	
+					datosTabla_piezas_llegadas.add(row);
+				}
+			}
+		}
+		modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+		modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+		
+		for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+		}
 	}
 
 	protected void filtrarMesAnteriorPLL() {

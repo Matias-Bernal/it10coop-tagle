@@ -6,6 +6,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,6 +41,10 @@ import com.toedter.calendar.JDateChooser;
 import common.DTOs.AgenteDTO;
 import common.DTOs.PedidoDTO;
 import common.DTOs.Pedido_PiezaDTO;
+
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
 
 public class GUIGestionPedidoAgente extends JFrame{
 
@@ -91,7 +97,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 	private DefaultComboBoxModel<String> cmbEstadoPedido;
 
 	public GUIGestionPedidoAgente(MediadorPedido mediadorRegistrante) {
-		setResizable(false);
+
 		this.mediador = mediadorRegistrante;
 		cargarDatos();
 		initialize();
@@ -101,12 +107,16 @@ public class GUIGestionPedidoAgente extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		setTitle("GESTIONAR PEDIDO AGENTE");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/pedido.png")));
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		this.setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
+		getContentPane().setLayout(null);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.setBounds(1004, 70, 250, 23);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -117,6 +127,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		contentPane.add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnEliminar.setBounds(1004, 104, 250, 23);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -139,6 +150,16 @@ public class GUIGestionPedidoAgente extends JFrame{
 				return columnEditables[column];
 			}
 		};
+		tablaPedidos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				if (e.getClickCount() == 2)
+					verReclamante();
+			    else{
+			    	e.consume();
+			    }   
+			}
+		});
 		// Agregamos el ordenador para las tablas de los usuarios
 		TableRowSorter<TableModel> ordenador = new TableRowSorter<TableModel>(modelo);
 		tablaPedidos.setRowSorter(ordenador);
@@ -159,6 +180,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		contentPane.add(scrollPaneTabla);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.setBounds(1004, 35, 250, 23);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -168,7 +190,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
-		btnImprimir.setBounds(506, 634, 150, 23);
+		btnImprimir.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/printer.png")));
+		btnImprimir.setBounds(562, 635, 150, 23);
 		btnImprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -181,7 +204,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 		contentPane.add(btnImprimir);
 		
 		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(666, 634, 150, 23);
+		btnVolver.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/back.png")));
+		btnVolver.setBounds(858, 635, 150, 23);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -190,6 +214,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		contentPane.add(btnVolver);
 		
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/1refresh.png")));
 		btnActualizar.setBounds(1004, 138, 250, 23);
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -199,7 +224,8 @@ public class GUIGestionPedidoAgente extends JFrame{
 		contentPane.add(btnActualizar);
 		
 		btnVer = new JButton("Ver Reclamante");
-		btnVer.setBounds(346, 634, 150, 23);
+		btnVer.setIcon(new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
+		btnVer.setBounds(263, 634, 150, 23);
 		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				verReclamante();
@@ -1092,7 +1118,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		if (row >= 0) {
 			int aux = tablaPedidos.convertRowIndexToModel(row);
 			Long id_pedido = new Long (tablaPedidos.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Pedido [ID:"+id_pedido+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Modificar Pedido [ID:"+id_pedido+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.modificarPedidoAgente(id_pedido);;
 				actualizarDatos();
 			}
@@ -1105,7 +1131,7 @@ public class GUIGestionPedidoAgente extends JFrame{
 		int row = tablaPedidos.getSelectedRow();
 		if (row >= 0) {
 			Long id = new Long (tablaPedidos.getValueAt(row, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Pedido [ID:"+id+"]?, Esto eliminara todos sus componenetes.", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Pedido [ID:"+id+"]?, Esto eliminara todos sus componenetes.", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionPedidoAgente.class.getResource("/cliente/Resources/Icons/delete.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.eliminarPedido(id);
 				actualizarDatos();
 			}

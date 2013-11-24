@@ -21,6 +21,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import common.DTOs.ReclamanteDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIModificarReclamante extends JFrame {
 	
@@ -40,6 +42,7 @@ public class GUIModificarReclamante extends JFrame {
 	private ReclamanteDTO reclamante;
 
 	public GUIModificarReclamante(MediadorReclamante mediadorReclamante, ReclamanteDTO reclamante, Vector<String> telefonos) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarReclamante.class.getResource("/cliente/Resources/Icons/edit_reclamante.png")));
 		this.mediador = mediadorReclamante;
 		this.reclamante = reclamante;
 		this.telefonos = new Vector<String>();
@@ -56,9 +59,9 @@ public class GUIModificarReclamante extends JFrame {
 
 
 	private void initialize() {
-		setTitle("AGREGAR RECLAMANTE");
+		setTitle("MODIFICAR RECLAMANTE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 270);
+		setBounds(100, 100, 500, 270);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,7 +87,6 @@ public class GUIModificarReclamante extends JFrame {
 			}
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -98,21 +100,23 @@ public class GUIModificarReclamante extends JFrame {
 		contentPane.add(lblEmail);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarReclamante.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modificar();
 			}
 		});
-		btnModificar.setBounds(249, 185, 110, 20);
+		btnModificar.setBounds(297, 185, 110, 20);
 		contentPane.add(btnModificar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIModificarReclamante.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(74, 185, 110, 20);
+		btnCancelar.setBounds(77, 185, 110, 20);
 		contentPane.add(btnCancelar);
 
 		JLabel lblTelefonos = new JLabel("Telefonos");
@@ -130,6 +134,7 @@ public class GUIModificarReclamante extends JFrame {
 		contentPane.add(comboBox_telefonos);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIModificarReclamante.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nuevo_telefono = (String)comboBox_telefonos.getSelectedItem();
@@ -157,10 +162,11 @@ public class GUIModificarReclamante extends JFrame {
 				}
 			}
 		});
-		btnAgregar.setBounds(334, 99, 90, 23);
+		btnAgregar.setBounds(334, 99, 110, 23);
 		contentPane.add(btnAgregar);
 		
 		JButton btnQuitar = new JButton("Quitar");
+		btnQuitar.setIcon(new ImageIcon(GUIModificarReclamante.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnQuitar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (telefonos.contains((String)comboBox_telefonos.getSelectedItem())){
@@ -173,7 +179,7 @@ public class GUIModificarReclamante extends JFrame {
 				}
 			}
 		});
-		btnQuitar.setBounds(334, 133, 90, 23);
+		btnQuitar.setBounds(334, 125, 110, 23);
 		contentPane.add(btnQuitar);
 		
 		tFEmail = new JTextField();
@@ -190,9 +196,7 @@ public class GUIModificarReclamante extends JFrame {
 				}
 			}
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void keyReleased(KeyEvent arg0) {				
 			}
 		});
 		tFEmail.setBounds(174, 40, 250, 20);
@@ -243,9 +247,7 @@ public class GUIModificarReclamante extends JFrame {
 				}
 			}
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void keyReleased(KeyEvent arg0) {				
 			}
 		});
 		tfDni.setColumns(10);
@@ -256,7 +258,6 @@ public class GUIModificarReclamante extends JFrame {
 	
 	private void modificar() {
 
-		
 		if (tFnombre_reclamante.getText().isEmpty() || tfDni.getText().isEmpty() || tFEmail.getText().isEmpty() || telefonos.isEmpty() ){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}else{

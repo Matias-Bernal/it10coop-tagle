@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIAltaReclamante extends JFrame{
 
@@ -62,7 +64,8 @@ public class GUIAltaReclamante extends JFrame{
 	private void initialize() {
 		setTitle("AGREGAR RECLAMANTE");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 270);
+		setBounds(100, 100, 500, 270);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaReclamante.class.getResource("/cliente/Resources/Icons/add_reclamante.png")));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -100,21 +103,23 @@ public class GUIAltaReclamante extends JFrame{
 		contentPane.add(lblEmail);
 		
 		JButton btnCrearUsuario = new JButton("Crear");
+		btnCrearUsuario.setIcon(new ImageIcon(GUIAltaReclamante.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				crear();
 			}
 		});
-		btnCrearUsuario.setBounds(249, 185, 110, 20);
+		btnCrearUsuario.setBounds(298, 185, 110, 20);
 		contentPane.add(btnCrearUsuario);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIAltaReclamante.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(74, 185, 110, 20);
+		btnCancelar.setBounds(78, 185, 110, 20);
 		contentPane.add(btnCancelar);
 
 		JLabel lblTelefonos = new JLabel("Telefonos");
@@ -132,6 +137,7 @@ public class GUIAltaReclamante extends JFrame{
 		contentPane.add(comboBox_telefonos);
 		
 		JButton btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIAltaReclamante.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String nuevo_telefono = (String)comboBox_telefonos.getSelectedItem();
@@ -159,10 +165,11 @@ public class GUIAltaReclamante extends JFrame{
 				}
 			}
 		});
-		btnAgregar.setBounds(334, 99, 90, 23);
+		btnAgregar.setBounds(334, 99, 110, 23);
 		contentPane.add(btnAgregar);
 		
 		JButton btnQuitar = new JButton("Quitar");
+		btnQuitar.setIcon(new ImageIcon(GUIAltaReclamante.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnQuitar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (telefonos.contains((String)comboBox_telefonos.getSelectedItem())){
@@ -175,7 +182,7 @@ public class GUIAltaReclamante extends JFrame{
 				}
 			}
 		});
-		btnQuitar.setBounds(334, 133, 90, 23);
+		btnQuitar.setBounds(334, 125, 110, 23);
 		contentPane.add(btnQuitar);
 		
 		tFEmail = new JTextField();

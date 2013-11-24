@@ -1,5 +1,8 @@
 package cliente;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -20,6 +23,7 @@ import cliente.GestionarVehiculo.MediadorVehiculo;
 import cliente.ReclamoPiezas.MediadorReclamoPiezas;
 import cliente.ReclamoRapido.MediadoReclamoRapido;
 import cliente.Reportes.MediadorReportes;
+import common.RootAndIp;
 import common.DTOs.MTelefonoDTO;
 import common.DTOs.NotificacionDTO;
 import common.DTOs.Notificacion_ReclamoDTO;
@@ -83,24 +87,27 @@ public class MediadorPrincipal{
 			IControlUsuario iControlUsuario = MediadorAccionesIniciarPrograma.getControlUsuarios();
 			if (iControlUsuario.login(usuario, contrasenia)){
 				UsuarioDTO usuarioDTO = iControlUsuario.buscarUsuario(usuario);
-//				if(usuarioDTO.getTipo().equals("Administrativo")){
-//					notificacionesContencion = true;
-//					notificacionesTurnos = true;
-//				}else{
-//					if(usuarioDTO.getTipo().equals("Encargado Repuesto")){
-//						notificacionesReclamosAgentes = true;
-//						notificacionesReclamosFabrica = true;
-//						notificacionesSugerencias = true;
-//					}
-//				}
+				if(usuarioDTO.getTipo().equals("Administrativo")){
+					notificacionesContencion = true;
+					notificacionesTurnos = true;
+				}else{
+					if(usuarioDTO.getTipo().equals("Encargado Repuesto")){
+						notificacionesReclamosAgentes = true;
+						notificacionesReclamosFabrica = true;
+						notificacionesSugerencias = true;
+					}
+				}
 				setUsuario(usuarioDTO);
 				gui_menu_Principal = new GUIMenu_Principal(this);
 				gui_menu_Principal.setVisible(true);
 				actualizarTablaNotificaciones();
 				result = true;
+			}else{
+				JOptionPane.showMessageDialog(gui_login,"Usuario o contraseña invalidos.","Error",JOptionPane.ERROR_MESSAGE);
 			}
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(gui_login,"Error de conexion.","Error",JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 			System.exit(0);
 		}
 		return result;
@@ -238,7 +245,18 @@ public class MediadorPrincipal{
 	
 	// Ayuda //
 	public void ayuda(){
-		
+		File manual = new File(RootAndIp.getPath_manual()+"Manual.pdf");
+		if(manual.exists()){
+			try {
+				Desktop.getDesktop().open(manual);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null,"Error al cargar el manual.","Error",JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
+			}
+		}else{
+			JOptionPane.showMessageDialog(null,"No hay manual actualizar.","Error",JOptionPane.INFORMATION_MESSAGE);
+
+		}
 	}
 
 
@@ -377,6 +395,7 @@ public class MediadorPrincipal{
 								auxiliar.add(pedidos_piezas.elementAt(i).getPedido().getReclamo());
 					}
 				}
+				Vector<ReclamoDTO> auxiliar2 = new Vector<ReclamoDTO>();
 				for(int i = 0; i<auxiliar.size();i++){
 					java.sql.Date fUltimaNotificacion = null;
 					for(int j = 0; j<notificacionesGuardadas.size();j++){
@@ -384,41 +403,46 @@ public class MediadorPrincipal{
 							java.sql.Date fnotificacion = new java.sql.Date(notificacionesGuardadas.elementAt(j).getNotificacion().getFecha_notificacion().getTime());
 							@SuppressWarnings("deprecation")
 							Calendar calendar = new GregorianCalendar(fnotificacion.getYear(), fnotificacion.getMonth()-1, fnotificacion.getDay());
-							
-							long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
-							if(diferencia>=0)
+							if (fUltimaNotificacion != null){
+								long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
+								if(diferencia>=0)
+									fUltimaNotificacion = fnotificacion;
+							}else{
 								fUltimaNotificacion = fnotificacion;
+							}
 						}
 					}
 					if(fUltimaNotificacion!=null){
 						@SuppressWarnings("deprecation")
 						Calendar calendar = new GregorianCalendar(fUltimaNotificacion.getYear(), fUltimaNotificacion.getMonth()-1, fUltimaNotificacion.getDay());
 						long diferencia = ( hoy.getTime() - fUltimaNotificacion.getTime() )/MILLSECS_PER_DAY;
-						if(diferencia<10){
-							auxiliar.remove(i);						}
+						if(diferencia>=10)
+							auxiliar2.add(auxiliar.elementAt(i));
+					}else{
+						auxiliar2.add(auxiliar.elementAt(i));
 					}
 				}
-				for(int i = 0; i<auxiliar.size();i++){
+				for(int i = 0; i<auxiliar2.size();i++){
 					NotificacionDTO notificacion = new NotificacionDTO();
 					Notificacion_ReclamoDTO notificacion_reclamoDTO = new Notificacion_ReclamoDTO();
 					notificacion.setConcretada_notificacion(false);
 					notificacion.setFecha_notificacion(hoy);
 					notificacion.setTipo_notificacion("CONTENCION CLIENTE");
 					String telefono = "";
-					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar.elementAt(i).getReclamante());
+					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar2.elementAt(i).getReclamante());
 					for (int j=0; j<telefonosDTO.size();j++){
 						telefono += telefonosDTO.elementAt(j).getTelefono()+" ";
 					}
 					notificacion.setTexto_notificacion("CONTENCION CLIENTE: \n \n"
-														+"RECLAMANTE: "+auxiliar.elementAt(i).getReclamante().getNombre_apellido()+" [ID: "+auxiliar.elementAt(i).getReclamante().getId()+"]\n"
+														+"RECLAMANTE: "+auxiliar2.elementAt(i).getReclamante().getNombre_apellido()+" [ID: "+auxiliar2.elementAt(i).getReclamante().getId()+"]\n"
 														+"TELEFONO/S: "+telefono+"\n"
-														+"ORDEN DE TRABAJO: "+auxiliar.elementAt(i).getOrden().getNumero_orden()+" [ID: "+auxiliar.elementAt(i).getOrden().getId()+"]\n"
-														+"VEHICULO DOMINIO: "+auxiliar.elementAt(i).getVehiculo().getDominio()+"\n"
-														+"VIN: "+auxiliar.elementAt(i).getVehiculo().getVin()+"\n"
-														+"RECLAMO ID: ["+auxiliar.elementAt(i).getId().toString()+"]\n"
-														+"DESCRIPCION: "+auxiliar.elementAt(i).getDescripcion());
+														+"ORDEN DE TRABAJO: "+auxiliar2.elementAt(i).getOrden().getNumero_orden()+" [ID: "+auxiliar2.elementAt(i).getOrden().getId()+"]\n"
+														+"VEHICULO DOMINIO: "+auxiliar2.elementAt(i).getVehiculo().getDominio()+"\n"
+														+"VIN: "+auxiliar2.elementAt(i).getVehiculo().getVin()+"\n"
+														+"RECLAMO ID: ["+auxiliar2.elementAt(i).getId().toString()+"]\n"
+														+"DESCRIPCION: "+auxiliar2.elementAt(i).getDescripcion());
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar.elementAt(i));
+					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i));
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 			}
@@ -435,6 +459,7 @@ public class MediadorPrincipal{
 								auxiliar.add(pedidos_piezas.elementAt(i).getPedido().getReclamo());
 					}
 				}
+				Vector<ReclamoDTO> auxiliar2 = new Vector<ReclamoDTO>();
 				for(int i = 0; i<auxiliar.size();i++){
 					java.sql.Date fUltimaNotificacion = null;
 					for(int j = 0; j<notificacionesGuardadas.size();j++){
@@ -443,38 +468,44 @@ public class MediadorPrincipal{
 							@SuppressWarnings("deprecation")
 							Calendar calendar = new GregorianCalendar(fnotificacion.getYear(), fnotificacion.getMonth()-1, fnotificacion.getDay());
 							
-							long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
-							if(diferencia>=0)
+							if (fUltimaNotificacion != null){
+								long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
+								if(diferencia>=0)
+									fUltimaNotificacion = fnotificacion;
+							}else{
 								fUltimaNotificacion = fnotificacion;
+							}
 						}
 					}
 					if(fUltimaNotificacion!=null){
 						@SuppressWarnings("deprecation")
 						Calendar calendar = new GregorianCalendar(fUltimaNotificacion.getYear(), fUltimaNotificacion.getMonth()-1, fUltimaNotificacion.getDay());
 						long diferencia = ( hoy.getTime() - fUltimaNotificacion.getTime() )/MILLSECS_PER_DAY;
-						if(diferencia<10){
-							auxiliar.remove(i);						}
+						if(diferencia>=10)
+							auxiliar2.add(auxiliar.elementAt(i));
+					}else{
+						auxiliar2.add(auxiliar.elementAt(i));
 					}
 				}
-				for(int i = 0; i<auxiliar.size();i++){
+				for(int i = 0; i<auxiliar2.size();i++){
 					NotificacionDTO notificacion = new NotificacionDTO();
 					Notificacion_ReclamoDTO notificacion_reclamoDTO = new Notificacion_ReclamoDTO();
 					notificacion.setConcretada_notificacion(false);
 					notificacion.setFecha_notificacion(hoy);
 					notificacion.setTipo_notificacion("RECLAMO AGENTE");
 					String telefono = "";
-					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar.elementAt(i).getReclamante());
+					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar2.elementAt(i).getReclamante());
 					for (int j=0; j<telefonosDTO.size();j++){
 						telefono += telefonosDTO.elementAt(j).getTelefono()+" ";
 					}
 					notificacion.setTexto_notificacion("RECLAMO AGENTE: \n \n"
-														+"AGENTE: "+auxiliar.elementAt(i).getRegistrante().getNombre_registrante()+" [ID: "+auxiliar.elementAt(i).getRegistrante().getId()+"]\n"
-														+"VEHICULO DOMINIO: "+auxiliar.elementAt(i).getVehiculo().getDominio()+"\n"
-														+"VIN: "+auxiliar.elementAt(i).getVehiculo().getVin()+"\n"
-														+"RECLAMO ID: ["+auxiliar.elementAt(i).getId().toString()+"]\n"
-														+"DESCRIPCION: "+auxiliar.elementAt(i).getDescripcion());
+														+"AGENTE: "+auxiliar2.elementAt(i).getRegistrante().getNombre_registrante()+" [ID: "+auxiliar2.elementAt(i).getRegistrante().getId()+"]\n"
+														+"VEHICULO DOMINIO: "+auxiliar2.elementAt(i).getVehiculo().getDominio()+"\n"
+														+"VIN: "+auxiliar2.elementAt(i).getVehiculo().getVin()+"\n"
+														+"RECLAMO ID: ["+auxiliar2.elementAt(i).getId().toString()+"]\n"
+														+"DESCRIPCION: "+auxiliar2.elementAt(i).getDescripcion());
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar.elementAt(i));
+					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i));
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 			}
@@ -485,6 +516,7 @@ public class MediadorPrincipal{
 							auxiliar.add(pedidos_piezas.elementAt(i));
 					}
 				}
+				Vector<Pedido_PiezaDTO> auxiliar2 = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<auxiliar.size();i++){
 					java.sql.Date fUltimaNotificacion = null;
 					for(int j = 0; j<notificacionesGuardadas.size();j++){
@@ -493,34 +525,40 @@ public class MediadorPrincipal{
 							@SuppressWarnings("deprecation")
 							Calendar calendar = new GregorianCalendar(fnotificacion.getYear(), fnotificacion.getMonth()-1, fnotificacion.getDay());
 							
-							long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
-							if(diferencia>=0)
+							if (fUltimaNotificacion != null){
+								long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
+								if(diferencia>=0)
+									fUltimaNotificacion = fnotificacion;
+							}else{
 								fUltimaNotificacion = fnotificacion;
+							}
 						}
 					}
 					if(fUltimaNotificacion!=null){
 						@SuppressWarnings("deprecation")
 						Calendar calendar = new GregorianCalendar(fUltimaNotificacion.getYear(), fUltimaNotificacion.getMonth()-1, fUltimaNotificacion.getDay());
 						long diferencia = ( hoy.getTime() - fUltimaNotificacion.getTime() )/MILLSECS_PER_DAY;
-						if(diferencia<7){
-							auxiliar.remove(i);						}
+						if(diferencia>=7)
+							auxiliar2.add(auxiliar.elementAt(i));
+					}else{
+						auxiliar2.add(auxiliar.elementAt(i));
 					}
 				}
-				for(int i = 0; i<auxiliar.size();i++){
+				for(int i = 0; i<auxiliar2.size();i++){
 					NotificacionDTO notificacion = new NotificacionDTO();
 					Notificacion_ReclamoDTO notificacion_reclamoDTO = new Notificacion_ReclamoDTO();
 					notificacion.setConcretada_notificacion(false);
 					notificacion.setFecha_notificacion(hoy);
 					notificacion.setTipo_notificacion("RECLAMO FABRICA");
 					notificacion.setTexto_notificacion("RECLAMO FABIRCA: \n \n"
-														+"REGISTRANTE: "+auxiliar.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getRegistrante().getId()+"]\n"
-														+"NUMERO PEDIDO: "+auxiliar.elementAt(i).getNumero_pedido()+" [ID: "+auxiliar.elementAt(i).getId()+"]\n"
-														+"PIEZA: "+auxiliar.elementAt(i).getPieza().getNumero_pieza()+" [ID: "+auxiliar.elementAt(i).getPieza().getId()+"]\n"
-														+"FECHA SOLICITUD FABRICA: "+auxiliar.elementAt(i).getFecha_solicitud_fabrica().toString()+"\n"
-														+"NUMERO ORDEN: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getId()+"]\n"
+														+"REGISTRANTE: "+auxiliar2.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante()+" [ID: "+auxiliar2.elementAt(i).getPedido().getReclamo().getRegistrante().getId()+"]\n"
+														+"NUMERO PEDIDO: "+auxiliar2.elementAt(i).getNumero_pedido()+" [ID: "+auxiliar2.elementAt(i).getId()+"]\n"
+														+"PIEZA: "+auxiliar2.elementAt(i).getPieza().getNumero_pieza()+" [ID: "+auxiliar2.elementAt(i).getPieza().getId()+"]\n"
+														+"FECHA SOLICITUD FABRICA: "+auxiliar2.elementAt(i).getFecha_solicitud_fabrica().toString()+"\n"
+														+"NUMERO ORDEN: "+auxiliar2.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden()+" [ID: "+auxiliar2.elementAt(i).getPedido().getReclamo().getOrden().getId()+"]\n"
 														);
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar.elementAt(i).getPedido().getReclamo());
+					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i).getPedido().getReclamo());
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 			}
@@ -528,16 +566,38 @@ public class MediadorPrincipal{
 				Vector<Pedido_PiezaDTO> auxiliar = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<pedidos_piezas.size();i++){				
 					if(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()==null) {
-						
-						java.sql.Date fpedio = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
-						@SuppressWarnings("deprecation")
-						Calendar calendar = new GregorianCalendar(fpedio.getYear(), fpedio.getMonth()-1, fpedio.getDay());
-						long diferencia = ( hoy.getTime() - fpedio.getTime() )/MILLSECS_PER_DAY;
-						if(diferencia>=20)
 							auxiliar.add(pedidos_piezas.elementAt(i));
 					}
 				}
+				Vector<Pedido_PiezaDTO> auxiliar2 = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<auxiliar.size();i++){
+					java.sql.Date fUltimaNotificacion = null;
+					for(int j = 0; j<notificacionesGuardadas.size();j++){
+						if(notificacionesGuardadas.elementAt(j).getReclamo().getId().equals(auxiliar.elementAt(i).getPedido().getReclamo().getId()) && notificacionesGuardadas.elementAt(j).getNotificacion().getTipo_notificacion().equals("SUGERENCIA")){
+							java.sql.Date fnotificacion = new java.sql.Date(notificacionesGuardadas.elementAt(j).getNotificacion().getFecha_notificacion().getTime());
+							@SuppressWarnings("deprecation")
+							Calendar calendar = new GregorianCalendar(fnotificacion.getYear(), fnotificacion.getMonth()-1, fnotificacion.getDay());
+							
+							if (fUltimaNotificacion != null){
+								long diferencia = ( fUltimaNotificacion.getTime() - fnotificacion.getTime() )/MILLSECS_PER_DAY;
+								if(diferencia>=0)
+									fUltimaNotificacion = fnotificacion;
+							}else{
+								fUltimaNotificacion = fnotificacion;
+							}
+						}
+					}
+					if(fUltimaNotificacion!=null){
+						@SuppressWarnings("deprecation")
+						Calendar calendar = new GregorianCalendar(fUltimaNotificacion.getYear(), fUltimaNotificacion.getMonth()-1, fUltimaNotificacion.getDay());
+						long diferencia = ( hoy.getTime() - fUltimaNotificacion.getTime() )/MILLSECS_PER_DAY;
+						if(diferencia>=7)
+							auxiliar2.add(auxiliar.elementAt(i));
+					}else{
+						auxiliar2.add(auxiliar.elementAt(i));
+					}
+				}
+				for(int i = 0; i<auxiliar2.size();i++){
 					NotificacionDTO notificacion = new NotificacionDTO();
 					Notificacion_ReclamoDTO notificacion_reclamoDTO = new Notificacion_ReclamoDTO();
 					notificacion.setConcretada_notificacion(false);
@@ -545,14 +605,14 @@ public class MediadorPrincipal{
 					notificacion.setTipo_notificacion("SUGERENCIA");
 					notificacion.setTexto_notificacion("SUGERENCIA: \n \n"
 														+"PUEDE USAR UN MULETO PARA ESTE PEDIDO?\n"
-														+"REGISTRANTE: "+auxiliar.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getRegistrante().getId()+"]\n"
-														+"NUMERO PEDIDO: "+auxiliar.elementAt(i).getNumero_pedido()+" [ID: "+auxiliar.elementAt(i).getId()+"]\n"
-														+"PIEZA: "+auxiliar.elementAt(i).getPieza().getNumero_pieza()+" [ID: "+auxiliar.elementAt(i).getPieza().getId()+"]\n"
-														+"FECHA SOLICITUD FABRICA: "+auxiliar.elementAt(i).getFecha_solicitud_fabrica().toString()+"\n"
-														+"NUMERO ORDEN: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getId()+"]\n"
+														+"REGISTRANTE: "+auxiliar2.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante()+" [ID: "+auxiliar2.elementAt(i).getPedido().getReclamo().getRegistrante().getId()+"]\n"
+														+"NUMERO PEDIDO: "+auxiliar2.elementAt(i).getNumero_pedido()+" [ID: "+auxiliar2.elementAt(i).getId()+"]\n"
+														+"PIEZA: "+auxiliar2.elementAt(i).getPieza().getNumero_pieza()+" [ID: "+auxiliar2.elementAt(i).getPieza().getId()+"]\n"
+														+"FECHA SOLICITUD FABRICA: "+auxiliar2.elementAt(i).getFecha_solicitud_fabrica().toString()+"\n"
+														+"NUMERO ORDEN: "+auxiliar2.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden()+" [ID: "+auxiliar2.elementAt(i).getPedido().getReclamo().getOrden().getId()+"]\n"
 														);
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar.elementAt(i).getPedido().getReclamo());
+					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i).getPedido().getReclamo());
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 			}
@@ -627,5 +687,13 @@ public class MediadorPrincipal{
 
 	public void verNotificacion(int row) {
 		notificacionesLanzadas.elementAt(row).verGuiNotificacion();		
+	}
+
+	public void verPosponer(int row) {
+		notificacionesLanzadas.elementAt(row).setPosponer(true);		
+	}
+
+	public void verCompletada(int row) {
+		notificacionesLanzadas.elementAt(row).guardarNotificacion();		
 	}
 }

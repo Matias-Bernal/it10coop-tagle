@@ -20,6 +20,8 @@ import javax.swing.border.EmptyBorder;
 import common.DTOs.MarcaDTO;
 import common.DTOs.ModeloDTO;
 import common.DTOs.VehiculoDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIModificarVehiculo extends JFrame {
 
@@ -47,6 +49,7 @@ public class GUIModificarVehiculo extends JFrame {
 
 
 	public GUIModificarVehiculo(MediadorVehiculo mediadorVehiculo, VehiculoDTO vehiculo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarVehiculo.class.getResource("/cliente/Resources/Icons/edit_vehiculo.png")));
 		this.mediador = mediadorVehiculo;
 		this.vehiculo = vehiculo;
 		cargarDatos();
@@ -65,7 +68,7 @@ public class GUIModificarVehiculo extends JFrame {
 
 	private void initialize() {
 		setResizable(false);
-		setTitle("AGREGAR VEHICULO");
+		setTitle("MODIFICAR VEHICULO");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 410, 240);
 		contentPane = new JPanel();
@@ -99,6 +102,7 @@ public class GUIModificarVehiculo extends JFrame {
 		contentPane.add(lblModelo);
 		
 		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarVehiculo.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modificar();
@@ -108,6 +112,7 @@ public class GUIModificarVehiculo extends JFrame {
 		contentPane.add(btnModificar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIModificarVehiculo.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();

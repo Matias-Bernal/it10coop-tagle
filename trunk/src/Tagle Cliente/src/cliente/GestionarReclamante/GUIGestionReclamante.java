@@ -30,6 +30,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import common.DTOs.ReclamanteDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIGestionReclamante extends JFrame {
 
@@ -62,6 +64,7 @@ public class GUIGestionReclamante extends JFrame {
 	
 
 	public GUIGestionReclamante(MediadorReclamante mediador) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/reclamante.png")));
 		this.mediador = mediador;
 		cargarDatos();
 		initialize();
@@ -99,6 +102,7 @@ public class GUIGestionReclamante extends JFrame {
 		tFnombre_reclamante.setColumns(10);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -108,6 +112,7 @@ public class GUIGestionReclamante extends JFrame {
 		contentPane.add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminar();
@@ -162,6 +167,7 @@ public class GUIGestionReclamante extends JFrame {
 		contentPane.add(scrollPaneTabla);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediador.altaReclamante(tFnombre_reclamante.getText(),tFEmail.getText(), tFDni.getText());
@@ -171,6 +177,7 @@ public class GUIGestionReclamante extends JFrame {
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
+		btnImprimir.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/printer.png")));
 		btnImprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -184,6 +191,7 @@ public class GUIGestionReclamante extends JFrame {
 		contentPane.add(btnImprimir);
 		
 		btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -193,6 +201,7 @@ public class GUIGestionReclamante extends JFrame {
 		contentPane.add(btnVolver);
 		
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/1refresh.png")));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actualizarDatos();
@@ -212,6 +221,7 @@ public class GUIGestionReclamante extends JFrame {
 		contentPane.add(tFEmail);
 		
 		JButton btnVer = new JButton("Ver");
+		btnVer.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
 		btnVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				verRegistrante();
@@ -244,7 +254,7 @@ public class GUIGestionReclamante extends JFrame {
 		if (row >= 0) {
 			int aux = tablaReclamantes.convertRowIndexToModel(row);
 			Long id = new Long (tablaReclamantes.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Reclamante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Modificar Reclamante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.modificarReclamante(id);
 				actualizarDatos();
 			}
@@ -258,7 +268,7 @@ public class GUIGestionReclamante extends JFrame {
 		if (row >= 0) {
 			int aux = tablaReclamantes.convertRowIndexToModel(row);
 			Long id = new Long (tablaReclamantes.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Reclamante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Reclamante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/delete.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.eliminarReclamante(id);
 				actualizarDatos();
 			}

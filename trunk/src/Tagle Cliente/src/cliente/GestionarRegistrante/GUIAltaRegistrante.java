@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 public class GUIAltaRegistrante extends JFrame {
 
@@ -40,7 +41,7 @@ public class GUIAltaRegistrante extends JFrame {
 	 * @wbp.parser.constructor
 	 */
 	public GUIAltaRegistrante(final MediadorRegistrante mediador) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaRegistrante.class.getResource("/cliente/imagenes/del_user.ico")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaRegistrante.class.getResource("/cliente/Resources/Icons/add_registrante.png")));
 		this.mediador = mediador;
 		initialize();
 	}
@@ -57,11 +58,11 @@ public class GUIAltaRegistrante extends JFrame {
 		
 		JLabel lblNombreDelRegistrante = new JLabel("Nombre Del Registrante");
 		lblNombreDelRegistrante.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNombreDelRegistrante.setBounds(0, 10, 130, 20);
+		lblNombreDelRegistrante.setBounds(0, 10, 155, 20);
 		contentPane.add(lblNombreDelRegistrante);
 		
 		tFnombre_usuario = new JTextField();
-		tFnombre_usuario.setBounds(135, 10, 250, 20);
+		tFnombre_usuario.setBounds(155, 10, 230, 20);
 		tFnombre_usuario.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {
 				if (tFnombre_usuario.getText().length()>=limite){
@@ -85,10 +86,11 @@ public class GUIAltaRegistrante extends JFrame {
 		
 		JLabel lblTipo = new JLabel("Tipo");
 		lblTipo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTipo.setBounds(0, 40, 130, 20);
+		lblTipo.setBounds(0, 40, 155, 20);
 		contentPane.add(lblTipo);
 		
 		JButton btnCrearUsuario = new JButton("Crear");
+		btnCrearUsuario.setIcon(new ImageIcon(GUIAltaRegistrante.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				crear();
@@ -98,6 +100,7 @@ public class GUIAltaRegistrante extends JFrame {
 		contentPane.add(btnCrearUsuario);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIAltaRegistrante.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -114,7 +117,7 @@ public class GUIAltaRegistrante extends JFrame {
 		
 		comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(tiposRegistrantes));
-		comboBox.setBounds(135, 41, 253, 20);
+		comboBox.setBounds(155, 41, 230, 20);
 		contentPane.add(comboBox);
 
 		contentPane.setVisible(true);

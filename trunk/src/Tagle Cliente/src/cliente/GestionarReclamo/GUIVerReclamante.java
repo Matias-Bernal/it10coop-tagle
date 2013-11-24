@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 
 
@@ -63,6 +64,7 @@ public class GUIVerReclamante extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		setBounds(100, 100, 410, 240);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIVerReclamante.class.getResource("/cliente/Resources/Icons/find_reclamo.png")));
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setLocationRelativeTo(null);
@@ -95,6 +97,7 @@ public class GUIVerReclamante extends JFrame{
 		contentPane.add(lblEmail);
 		
 		JButton btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIVerReclamante.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();

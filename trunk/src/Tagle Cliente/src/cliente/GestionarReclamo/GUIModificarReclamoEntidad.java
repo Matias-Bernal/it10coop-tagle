@@ -20,11 +20,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.EntidadDTO;
 import common.DTOs.OrdenDTO;
 import common.DTOs.ReclamanteDTO;
 import common.DTOs.ReclamoDTO;
+import common.DTOs.RegistranteDTO;
 import common.DTOs.VehiculoDTO;
+
+import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
 
 public class GUIModificarReclamoEntidad extends JFrame {
 
@@ -53,7 +59,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 	private JCheckBox chckbxPeligroso;
 	
 	private ReclamoDTO reclamo;
-	private EntidadDTO entidad;
+	private RegistranteDTO entidad;
 	private VehiculoDTO vehiculo;
 	private ReclamanteDTO reclamante;
 	private OrdenDTO orden;
@@ -62,6 +68,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 	private JDateChooser fecha_turno;
 	
 	public GUIModificarReclamoEntidad(final MediadorReclamo mediador, ReclamoDTO reclamo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/eddit_reclamo_entidad.png")));
 		this.mediador = mediador;
 		this.reclamo = reclamo;
 		initialize();
@@ -70,7 +77,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		if (reclamo.getFecha_turno()!=null)
 			fecha_turno.setDate(reclamo.getFecha_turno());
 		if(reclamo.getRegistrante()!=null){
-			entidad = mediador.obtenerEntidad(reclamo.getRegistrante().getId());
+			entidad = reclamo.getRegistrante();
 			tfEntidad.setText(entidad.getNombre_registrante()+" [ID: "+entidad.getId()+"]");
 		}
 		if(reclamo.getReclamante()!=null){
@@ -126,6 +133,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		tfReclamante.setColumns(10);
 		
 		btn_buscar_reclamante = new JButton("Buscar");
+		btn_buscar_reclamante.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btn_buscar_reclamante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarReclamante();
@@ -135,21 +143,23 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		contentPane.add(btn_buscar_reclamante);
 		
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(104, 294, 110, 20);
+		btnCancelar.setBounds(68, 294, 110, 20);
 		contentPane.add(btnCancelar);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarReclamoEntidad();
 			}
 		});
-		btnModificar.setBounds(249, 294, 110, 20);
+		btnModificar.setBounds(288, 294, 110, 20);
 		contentPane.add(btnModificar);
 		
 		lblEntidad = new JLabel("Entidad");
@@ -197,6 +207,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		contentPane.add(tfVehiculo);
 		
 		btn_buscar_Vehivulo = new JButton("Buscar");
+		btn_buscar_Vehivulo.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btn_buscar_Vehivulo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarVehiculo();
@@ -221,6 +232,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		contentPane.add(tfEntidad);
 		
 		btn_entidad = new JButton("Buscar");
+		btn_entidad.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btn_entidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarEntidad();
@@ -230,6 +242,7 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		contentPane.add(btn_entidad);
 		
 		btnBuscarOrden = new JButton("Buscar");
+		btnBuscarOrden.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/1find.png")));
 		btnBuscarOrden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mediador.buscarOrden();

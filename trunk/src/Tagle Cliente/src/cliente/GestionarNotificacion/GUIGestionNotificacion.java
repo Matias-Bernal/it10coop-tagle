@@ -11,6 +11,8 @@ import common.DTOs.UsuarioDTO;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class GUIGestionNotificacion extends JFrame{
 
@@ -25,6 +27,7 @@ public class GUIGestionNotificacion extends JFrame{
 	private JCheckBox cbReclamoAgente;
 	
 	public GUIGestionNotificacion(MediadorNotificacion mediadorNotificacion, UsuarioDTO usuario) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionNotificacion.class.getResource("/cliente/Resources/Icons/edit_notificaciones.png")));
 		setResizable(false);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -62,16 +65,18 @@ public class GUIGestionNotificacion extends JFrame{
 		chSugerencias.setBounds(109, 162, 207, 23);
 		getContentPane().add(chSugerencias);
 		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.addActionListener(new ActionListener() {
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionNotificacion.class.getResource("/cliente/Resources/Icons/edit.png")));
+		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actualizarNotificaciones();
 			}
 		});
-		btnActualizar.setBounds(10, 192, 120, 23);
-		getContentPane().add(btnActualizar);
+		btnModificar.setBounds(10, 192, 120, 23);
+		getContentPane().add(btnModificar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIGestionNotificacion.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();

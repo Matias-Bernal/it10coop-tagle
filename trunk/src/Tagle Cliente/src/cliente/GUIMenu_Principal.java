@@ -31,6 +31,8 @@ import javax.swing.table.DefaultTableModel;
 
 import common.DTOs.Notificacion_ReclamoDTO;
 
+import java.awt.Font;
+
 public class GUIMenu_Principal extends JFrame{
 
 	private static final long serialVersionUID = 1L;
@@ -68,19 +70,19 @@ public class GUIMenu_Principal extends JFrame{
 		setLocationRelativeTo(null);
 		
 		frmPrincipal = new JFrame();
+		frmPrincipal.setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tagle.ico")));
 		frmPrincipal.getContentPane().setBackground(Color.WHITE);
 		frmPrincipal.setResizable(false);
 		frmPrincipal.setLocationRelativeTo(null);
 
 		String titulo = "USUARIO: "+mediadorPrincipal.getUsuario().getNombre_usuario().toString() +" [ID: "+mediadorPrincipal.getUsuario().getId().toString()+" ]";
 		frmPrincipal.setTitle(titulo);
-		frmPrincipal.setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMenu_Principal.class.getResource("/cliente/imagenes/tagle.ico")));
-		frmPrincipal.setBounds(100, 100, 910, 570);		
+		frmPrincipal.setBounds(100, 100, 1000, 570);		
 		frmPrincipal.setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
 
 		frmPrincipal.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent we){
-				int eleccion = JOptionPane.showConfirmDialog(null, "Desea salir?");
+				int eleccion = JOptionPane.showConfirmDialog(null, "Desea salir?","Salir",0,0,new ImageIcon(GUILogin.class.getResource("/cliente/Resources/Icons/exit_1.png")));
 				if ( eleccion == 0) {
 					mediadorPrincipal.matarThreads();
 					System.exit(0);
@@ -92,10 +94,11 @@ public class GUIMenu_Principal extends JFrame{
 		frmPrincipal.setJMenuBar(menuBar);
 		
 		JMenu mnInicio = new JMenu("Inicio");
+		mnInicio.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/inicio.png")));
 		menuBar.add(mnInicio);
 		
 		JMenuItem mntmDesconectar = new JMenuItem("Desconectar");
-		mntmDesconectar.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/imagenes/disconnect.ico")));
+		mntmDesconectar.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/disconect.png")));
 		mntmDesconectar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
@@ -105,7 +108,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnInicio.add(mntmDesconectar);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
-		mntmSalir.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/imagenes/exit.ico")));
+		mntmSalir.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/exit.png")));
 		mntmSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setVisible(false);
@@ -117,21 +120,21 @@ public class GUIMenu_Principal extends JFrame{
 		
 		// MENU USUARIOS //
 		JMenu mnUsuarios = new JMenu("Usuarios");
-		mnUsuarios.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/imagenes/mod_user.ico")));
+		mnUsuarios.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/usuarios.png")));
 		menuBar.add(mnUsuarios);
 		
 		JMenuItem mntmAltaUsuario = new JMenuItem("Alta Usuario");
-		mntmAltaUsuario.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/imagenes/add_user.ico")));
+		mntmAltaUsuario.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_users.png")));
+
 		mntmAltaUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//setVisible(false);
 				mediadorPrincipal.altaUsuario();
 			}
 		});
 		mnUsuarios.add(mntmAltaUsuario);
 		
 		JMenuItem mntmGestionUsuario = new JMenuItem("Gestionar Usuarios");
-		mntmGestionUsuario.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/imagenes/find_user.ico")));
+		mntmGestionUsuario.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_users.png")));
 		mntmGestionUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -142,9 +145,11 @@ public class GUIMenu_Principal extends JFrame{
 		
 		// MENU REGISTRANTES //
 		JMenu mnRegistrantes = new JMenu("Registrantes");
+		mnRegistrantes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/registrantes.png")));
 		menuBar.add(mnRegistrantes);
 		
 		JMenuItem mntmAltaRegistrante = new JMenuItem("Alta Registrante");
+		mntmAltaRegistrante.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_registrante.png")));
 		mntmAltaRegistrante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -154,6 +159,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnRegistrantes.add(mntmAltaRegistrante);
 		
 		JMenuItem mntmGestionRegistrante = new JMenuItem("Gestionar Registrantes");
+		mntmGestionRegistrante.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_registrante.png")));
 		mntmGestionRegistrante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -163,9 +169,11 @@ public class GUIMenu_Principal extends JFrame{
 		mnRegistrantes.add(mntmGestionRegistrante);
 		
 		JMenu mnReclamantes = new JMenu("Reclamantes");
+		mnReclamantes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamante.png")));
 		menuBar.add(mnReclamantes);
 		
 		JMenuItem mntmAltaReclamante = new JMenuItem("Alta Reclamante");
+		mntmAltaReclamante.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_reclamante.png")));
 		mntmAltaReclamante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -175,6 +183,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnReclamantes.add(mntmAltaReclamante);
 		
 		JMenuItem mntmGestionReclamante = new JMenuItem("Gestionar Reclamantes");
+		mntmGestionReclamante.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_reclamante.png")));
 		mntmGestionReclamante.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -184,9 +193,11 @@ public class GUIMenu_Principal extends JFrame{
 		mnReclamantes.add(mntmGestionReclamante);
 		
 		JMenu mnVehiculos = new JMenu("Vehiculos");
+		mnVehiculos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/vehiculo.png")));
 		menuBar.add(mnVehiculos);
 		
 		JMenuItem mntmAltaVehiculo = new JMenuItem("Alta Vehiculo");
+		mntmAltaVehiculo.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_vehiculo.png")));
 		mntmAltaVehiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -196,6 +207,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnVehiculos.add(mntmAltaVehiculo);
 		
 		JMenuItem mntmGestionVehiculo = new JMenuItem("Gestionar Vehiculos");
+		mntmGestionVehiculo.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_vehiculo.png")));
 		mntmGestionVehiculo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -205,9 +217,11 @@ public class GUIMenu_Principal extends JFrame{
 		mnVehiculos.add(mntmGestionVehiculo);
 		
 		JMenu mnOrden = new JMenu("Ordenes");
+		mnOrden.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/ordenen.png")));
 		menuBar.add(mnOrden);
 		
 		JMenuItem mntmAltaOrden = new JMenuItem("Alta Orden");
+		mntmAltaOrden.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_orden.png")));
 		mntmAltaOrden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -217,6 +231,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnOrden.add(mntmAltaOrden);
 		
 		JMenuItem mntmGestionOrden = new JMenuItem("Gestion Orden");
+		mntmGestionOrden.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_orden.png")));
 		mntmGestionOrden.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -226,9 +241,11 @@ public class GUIMenu_Principal extends JFrame{
 		mnOrden.add(mntmGestionOrden);
 		
 		JMenu mnReclamos = new JMenu("Reclamos");
+		mnReclamos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo.png")));
 		menuBar.add(mnReclamos);
 		
 		JMenuItem mntmAltaReclamoAgente = new JMenuItem("Alta Reclamo Agente");
+		mntmAltaReclamoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_reclamo_agente.png")));
 		mntmAltaReclamoAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -238,6 +255,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnReclamos.add(mntmAltaReclamoAgente);
 		
 		JMenuItem mntmGestionReclamoAgente = new JMenuItem("Gestionar Reclamos Agente");
+		mntmGestionReclamoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/eddit_reclamo_agente.png")));
 		mntmGestionReclamoAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -246,6 +264,7 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		
 		JMenuItem mntmAltaReclamoEntidad = new JMenuItem("Alta Reclamo Entidad");
+		mntmAltaReclamoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_reclamo_entidad.png")));
 		mntmAltaReclamoEntidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -256,6 +275,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnReclamos.add(mntmGestionReclamoAgente);
 		
 		JMenuItem mntmGestionarReclamosEntidad = new JMenuItem("Gestionar Reclamos Entidad");
+		mntmGestionarReclamosEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/eddit_reclamo_entidad.png")));
 		mntmGestionarReclamosEntidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -265,9 +285,11 @@ public class GUIMenu_Principal extends JFrame{
 		mnReclamos.add(mntmGestionarReclamosEntidad);
 		
 		JMenu mnPedido = new JMenu("Pedidos");
+		mnPedido.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/pedido.png")));
 		menuBar.add(mnPedido);
 		
 		JMenuItem mntmAltaPedidoAgente = new JMenuItem("Alta Pedido Agente");
+		mntmAltaPedidoAgente.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_pedido_agente.png")));
 		mntmAltaPedidoAgente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -277,6 +299,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnPedido.add(mntmAltaPedidoAgente);
 		
 		JMenuItem mntmGestionPedidoAgentes = new JMenuItem("Gestionar Pedidos Agentes");
+		mntmGestionPedidoAgentes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_pedido_agente.png")));
 		mntmGestionPedidoAgentes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -285,6 +308,7 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		
 		JMenuItem mntmNuevoPedidoEntidad = new JMenuItem("Alta Pedido Entidad");
+		mntmNuevoPedidoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/add_pedido_entidad.png")));
 		mntmNuevoPedidoEntidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -295,6 +319,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnPedido.add(mntmGestionPedidoAgentes);
 		
 		JMenuItem mntmGestionPedidoEntidad = new JMenuItem("Gestion Pedidos Entidades");
+		mntmGestionPedidoEntidad.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_pedido_entidad.png")));
 		mntmGestionPedidoEntidad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -304,9 +329,11 @@ public class GUIMenu_Principal extends JFrame{
 		mnPedido.add(mntmGestionPedidoEntidad);
 		
 		JMenu mnNotificaciones = new JMenu("Notificaciones");
+		mnNotificaciones.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/notificaciones.png")));
 		menuBar.add(mnNotificaciones);
 		
 		JMenuItem mntmModificarNotificacio = new JMenuItem("Modificar Notificaciones");
+		mntmModificarNotificacio.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/edit_notificaciones.png")));
 		mntmModificarNotificacio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -316,6 +343,7 @@ public class GUIMenu_Principal extends JFrame{
 		mnNotificaciones.add(mntmModificarNotificacio);
 		
 		JMenuItem mntmActualizar = new JMenuItem("Actualizar");
+		mntmActualizar.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/refresh.png")));
 		mntmActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -325,29 +353,32 @@ public class GUIMenu_Principal extends JFrame{
 		mnNotificaciones.add(mntmActualizar);
 		
 		JMenu mnAyuda = new JMenu("Ayuda");
+		mnAyuda.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/help.png")));
 		menuBar.add(mnAyuda);
 		
-		JMenuItem mntmAyuda = new JMenuItem("Ayuda");
-		mntmAyuda.addActionListener(new ActionListener() {
+		JMenuItem mntmManual = new JMenuItem("Manual");
+		mntmManual.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/manual.png")));
+		mntmManual.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//setVisible(false);
 				mediadorPrincipal.ayuda();
 			}
 		});
-		mnAyuda.add(mntmAyuda);
+		mnAyuda.add(mntmManual);
 		
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de..");
+		mntmAcercaDe.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/hm-about.png")));
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//setVisible(false);
-				JOptionPane.showMessageDialog(frmPrincipal,"IT 10 Cooperativa","Acerca de..",JOptionPane.INFORMATION_MESSAGE);
-				System.out.println("Ayuda presionado");	
+				JOptionPane.showMessageDialog(frmPrincipal,"IT10 Cooperativa - Rio Cuarto","Acerca de..",JOptionPane.INFORMATION_MESSAGE,new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/it10.png")));
 			}
 		});
 		mnAyuda.add(mntmAcercaDe);
 		
 		btnReclamos = new JButton("RECLAMO RAPIDO");
-		btnReclamos.setBounds(104, 189, 250, 23);
+		btnReclamos.setHorizontalAlignment(SwingConstants.LEADING);
+		btnReclamos.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReclamos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo_rapido.png")));
+		btnReclamos.setBounds(104, 163, 290, 49);
 		btnReclamos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -358,7 +389,10 @@ public class GUIMenu_Principal extends JFrame{
 		frmPrincipal.getContentPane().add(btnReclamos);
 		
 		btnReclamos_Piezas = new JButton("RECLAMOS DE PIEZAS");
-		btnReclamos_Piezas.setBounds(104, 249, 250, 23);
+		btnReclamos_Piezas.setHorizontalAlignment(SwingConstants.LEADING);
+		btnReclamos_Piezas.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamospie.png")));
+		btnReclamos_Piezas.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReclamos_Piezas.setBounds(104, 223, 290, 49);
 		btnReclamos_Piezas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -368,7 +402,10 @@ public class GUIMenu_Principal extends JFrame{
 		frmPrincipal.getContentPane().add(btnReclamos_Piezas);
 		
 		btnReportes = new JButton("REPORTES");
-		btnReportes.setBounds(104, 310, 250, 23);
+		btnReportes.setHorizontalAlignment(SwingConstants.LEADING);
+		btnReportes.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReportes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tablas.png")));
+		btnReportes.setBounds(104, 283, 290, 49);
 		btnReportes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -459,13 +496,23 @@ public class GUIMenu_Principal extends JFrame{
 	}
 
 	protected void posponer() {
-		// TODO Auto-generated method stub
-		
+		int row = tablaNotificaciones.getSelectedRow();
+		if (row >= 0) {
+			String id_reclamo = tablaNotificaciones.getValueAt(row, 0).toString();
+			mediadorPrincipal.verPosponer(row);
+		}else{
+			JOptionPane.showMessageDialog(tablaNotificaciones,"Seleccione un notificacion primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}		
 	}
 
 	protected void completada() {
-		// TODO Auto-generated method stub
-		
+		int row = tablaNotificaciones.getSelectedRow();
+		if (row >= 0) {
+			String id_reclamo = tablaNotificaciones.getValueAt(row, 0).toString();
+			mediadorPrincipal.verCompletada(row);
+		}else{
+			JOptionPane.showMessageDialog(tablaNotificaciones,"Seleccione un notificacion primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}	
 	}
 
 	public void setVisible(boolean b) {
@@ -482,9 +529,6 @@ public class GUIMenu_Principal extends JFrame{
 
 	public void reiniciar() {
 		setVisible(false);
-	}
-	public void show() {
-		// TODO Auto-generated method stub
 	}
 
 	public void actualizarTabla(Vector<Notificacion_ReclamoDTO> notificaciones) {

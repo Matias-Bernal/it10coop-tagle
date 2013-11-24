@@ -32,6 +32,8 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import common.DTOs.RegistranteDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIGestionRegistrante extends JFrame {
 
@@ -59,6 +61,7 @@ public class GUIGestionRegistrante extends JFrame {
 	private Vector<String> tiposRegistrantes;
 
 	public GUIGestionRegistrante(MediadorRegistrante mediadorRegistrante) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/registrantes.png")));
 		this.mediador = mediadorRegistrante;
 		cargarDatos();
 		initialize();
@@ -98,6 +101,7 @@ public class GUIGestionRegistrante extends JFrame {
 		tFnombre_registrante.setColumns(10);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -107,6 +111,7 @@ public class GUIGestionRegistrante extends JFrame {
 		contentPane.add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminar();
@@ -118,13 +123,13 @@ public class GUIGestionRegistrante extends JFrame {
 		JLabel lbl_nombre_registrante = new JLabel("Nombre del Registrante");
 		lbl_nombre_registrante.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lbl_nombre_registrante.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_nombre_registrante.setBounds(31, 35, 141, 24);
+		lbl_nombre_registrante.setBounds(10, 35, 182, 24);
 		contentPane.add(lbl_nombre_registrante);
 		
 		JLabel lbl_tipo_registrante = new JLabel("Tipo");
 		lbl_tipo_registrante.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lbl_tipo_registrante.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_tipo_registrante.setBounds(31, 70, 141, 24);
+		lbl_tipo_registrante.setBounds(10, 70, 182, 24);
 		contentPane.add(lbl_tipo_registrante);
 		
 		modelo = new DefaultTableModel(datosTabla, nombreColumnas);
@@ -160,6 +165,7 @@ public class GUIGestionRegistrante extends JFrame {
 		contentPane.add(comboBox);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediador.altaRegistrante(tFnombre_registrante.getText(), (String) comboBox.getSelectedItem());
@@ -169,6 +175,7 @@ public class GUIGestionRegistrante extends JFrame {
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
+		btnImprimir.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/printer.png")));
 		btnImprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -182,6 +189,7 @@ public class GUIGestionRegistrante extends JFrame {
 		contentPane.add(btnImprimir);
 		
 		btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -191,6 +199,7 @@ public class GUIGestionRegistrante extends JFrame {
 		contentPane.add(btnVolver);
 		
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/1refresh.png")));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actualizarDatos();
@@ -206,7 +215,7 @@ public class GUIGestionRegistrante extends JFrame {
 		if (row >= 0) {
 			int aux = tableRegistrantes.convertRowIndexToModel(row);
 			Long id = new Long (tableRegistrantes.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Registrante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Modificar Registrante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/edit.png")) ) == JOptionPane.YES_OPTION){ 
 				if (tableRegistrantes.getValueAt(aux, 2).toString().equals("Agente")){
 					mediador.modificarAgente(id);
 				}else{
@@ -224,7 +233,7 @@ public class GUIGestionRegistrante extends JFrame {
 		if (row >= 0) {
 			int aux = tableRegistrantes.convertRowIndexToModel(row);
 			Long id = new Long (tableRegistrantes.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Registrante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Registrante [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/delete.png"))) == JOptionPane.YES_OPTION){ 
 				if (tableRegistrantes.getValueAt(aux, 2).toString().equals("Agente")){
 					if (mediador.eliminarAgente(id)){
 						JOptionPane.showMessageDialog(contentPane,"Registrante eliminado.","Advertencia",JOptionPane.INFORMATION_MESSAGE);

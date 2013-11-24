@@ -32,6 +32,8 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.DefaultComboBoxModel;
 
 import common.DTOs.VehiculoDTO;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIGestionVehiculo extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -68,6 +70,7 @@ public class GUIGestionVehiculo extends JFrame{
 
 
 	public GUIGestionVehiculo(MediadorVehiculo mediadorRegistrante) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/vehiculo.png")));
 		this.mediador = mediadorRegistrante;
 		cargarDatos();
 		initialize();
@@ -105,6 +108,7 @@ public class GUIGestionVehiculo extends JFrame{
 		tFnombre_titular.setColumns(10);
 		
 		btnModificar = new JButton("Modificar");
+		btnModificar.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/edit.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -114,6 +118,7 @@ public class GUIGestionVehiculo extends JFrame{
 		contentPane.add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/delete.png")));
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminar();
@@ -125,13 +130,13 @@ public class GUIGestionVehiculo extends JFrame{
 		JLabel lbl_nombre_titular = new JLabel("Nombre del Titular");
 		lbl_nombre_titular.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lbl_nombre_titular.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_nombre_titular.setBounds(30, 30, 140, 20);
+		lbl_nombre_titular.setBounds(10, 31, 170, 20);
 		contentPane.add(lbl_nombre_titular);
 		
 		JLabel lbl_dominio = new JLabel("Dominio");
 		lbl_dominio.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		lbl_dominio.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_dominio.setBounds(30, 60, 140, 20);
+		lbl_dominio.setBounds(10, 61, 170, 20);
 		contentPane.add(lbl_dominio);
 		
 
@@ -159,6 +164,7 @@ public class GUIGestionVehiculo extends JFrame{
 		contentPane.add(scrollPaneTabla);
 		
 		btnAgregar = new JButton("Agregar");
+		btnAgregar.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediador.altaVehiculo(tFnombre_titular.getText(), tFDominio.getText(), tFVin.getText(), (String)comboBox_marca.getSelectedItem(), (String)comboBox_modelo.getSelectedItem());
@@ -168,6 +174,7 @@ public class GUIGestionVehiculo extends JFrame{
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
+		btnImprimir.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/printer.png")));
 		btnImprimir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -181,6 +188,7 @@ public class GUIGestionVehiculo extends JFrame{
 		contentPane.add(btnImprimir);
 		
 		btnVolver = new JButton("Volver");
+		btnVolver.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -190,6 +198,7 @@ public class GUIGestionVehiculo extends JFrame{
 		contentPane.add(btnVolver);
 		
 		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/1refresh.png")));
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actualizarDatos();
@@ -211,7 +220,7 @@ public class GUIGestionVehiculo extends JFrame{
 		lblVin = new JLabel("VIN");
 		lblVin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVin.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		lblVin.setBounds(30, 90, 140, 20);
+		lblVin.setBounds(10, 91, 170, 20);
 		contentPane.add(lblVin);
 		
 		tFVin = new JTextField();
@@ -227,13 +236,13 @@ public class GUIGestionVehiculo extends JFrame{
 		lblMarca = new JLabel("Marca");
 		lblMarca.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMarca.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		lblMarca.setBounds(30, 120, 140, 20);
+		lblMarca.setBounds(10, 121, 170, 20);
 		contentPane.add(lblMarca);
 		
 		lblModelo = new JLabel("Modelo");
 		lblModelo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblModelo.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		lblModelo.setBounds(30, 150, 140, 20);
+		lblModelo.setBounds(10, 151, 170, 20);
 		contentPane.add(lblModelo);
 		
 		comboBox_marca = new JComboBox<String>();
@@ -269,12 +278,12 @@ public class GUIGestionVehiculo extends JFrame{
 		if (row >= 0) {
 			int aux = tablavehiculos.convertRowIndexToModel(row);
 			Long id = new Long (tablavehiculos.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Modificar Vehiculo [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Modificar Vehiculo [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/edit.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.modificarVehiculo(id);;
 				actualizarDatos();
 			}
 		}else{
-			JOptionPane.showMessageDialog(contentPane,"Seleccione un regsitrante primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane,"Seleccione un vehiculo primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}
@@ -283,12 +292,12 @@ public class GUIGestionVehiculo extends JFrame{
 		if (row >= 0) {
 			int aux = tablavehiculos.convertRowIndexToModel(row);
 			Long id = new Long (tablavehiculos.getValueAt(aux, 0).toString());
-			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Vehiculo [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){ 
+			if (JOptionPane.showConfirmDialog(null, "¿Eliminar Vehiculo [ID:"+id+"]?", "Confirmar",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/delete.png"))) == JOptionPane.YES_OPTION){ 
 				mediador.eliminarVehiculo(id);;
 				actualizarDatos();
 			}
 		}else{
-			JOptionPane.showMessageDialog(contentPane,"Seleccione un regsitrante primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(contentPane,"Seleccione un vehiculo primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}
 		
 	}

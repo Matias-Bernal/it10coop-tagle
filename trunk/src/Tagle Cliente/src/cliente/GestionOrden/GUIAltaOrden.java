@@ -15,6 +15,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class GUIAltaOrden extends JFrame {
 
@@ -37,6 +39,7 @@ public class GUIAltaOrden extends JFrame {
 	 * @wbp.parser.constructor
 	 */
 	public GUIAltaOrden(final MediadorOrden medidador) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIAltaOrden.class.getResource("/cliente/Resources/Icons/add_orden.png")));
 		this.mediador = medidador;		
 		initialize();
 		SetVisible(true);
@@ -55,40 +58,42 @@ public class GUIAltaOrden extends JFrame {
 				
 		JLabel lblNumeroOrden = new JLabel("Numero Orden");
 		lblNumeroOrden.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNumeroOrden.setBounds(0, 10, 130, 20);
+		lblNumeroOrden.setBounds(0, 10, 142, 20);
 		contentPane.add(lblNumeroOrden);
 		
 		tfNumero_Orden = new JTextField();
-		tfNumero_Orden.setBounds(138, 10, 256, 20);
+		tfNumero_Orden.setBounds(148, 10, 256, 20);
 		contentPane.add(tfNumero_Orden);
 		tfNumero_Orden.setColumns(10);
 		
 		JLabel lblFechaApertura = new JLabel("Fecha Apertura");
 		lblFechaApertura.setHorizontalAlignment(SwingConstants.CENTER);
-		lblFechaApertura.setBounds(0, 41, 130, 20);
+		lblFechaApertura.setBounds(0, 41, 142, 20);
 		contentPane.add(lblFechaApertura);
 		
 		fecha_apertura = new JDateChooser();
 		fecha_apertura.setDate(new Date());
-		fecha_apertura.setBounds(138, 41, 163, 20);
+		fecha_apertura.setBounds(148, 41, 163, 20);
 		contentPane.add(fecha_apertura);
 		
 		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(GUIAltaOrden.class.getResource("/cliente/Resources/Icons/cancel.png")));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(96, 91, 110, 20);
+		btnCancelar.setBounds(42, 91, 110, 20);
 		contentPane.add(btnCancelar);
 		
 		btnCrear = new JButton("Crear");
+		btnCrear.setIcon(new ImageIcon(GUIAltaOrden.class.getResource("/cliente/Resources/Icons/add.png")));
 		btnCrear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nuevaOrden();
 			}
 		});
-		btnCrear.setBounds(234, 91, 110, 20);
+		btnCrear.setBounds(262, 91, 110, 20);
 		contentPane.add(btnCrear);
 		
 	}
