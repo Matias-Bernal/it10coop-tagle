@@ -206,9 +206,11 @@ public class Servidor {
 		this.name = "rmi://" + this.ip + "/IControlVehiculo";
 		Naming.rebind(this.name, this.controlVehiculo);
 		System.out.println("Nombre: " + this.name);
-		
 		System.out.println("Listo para conexiones");
-
+		int exit = 0;
+		while(exit!=1){
+			int caracter = System.in.read();
+		}
 		//GUIServidor serv = new GUIServidor();
 	}
 
