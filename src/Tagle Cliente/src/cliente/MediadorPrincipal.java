@@ -1,3 +1,18 @@
+
+/********************************************************
+  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *********************************************************/
 package cliente;
 
 import java.awt.Desktop;
@@ -28,7 +43,6 @@ import common.DTOs.MTelefonoDTO;
 import common.DTOs.NotificacionDTO;
 import common.DTOs.Notificacion_ReclamoDTO;
 import common.DTOs.Pedido_PiezaDTO;
-import common.DTOs.ReclamoDTO;
 import common.DTOs.RegistranteDTO;
 import common.DTOs.UsuarioDTO;
 import common.GestionarEntidad.IControlEntidad;
@@ -337,17 +351,17 @@ public class MediadorPrincipal{
 			notificacionesGuardadas = iControlNotificacion_Reclamo.obtenerNotificaciones_Reclamos();
 			pedidos_piezas = iControlPedido_Pieza.obtenerPedido_Pieza();
 			if(notificacionesTurnos){
-				Vector<ReclamoDTO> auxiliar = new Vector<ReclamoDTO>();
+				Vector<Pedido_PiezaDTO> auxiliar = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<pedidos_piezas.size();i++){
 					if(esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
 						boolean repetido = false;
 						for(int j = 0;j< auxiliar.size();j++){
-							if(auxiliar.elementAt(j).getId().equals(pedidos_piezas.elementAt(i).getPedido().getId()))
+							if(auxiliar.elementAt(j).getPedido().getId().equals(pedidos_piezas.elementAt(i).getPedido().getId()))
 								repetido = true;
 						}
 						if(!repetido && pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null 
 							&& pedidos_piezas.elementAt(i).getPedido().getReclamo().getFecha_turno()==null){
-								auxiliar.add(pedidos_piezas.elementAt(i).getPedido().getReclamo());				
+								auxiliar.add(pedidos_piezas.elementAt(i));				
 						}
 					}
 				}
@@ -358,26 +372,26 @@ public class MediadorPrincipal{
 					notificacion.setFecha_notificacion(hoy);
 					notificacion.setTipo_notificacion("TURNO");
 					String telefono = "";
-					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar.elementAt(i).getReclamante());
+					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar.elementAt(i).getPedido().getReclamo().getReclamante());
 					for (int j=0; j<telefonosDTO.size();j++){
 						telefono += telefonosDTO.elementAt(j).getTelefono()+" ";
 					}
 					notificacion.setTexto_notificacion("COORDINAR TURNO CON: \n \n"
-														+"RECLAMANTE: "+auxiliar.elementAt(i).getReclamante().getNombre_apellido()+" [ID: "+auxiliar.elementAt(i).getReclamante().getId()+"]\n"
+														+"RECLAMANTE: "+auxiliar.elementAt(i).getPedido().getReclamo().getReclamante().getNombre_apellido()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getReclamante().getId()+"]\n"
 														+"TELEFONO/S: "+telefono+"\n"
-														+"ORDEN DE TRABAJO: "+auxiliar.elementAt(i).getOrden().getNumero_orden()+" [ID: "+auxiliar.elementAt(i).getOrden().getId()+"]\n"
-														+"VEHICULO DOMINIO: "+auxiliar.elementAt(i).getVehiculo().getDominio()+"\n"
-														+"VIN: "+auxiliar.elementAt(i).getVehiculo().getVin()+"\n"
-														+"RECLAMO ID: ["+auxiliar.elementAt(i).getId().toString()+"]\n"
-														+"DESCRIPCION: "+auxiliar.elementAt(i).getDescripcion());
+														+"ORDEN DE TRABAJO: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getId()+"]\n"
+														+"VIN: "+auxiliar.elementAt(i).getPedido().getReclamo().getVehiculo().getVin()+"\n"
+														+"NUM PEDIDO: "+auxiliar.elementAt(i).getNumero_pedido()+"\n"
+														+"NUM PIEZA: "+auxiliar.elementAt(i).getPieza().getNumero_pieza()+"\n"
+														+"DESCRIPCION RECLAMO: "+auxiliar.elementAt(i).getPedido().getReclamo().getDescripcion());
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar.elementAt(i));
+					notificacion_reclamoDTO.setReclamo(auxiliar.elementAt(i).getPedido().getReclamo());
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 				
 			}
 			if(notificacionesContencion){
-				Vector<ReclamoDTO> auxiliar = new Vector<ReclamoDTO>();
+				Vector<Pedido_PiezaDTO> auxiliar = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<pedidos_piezas.size();i++){
 					
 					java.sql.Date freclamo = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getReclamo().getFecha_reclamo().getTime());
@@ -388,18 +402,18 @@ public class MediadorPrincipal{
 					if(esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante()) && diferencia>=10){
 						boolean repetido = false;
 						for(int j = 0;j< auxiliar.size();j++){
-							if(auxiliar.elementAt(j).getId().equals(pedidos_piezas.elementAt(i).getPedido().getId()))
+							if(auxiliar.elementAt(j).getPedido().getId().equals(pedidos_piezas.elementAt(i).getPedido().getId()))
 								repetido = true;
 						}
 						if(!repetido && pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()==null && pedidos_piezas.elementAt(i).getPedido().getReclamo().getFecha_turno()==null)
-								auxiliar.add(pedidos_piezas.elementAt(i).getPedido().getReclamo());
+								auxiliar.add(pedidos_piezas.elementAt(i));
 					}
 				}
-				Vector<ReclamoDTO> auxiliar2 = new Vector<ReclamoDTO>();
+				Vector<Pedido_PiezaDTO> auxiliar2 = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<auxiliar.size();i++){
 					java.sql.Date fUltimaNotificacion = null;
 					for(int j = 0; j<notificacionesGuardadas.size();j++){
-						if(notificacionesGuardadas.elementAt(j).getReclamo().getId().equals(auxiliar.elementAt(i).getId()) && notificacionesGuardadas.elementAt(j).getNotificacion().getTipo_notificacion().equals("CONTENCION CLIENTE")){
+						if(notificacionesGuardadas.elementAt(j).getReclamo().getId().equals(auxiliar.elementAt(i).getPedido().getReclamo().getId()) && notificacionesGuardadas.elementAt(j).getNotificacion().getTipo_notificacion().equals("CONTENCION CLIENTE")){
 							java.sql.Date fnotificacion = new java.sql.Date(notificacionesGuardadas.elementAt(j).getNotificacion().getFecha_notificacion().getTime());
 							@SuppressWarnings("deprecation")
 							Calendar calendar = new GregorianCalendar(fnotificacion.getYear(), fnotificacion.getMonth()-1, fnotificacion.getDay());
@@ -429,41 +443,41 @@ public class MediadorPrincipal{
 					notificacion.setFecha_notificacion(hoy);
 					notificacion.setTipo_notificacion("CONTENCION CLIENTE");
 					String telefono = "";
-					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar2.elementAt(i).getReclamante());
+					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar2.elementAt(i).getPedido().getReclamo().getReclamante());
 					for (int j=0; j<telefonosDTO.size();j++){
 						telefono += telefonosDTO.elementAt(j).getTelefono()+" ";
 					}
-					notificacion.setTexto_notificacion("CONTENCION CLIENTE: \n \n"
-														+"RECLAMANTE: "+auxiliar2.elementAt(i).getReclamante().getNombre_apellido()+" [ID: "+auxiliar2.elementAt(i).getReclamante().getId()+"]\n"
-														+"TELEFONO/S: "+telefono+"\n"
-														+"ORDEN DE TRABAJO: "+auxiliar2.elementAt(i).getOrden().getNumero_orden()+" [ID: "+auxiliar2.elementAt(i).getOrden().getId()+"]\n"
-														+"VEHICULO DOMINIO: "+auxiliar2.elementAt(i).getVehiculo().getDominio()+"\n"
-														+"VIN: "+auxiliar2.elementAt(i).getVehiculo().getVin()+"\n"
-														+"RECLAMO ID: ["+auxiliar2.elementAt(i).getId().toString()+"]\n"
-														+"DESCRIPCION: "+auxiliar2.elementAt(i).getDescripcion());
+					notificacion.setTexto_notificacion("COORDINAR TURNO CON: \n \n"
+							+"RECLAMANTE: "+auxiliar.elementAt(i).getPedido().getReclamo().getReclamante().getNombre_apellido()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getReclamante().getId()+"]\n"
+							+"TELEFONO/S: "+telefono+"\n"
+							+"ORDEN DE TRABAJO: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden()+" [ID: "+auxiliar.elementAt(i).getPedido().getReclamo().getOrden().getId()+"]\n"
+							+"VIN: "+auxiliar.elementAt(i).getPedido().getReclamo().getVehiculo().getVin()+"\n"
+							+"NUM PEDIDO: "+auxiliar.elementAt(i).getNumero_pedido()+"\n"
+							+"NUM PIEZA: "+auxiliar.elementAt(i).getPieza().getNumero_pieza()+"\n"
+							+"DESCRIPCION RECLAMO: "+auxiliar.elementAt(i).getPedido().getReclamo().getDescripcion());
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i));
+					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i).getPedido().getReclamo());
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 			}
 			if(notificacionesReclamosAgentes){
-				Vector<ReclamoDTO> auxiliar = new Vector<ReclamoDTO>();
+				Vector<Pedido_PiezaDTO> auxiliar = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<pedidos_piezas.size();i++){				
 					if(!esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante()) && pedidos_piezas.elementAt(i).getFecha_envio_agente()!=null && pedidos_piezas.elementAt(i).getFecha_recepcion_agente()==null) {
 						boolean repetido = false;
 						for(int j = 0;j< auxiliar.size();j++){
-							if(auxiliar.elementAt(j).getId().equals(pedidos_piezas.elementAt(i).getPedido().getId()))
+							if(auxiliar.elementAt(j).getPedido().getId().equals(pedidos_piezas.elementAt(i).getPedido().getId()))
 								repetido = true;
 						}
 						if(!repetido)
-								auxiliar.add(pedidos_piezas.elementAt(i).getPedido().getReclamo());
+								auxiliar.add(pedidos_piezas.elementAt(i));
 					}
 				}
-				Vector<ReclamoDTO> auxiliar2 = new Vector<ReclamoDTO>();
+				Vector<Pedido_PiezaDTO> auxiliar2 = new Vector<Pedido_PiezaDTO>();
 				for(int i = 0; i<auxiliar.size();i++){
 					java.sql.Date fUltimaNotificacion = null;
 					for(int j = 0; j<notificacionesGuardadas.size();j++){
-						if(notificacionesGuardadas.elementAt(j).getReclamo().getId().equals(auxiliar.elementAt(i).getId()) && notificacionesGuardadas.elementAt(j).getNotificacion().getTipo_notificacion().equals("RECLAMO AGENTE")){
+						if(notificacionesGuardadas.elementAt(j).getReclamo().getId().equals(auxiliar.elementAt(i).getPedido().getReclamo().getId()) && notificacionesGuardadas.elementAt(j).getNotificacion().getTipo_notificacion().equals("RECLAMO AGENTE")){
 							java.sql.Date fnotificacion = new java.sql.Date(notificacionesGuardadas.elementAt(j).getNotificacion().getFecha_notificacion().getTime());
 							@SuppressWarnings("deprecation")
 							Calendar calendar = new GregorianCalendar(fnotificacion.getYear(), fnotificacion.getMonth()-1, fnotificacion.getDay());
@@ -494,18 +508,18 @@ public class MediadorPrincipal{
 					notificacion.setFecha_notificacion(hoy);
 					notificacion.setTipo_notificacion("RECLAMO AGENTE");
 					String telefono = "";
-					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar2.elementAt(i).getReclamante());
+					Vector<MTelefonoDTO> telefonosDTO = iControlMTelefono.obtenerMTelefono(auxiliar2.elementAt(i).getPedido().getReclamo().getReclamante());
 					for (int j=0; j<telefonosDTO.size();j++){
 						telefono += telefonosDTO.elementAt(j).getTelefono()+" ";
 					}
 					notificacion.setTexto_notificacion("RECLAMO AGENTE: \n \n"
-														+"AGENTE: "+auxiliar2.elementAt(i).getRegistrante().getNombre_registrante()+" [ID: "+auxiliar2.elementAt(i).getRegistrante().getId()+"]\n"
-														+"VEHICULO DOMINIO: "+auxiliar2.elementAt(i).getVehiculo().getDominio()+"\n"
-														+"VIN: "+auxiliar2.elementAt(i).getVehiculo().getVin()+"\n"
-														+"RECLAMO ID: ["+auxiliar2.elementAt(i).getId().toString()+"]\n"
-														+"DESCRIPCION: "+auxiliar2.elementAt(i).getDescripcion());
+														+"AGENTE: "+auxiliar2.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante()+" [ID: "+auxiliar2.elementAt(i).getPedido().getReclamo().getRegistrante().getId()+"]\n"
+														+"VIN: "+auxiliar2.elementAt(i).getPedido().getReclamo().getVehiculo().getVin()+"\n"
+														+"NUM PEDIDO: "+auxiliar2.elementAt(i).getNumero_pedido()+"\n"
+														+"NUM PIEZA: "+auxiliar2.elementAt(i).getPieza().getNumero_pieza()+"\n"
+														+"DESCRIPCION RECLAMO: "+auxiliar2.elementAt(i).getPedido().getReclamo().getDescripcion());
 					notificacion_reclamoDTO.setNotificacion(notificacion);
-					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i));
+					notificacion_reclamoDTO.setReclamo(auxiliar2.elementAt(i).getPedido().getReclamo());
 					notificaciones.add(notificacion_reclamoDTO);
 				}
 			}

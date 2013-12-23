@@ -1,3 +1,17 @@
+/********************************************************
+  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *********************************************************/
 package cliente.GestionarPedido;
 
 import java.awt.event.ActionEvent;
@@ -572,12 +586,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(1).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(1)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(1).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -593,12 +608,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(2).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(2)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(2).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -619,11 +635,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
 				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(3).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(3)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(3).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();
@@ -641,11 +659,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
 			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(4).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(4)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(4).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -662,11 +682,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
 			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(5).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(5)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(5).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -686,12 +708,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			Vector<Vector<String>> registrantes = datosTabla;
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
-				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(6).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(6)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(6).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();
@@ -712,12 +735,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			Vector<Vector<String>> registrantes = datosTabla;
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
-				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(7).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(7)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(7).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();
@@ -734,12 +758,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(8).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(8)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(8).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -755,12 +780,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(9).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(9)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(9).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -776,12 +802,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(10).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(10)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(10).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -797,12 +824,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(11).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(11)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(11).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -818,12 +846,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(12).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(12)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(12).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -843,12 +872,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			Vector<Vector<String>> registrantes = datosTabla;
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
-				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(13).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(13)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(13).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();
@@ -869,12 +899,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			Vector<Vector<String>> registrantes = datosTabla;
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
-				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(14).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(14)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(14).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();
@@ -895,12 +926,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			Vector<Vector<String>> registrantes = datosTabla;
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
-				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(15).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(15)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(15).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();
@@ -917,12 +949,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(16).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(16)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(16).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -938,12 +971,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(17).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(17)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(17).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -959,12 +993,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(18).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(18)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(18).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -980,12 +1015,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(19).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(19)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(19).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -1001,12 +1037,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		Vector<Vector<String>> registrantes = datosTabla;
 		for (int i=0; i< registrantes.size();i++){
 			Vector<String> registrante = registrantes.elementAt(i);
-			
-			Pattern pat = Pattern.compile(".*"+filtro+".*");
-			Matcher mat = pat.matcher(registrante.elementAt(20).toLowerCase());
-			if (mat.find()) {
-				datos.add(registrante);
-			} 
+			if(registrante.elementAt(20)!=null){
+				Pattern pat = Pattern.compile(".*"+filtro+".*");
+				Matcher mat = pat.matcher(registrante.elementAt(20).toLowerCase());
+				if (mat.find()) {
+					datos.add(registrante);
+				}
+			}
 		}
 		modelo.setDataVector(datos, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -1026,12 +1063,13 @@ public class GUIGestionPedidoEntidad extends JFrame {
 			Vector<Vector<String>> registrantes = datosTabla;
 			for (int i=0; i< registrantes.size();i++){
 				Vector<String> registrante = registrantes.elementAt(i);
-				
-				Pattern pat = Pattern.compile(".*"+filtro+".*");
-				Matcher mat = pat.matcher(registrante.elementAt(21).toLowerCase());
-				if (mat.find()) {
-					datos.add(registrante);
-				} 
+				if(registrante.elementAt(21)!=null){
+					Pattern pat = Pattern.compile(".*"+filtro+".*");
+					Matcher mat = pat.matcher(registrante.elementAt(21).toLowerCase());
+					if (mat.find()) {
+						datos.add(registrante);
+					}
+				}
 			}
 			modelo.setDataVector(datos, nombreColumnas);
 			modelo.fireTableStructureChanged();

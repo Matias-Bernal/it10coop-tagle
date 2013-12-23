@@ -1,3 +1,17 @@
+/********************************************************
+  This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *********************************************************/
 package cliente.Reportes;
 
 import java.awt.Color;
@@ -11,6 +25,7 @@ import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -31,6 +46,11 @@ import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.ReclamoDTO;
 
 import java.awt.Toolkit;
+
+import javax.swing.JButton;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GUIReportes extends JFrame{
 
@@ -282,6 +302,13 @@ public class GUIReportes extends JFrame{
 	private JLabel lblHorasTotalesDe;
 	private JLabel lbl_HsTotalesMO;
 	private JLabel lbl_ValorTotalMO;
+	private JButton btnFiltrar_PLL;
+	private JButton btnFiltrarPDev;
+	private JButton btonFiltrar_SLL;
+	private JButton btnFiltrarPLLST;
+	private JButton btnFiltrarOSSDP;
+	private JButton btnFiltrarSDPSN;
+	private JButton btnFiltrarReclamo_Turno;
 
 
 
@@ -2062,7 +2089,7 @@ public class GUIReportes extends JFrame{
         pnReclamos_Turnos.setLayout(null);
         
         JPanel pnFiltrosReclamosTurnos = new JPanel();
-        pnFiltrosReclamosTurnos.setBounds(10, 0, 746, 186);
+        pnFiltrosReclamosTurnos.setBounds(10, 0, 868, 186);
         pnReclamos_Turnos.add(pnFiltrosReclamosTurnos);
         pnFiltrosReclamosTurnos.setLayout(null);
         
@@ -2111,6 +2138,11 @@ public class GUIReportes extends JFrame{
         dC_FReclamoTruno_FIN.setEnabled(false);
         dC_FReclamoTruno_FIN.setBounds(591, 11, 150, 25);
         pnFiltrosReclamosTurnos.add(dC_FReclamoTruno_FIN);
+        
+        btnFiltrarReclamo_Turno = new JButton("Filtrar");
+        btnFiltrarReclamo_Turno.setEnabled(false);
+        btnFiltrarReclamo_Turno.setBounds(751, 12, 110, 25);
+        pnFiltrosReclamosTurnos.add(btnFiltrarReclamo_Turno);
         
         //////////////////////////////////////////////////////        
 		//		TABLA TURNOS - RECLAMOS	(RECLAMOS)			//
@@ -2178,7 +2210,7 @@ public class GUIReportes extends JFrame{
         JLabel lblReclamos_Turnos = new JLabel("RECLAMOS / TURNOS");
         lblReclamos_Turnos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         lblReclamos_Turnos.setHorizontalAlignment(SwingConstants.CENTER);
-        lblReclamos_Turnos.setBounds(766, 11, 200, 25);
+        lblReclamos_Turnos.setBounds(888, 11, 200, 25);
         pnReclamos_Turnos.add(lblReclamos_Turnos);
         
         lblReclamoTurnos = new JLabel("");
@@ -2200,7 +2232,7 @@ public class GUIReportes extends JFrame{
 			}
 		}
         lblReclamoTurnos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-        lblReclamoTurnos.setBounds(988, 11, 100, 25);
+        lblReclamoTurnos.setBounds(1110, 11, 100, 25);
         pnReclamos_Turnos.add(lblReclamoTurnos);
         
         JLabel lblReclamosConTurno = new JLabel("NUMERO DE RECLAMOS CON TURNO");
@@ -2684,10 +2716,11 @@ public class GUIReportes extends JFrame{
 						rBUltimoMesPLL.setSelected(false);
 						rBUltimoAnioPLL.setSelected(false);
 						
-						filtrarIntervaloPLL();	
+						btnFiltrar_PLL.setEnabled(true);
 					}else{
 						dC_FInicioPLL.setEnabled(false);
 						dC_FFinPLL.setEnabled(false);
+						btnFiltrar_PLL.setEnabled(false);
 					}
 				}
 		});
@@ -2706,7 +2739,8 @@ public class GUIReportes extends JFrame{
 						rBUltimaSemanaPLL.setSelected(false);
 						rBUltimoMesPLL.setSelected(false);
 						rBUltimoAnioPLL.setSelected(false);
-						
+						btnFiltrar_PLL.setEnabled(false);
+
 						filtrarHoyPLL();
 						
 					}
@@ -2727,7 +2761,8 @@ public class GUIReportes extends JFrame{
 						rBUltimoMesPLL.setSelected(false);
 						rBMAnteriorPLL.setSelected(false);
 						rBUltimoAnioPLL.setSelected(false);
-						
+						btnFiltrar_PLL.setEnabled(false);
+
 						filtrarUSemanaPLL();
 						
 					}
@@ -2747,7 +2782,8 @@ public class GUIReportes extends JFrame{
 						rBUltimaSemanaPLL.setSelected(false);
 						rBMAnteriorPLL.setSelected(false);
 						rBUltimoAnioPLL.setSelected(false);
-						
+						btnFiltrar_PLL.setEnabled(false);
+
 						filtrarUMesPLL();
 					}
 				}
@@ -2766,7 +2802,8 @@ public class GUIReportes extends JFrame{
 					rBUltimaSemanaPLL.setSelected(false);
 					rBUltimoMesPLL.setSelected(false);
 					rBUltimoAnioPLL.setSelected(false);
-					
+					btnFiltrar_PLL.setEnabled(false);
+
 					filtrarMesAnteriorPLL();
 				}
 			}
@@ -2785,7 +2822,8 @@ public class GUIReportes extends JFrame{
 						rBUltimaSemanaPLL.setSelected(false);
 						rBUltimoMesPLL.setSelected(false);
 						rBMAnteriorPLL.setSelected(false);
-						
+						btnFiltrar_PLL.setEnabled(false);
+
 						filtrarUAnioPLL();
 					}
 				}
@@ -2847,6 +2885,16 @@ public class GUIReportes extends JFrame{
 		tablaPiezas_Llegadas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 				
 		pnPiezaLLegadas.add(scrollPane_piezas_llegadas);
+		
+		btnFiltrar_PLL = new JButton("Filtrar");
+		btnFiltrar_PLL.setEnabled(false);
+		btnFiltrar_PLL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				filtrarIntervaloPLL();
+			}
+		});
+		btnFiltrar_PLL.setBounds(750, 11, 110, 25);
+		pnPiezaLLegadas.add(btnFiltrar_PLL);
 
 		// PIEZAS DEVUELTAS
 		
@@ -2888,7 +2936,6 @@ public class GUIReportes extends JFrame{
 					rbUltimoMesPDev.setSelected(false);
 					rbMAnteriorPDev.setSelected(false);
 					rbUltimoAnioPDev.setSelected(false);
-					filtrarInervaloPDev();
 				}else{
 					dcFechaFinPDev.setEnabled(false);
 					dcFechaInicioPDev.setEnabled(false);
@@ -3018,6 +3065,16 @@ public class GUIReportes extends JFrame{
 		pnPiezasDevueltas.add(scrollPane_piezas_devueltas);
 
 		tablaPiezasDevueltas.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		btnFiltrarPDev = new JButton("Filtrar");
+		btnFiltrarPDev.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				filtrarInervaloPDev();
+			}
+		});
+		btnFiltrarPDev.setEnabled(false);
+		btnFiltrarPDev.setBounds(750, 10, 110, 25);
+		pnPiezasDevueltas.add(btnFiltrarPDev);
 		
 		// PIEZAS SIN LLEGAR
 		pnPiezasPedidasSinLLegar = new JPanel();
@@ -3185,6 +3242,15 @@ public class GUIReportes extends JFrame{
 		scrollPane_pedidas_sin_llegar.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_pedidas_sin_llegar.setBounds(0, 200, 1230, 420);
 		pnPiezasPedidasSinLLegar.add(scrollPane_pedidas_sin_llegar);
+		
+		btonFiltrar_SLL = new JButton("Filtrar");
+		btonFiltrar_SLL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btonFiltrar_SLL.setEnabled(false);
+		btonFiltrar_SLL.setBounds(750, 10, 110, 25);
+		pnPiezasPedidasSinLLegar.add(btonFiltrar_SLL);
 
 		//tabla_piezas_sin_llegar.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -3356,6 +3422,15 @@ public class GUIReportes extends JFrame{
 		pnPiezasLLegadasSinTurno.add(scrollPane_piezas_llegadas_sin_turno);
 
 		tabla_piezas_llegadas_sin_turno.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		btnFiltrarPLLST = new JButton("Filtrar");
+		btnFiltrarPLLST.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnFiltrarPLLST.setEnabled(false);
+		btnFiltrarPLLST.setBounds(750, 10, 110, 25);
+		pnPiezasLLegadasSinTurno.add(btnFiltrarPLLST);
 		////////		
 		//ORDEN SIN SOLICITUD DE PEDIDO
 		pnOrdenSinSDP = new JPanel();
@@ -3538,6 +3613,15 @@ public class GUIReportes extends JFrame{
 		scrollPane_orden_sin_sdp.setBounds(0, 200, 1230, 420);
 		pnOrdenSinSDP.add(scrollPane_orden_sin_sdp);
 		
+		btnFiltrarOSSDP = new JButton("Filtrar");
+		btnFiltrarOSSDP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnFiltrarOSSDP.setEnabled(false);
+		btnFiltrarOSSDP.setBounds(750, 10, 110, 25);
+		pnOrdenSinSDP.add(btnFiltrarOSSDP);
+		
 		//tabla_orden_sin_solicitud_pedido.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		//
 		//Tabla SDP sin numero pedido
@@ -3715,6 +3799,15 @@ public class GUIReportes extends JFrame{
 		scrollPane_sdp_sin_numero.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane_sdp_sin_numero.setBounds(0, 200, 1230, 420);
 		pnSDPsinNumPedido.add(scrollPane_sdp_sin_numero);
+		
+		btnFiltrarSDPSN = new JButton("Filtrar");
+		btnFiltrarSDPSN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnFiltrarSDPSN.setEnabled(false);
+		btnFiltrarSDPSN.setBounds(750, 10, 110, 25);
+		pnSDPsinNumPedido.add(btnFiltrarSDPSN);
 
 		//tablaSdp_sin_numero_pedido.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
@@ -3851,10 +3944,68 @@ public class GUIReportes extends JFrame{
 	}
 
 	protected void filtrarInervaloPDev() {
-		// TODO Auto-generated method stub
+		if(dC_FInicioPLL.getDate()!=null && dC_FFinPLL.getDate()!=null){
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+			
+			for (int i=0; i< pedidos_piezas.size();i++){
+				boolean resp = false;
+				if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+					resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+				}else{
+					resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+				}					
+				if(resp){
+					Calendar c = new GregorianCalendar();
+					c.setTime(dC_FInicioPLL.getDate());
+					c.add(c.DAY_OF_MONTH, -1);
+					if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(c.getTime()) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(dC_FFinPLL.getDate())){
+						Vector<String> row = new Vector<String> ();
 		
+						row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+						row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+						row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+						row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+						row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+						row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+						row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+						
+						if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+							java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+							row.add(format2.format(fsp));//Fecha Solicitud Pedido
+						}else{
+							row.add("");
+						}			    
+						
+						if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+							java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+							row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+						}else{
+							row.add("");
+						}
+						if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+							java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+							row.add(format2.format(frf));//Fecha Recepcion Fabrica
+						}else{
+							row.add("");
+						}
+						datosTabla_piezas_llegadas.add(row);
+					}
+				}
+			}
+			modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+			modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+			
+			for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+				tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+				tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			}	
+		}else{
+			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
+	//Piezas Llegadas
 	@SuppressWarnings("deprecation")
 	protected void filtrarUAnioPLL() {
 		java.util.Date hoy = new java.util.Date();
@@ -3927,14 +4078,16 @@ public class GUIReportes extends JFrame{
 	@SuppressWarnings("deprecation")
 	protected void filtrarUMesPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+		
 		Calendar c = Calendar.getInstance();
 		c.setFirstDayOfWeek(c.SUNDAY);
-
+		c.add(c.MONTH, -1);
+		
 		java.util.Date iniUltimoMes = c.getTime();
 		iniUltimoMes.setDate(1);
 		
-		java.sql.Date hoy = new java.sql.Date(new java.util.Date().getTime());
-
+		java.util.Date finUltimoMes = c.getTime();
+		iniUltimoMes.setDate(c.getMaximum(c.DAY_OF_MONTH));
 		
 		datosTabla_piezas_llegadas= new Vector<Vector<String>>();
 		
@@ -3947,7 +4100,7 @@ public class GUIReportes extends JFrame{
 			}					
 			if(resp){
 				
-				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(iniUltimoMes) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(hoy)){
+				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(iniUltimoMes) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(finUltimoMes)){
 					Vector<String> row = new Vector<String> ();
 	
 					row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
@@ -3993,9 +4146,11 @@ public class GUIReportes extends JFrame{
 
 	protected void filtrarUSemanaPLL() {
 		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+		
 		Calendar c = Calendar.getInstance();
 		c.setFirstDayOfWeek(c.SUNDAY);
 		c.add(c.WEEK_OF_YEAR, -1);
+		
 		Calendar d = Calendar.getInstance();
 		d.setFirstDayOfWeek(d.SUNDAY);
 		d.add(d.WEEK_OF_YEAR, -1);
@@ -4125,10 +4280,136 @@ public class GUIReportes extends JFrame{
 	}
 
 	protected void filtrarMesAnteriorPLL() {
-		System.out.println("hoal soy un filtro de mes anterior");		
+		SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+		Calendar c = Calendar.getInstance();
+		c.setFirstDayOfWeek(c.SUNDAY);
+		c.add(c.MONTH, -1);
+		Calendar d = Calendar.getInstance();
+		d.setFirstDayOfWeek(d.SUNDAY);
+		d.add(d.MONTH, -1);
+
+		c.set(c.DAY_OF_MONTH,1);
+		java.util.Date iniMesPasado = c.getTime();
+		
+		d.set(d.DAY_OF_MONTH,d.getMaximum(d.DAY_OF_MONTH));
+		
+		java.util.Date finMesPasado = d.getTime();
+		 
+		datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+		
+		for (int i=0; i< pedidos_piezas.size();i++){
+			boolean resp = false;
+			if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}else{
+				resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+			}					
+			if(resp){
+				
+				if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(iniMesPasado) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(finMesPasado)){
+					Vector<String> row = new Vector<String> ();
+	
+					row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+					row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+					row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+					row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+					row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+					
+					if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+						java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+						row.add(format2.format(fsp));//Fecha Solicitud Pedido
+					}else{
+						row.add("");
+					}			    
+					
+					if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+						java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+						row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+					}else{
+						row.add("");
+					}
+					if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+						java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+						row.add(format2.format(frf));//Fecha Recepcion Fabrica
+					}else{
+						row.add("");
+					}
+	
+					datosTabla_piezas_llegadas.add(row);
+				}
+			}
+		}
+		modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+		modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+		
+		for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+		}		
 	}
+	
 	private void filtrarIntervaloPLL() {
-		System.out.println("hoal soy un filtro de intervalo");		
+		if(dC_FInicioPLL.getDate()!=null && dC_FFinPLL.getDate()!=null){
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			datosTabla_piezas_llegadas= new Vector<Vector<String>>();
+			
+			for (int i=0; i< pedidos_piezas.size();i++){
+				boolean resp = false;
+				if (mediador.esEntidad(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante())){
+					resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+				}else{
+					resp = pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null && pedidos_piezas.elementAt(i).getFecha_envio_agente()==null  && pedidos_piezas.elementAt(i).getDevolucion_pieza()==null && pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null;
+				}					
+				if(resp){
+					Calendar c = new GregorianCalendar();
+					c.setTime(dC_FInicioPLL.getDate());
+					c.add(c.DAY_OF_MONTH, -1);
+					if(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().after(c.getTime()) &&  pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().before(dC_FFinPLL.getDate())){
+						Vector<String> row = new Vector<String> ();
+		
+						row.add(pedidos_piezas.elementAt(i).getPedido().getId().toString());//ID Pedido
+						row.add(pedidos_piezas.elementAt(i).getNumero_pedido());//Numero Pedido
+						row.add(pedidos_piezas.elementAt(i).getPieza().getNumero_pieza());//Numero Pieza
+						row.add(pedidos_piezas.elementAt(i).getPieza().getDescripcion());//Descripcion Pieza
+						row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getOrden().getNumero_orden());//Numero Orden
+						row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getVehiculo().getVin());//VIN
+						row.add(pedidos_piezas.elementAt(i).getPedido().getReclamo().getRegistrante().getNombre_registrante());//Registrante
+						
+						if(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido()!=null){
+							java.sql.Date fsp = new java.sql.Date(pedidos_piezas.elementAt(i).getPedido().getFecha_solicitud_pedido().getTime());
+							row.add(format2.format(fsp));//Fecha Solicitud Pedido
+						}else{
+							row.add("");
+						}			    
+						
+						if (pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica()!=null){
+							java.sql.Date fsf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_solicitud_fabrica().getTime());
+							row.add(format2.format(fsf));//Fecha Solicitud Fabrica
+						}else{
+							row.add("");
+						}
+						if (pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica()!=null){
+							java.sql.Date frf = new java.sql.Date(pedidos_piezas.elementAt(i).getFecha_recepcion_fabrica().getTime());
+							row.add(format2.format(frf));//Fecha Recepcion Fabrica
+						}else{
+							row.add("");
+						}
+						datosTabla_piezas_llegadas.add(row);
+					}
+				}
+			}
+			modelo_tabla_piezas_llegadas.setDataVector(datosTabla_piezas_llegadas, nombreColumnas_piezas_llegadas);
+			modelo_tabla_piezas_llegadas.fireTableStructureChanged();
+			
+			for(int i = 0; i < tablaPiezas_Llegadas.getColumnCount(); i++) {
+				tablaPiezas_Llegadas.getColumnModel().getColumn(i).setPreferredWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+				tablaPiezas_Llegadas.getColumnModel().getColumn(i).setMinWidth(anchos_tabla_piezas_llegadas.elementAt(i));
+			}	
+		}else{
+			JOptionPane.showMessageDialog(this,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 		
 	}
 	//Fin filtros
