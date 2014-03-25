@@ -39,16 +39,16 @@ public class CargaDatos {
 			SingletonConexion c = new SingletonConexion();
 
 			//CARGA DEL PRIMER USUARIO
-			cargarPrimerUsuario();
+			//cargarPrimerUsuario();
 			
 			//CARGA DE MARCAS Y MODELOS
 			cargarMarcas_Modelos();
 			
 			// CARGA DE ENTIDADES DE TAGLE
-			cargarEntidades();
+			//cargarEntidades();
 			
 			//CARGA DE PROVEEDORES
-			cargarProveedores();
+			//cargarProveedores();
 
 			System.exit(0);
 		} catch (Exception ex) {
@@ -97,74 +97,100 @@ public class CargaDatos {
 			ControlMarca cmarca = new ControlMarca();
 			ControlModelo cmodelo = new ControlModelo();
 
-			MarcaDTO marca1 = new MarcaDTO("RENAULT");
-			marca1.setId(cmarca.agregarMarca(marca1));
+			MarcaDTO marca1 = cmarca.buscarMarca("RENAULT");
 			
-			MarcaDTO marca2 = new MarcaDTO("NISSAN");
-			marca2.setId(cmarca.agregarMarca(marca2));
+			MarcaDTO marca2 = cmarca.buscarMarca("NISSAN");
 	
-			ModeloDTO modelo = new ModeloDTO("CLIO MIO", marca1);
+			//RENAULT
+			
+//			ModeloDTO modelo = new ModeloDTO("CLIO MIO", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("SANDERO", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("SANDERO STEPWAY ", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("SANDERO GT LINE", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("LOGAN", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("SYMBOL", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("KANGOO 2", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("FLUENCE", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("MEGANE III", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("DUSTER", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("KOLEOS", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("LATITUDE", marca1);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			//NISSAN
+//			
+//			modelo = new ModeloDTO("MARCH", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("VERSA", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("TIIDA", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("SENTRA", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("370 Z", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("MURANO", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("X-TRAIL", marca2);
+//			cmodelo.agregarModelo(modelo);
+//			
+//			modelo = new ModeloDTO("NP 300", marca2);
+//			cmodelo.agregarModelo(modelo);
+//
+//			modelo = new ModeloDTO("FRONTIER", marca2);
+//			cmodelo.agregarModelo(modelo);
+			
+			/// EXTRAS
+			
+			ModeloDTO modelo = new ModeloDTO("FLUENCE GT", marca1);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("SANDERO", marca1);
+			modelo = new ModeloDTO("MEGANE III R.S", marca1);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("SANDERO STEPWAY ", marca1);
+			modelo = new ModeloDTO("KANGOO EXPRESS", marca1);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("SANDERO GT LINE", marca1);
+			modelo = new ModeloDTO("MASTER CHASIS", marca1);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("LOGAN", marca1);
+			modelo = new ModeloDTO("MASTER FURGON", marca1);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("SYMBOL", marca1);
+			modelo = new ModeloDTO("MASTER MINIBUS", marca1);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("KANGOO 2", marca1);
+			modelo = new ModeloDTO("370Z ROADSTER", marca2);
 			cmodelo.agregarModelo(modelo);
 			
-			modelo = new ModeloDTO("FLUENCE", marca1);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("MEGANE III", marca1);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("DUSTER", marca1);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("KOLEOS", marca1);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("LATITUDE", marca1);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("MARCH", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("VERSA", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("TIIDA", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("SENTRA", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("370 Z", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("MURANO", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("X-TRAIL", marca2);
-			cmodelo.agregarModelo(modelo);
-			
-			modelo = new ModeloDTO("NP 300", marca2);
-			cmodelo.agregarModelo(modelo);
-
-			modelo = new ModeloDTO("FRONTIER", marca2);
-			cmodelo.agregarModelo(modelo);
 		} catch (Exception e) {
 			System.out.println("Error al cargar los modelos");
 			e.printStackTrace();

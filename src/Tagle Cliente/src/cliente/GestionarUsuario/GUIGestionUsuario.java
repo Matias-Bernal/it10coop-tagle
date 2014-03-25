@@ -46,7 +46,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
 import common.DTOs.UsuarioDTO;
+
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ImageIcon;
 
@@ -79,6 +81,7 @@ public class GUIGestionUsuario extends JFrame {
 	//Combobox de Usuarios
 	private JComboBox<String> comboBox;
 	private Vector<String> tiposUsuarios;	
+	private JButton btnExportExcell;
 
 	public GUIGestionUsuario(MediadorUsuario mediador) {
 		this.mediador = mediador;
@@ -272,7 +275,25 @@ public class GUIGestionUsuario extends JFrame {
 		});
 		btnActualizar.setBounds(493, 137, 220, 23);
 		contentPane.add(btnActualizar);
+		
+		btnExportExcell = new JButton("");
+		btnExportExcell.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportExcell.setIcon(new ImageIcon(GUIGestionUsuario.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportExcell.setBounds(753, 137, 32, 32);
+		contentPane.add(btnExportExcell);
 	}
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tableUsuarios, "Usuarios");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
 	//Gestion
 	public void modificar(){
 		int row = tableUsuarios.getSelectedRow();

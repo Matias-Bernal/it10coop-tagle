@@ -33,10 +33,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
 import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.Pedido_Pieza_Reclamo_AgenteDTO;
 import common.DTOs.Reclamo_AgenteDTO;
+
 import javax.swing.ImageIcon;
+
 import java.awt.Toolkit;
 
 public class GUIVerReclamosAgente extends JFrame {
@@ -53,6 +56,7 @@ public class GUIVerReclamosAgente extends JFrame {
 	private Vector<String> nombreColumnas_tabla_reclamos;
 	private Vector<Integer> anchos_tabla_reclamos;
 	private Vector<Pedido_Pieza_Reclamo_AgenteDTO> reclamos_agente;
+	private JButton btnExportarTabla;
 
 
 	public GUIVerReclamosAgente(MediadorReclamoPiezas mediador, Pedido_PiezaDTO pedido_pieza) {
@@ -161,7 +165,7 @@ public class GUIVerReclamosAgente extends JFrame {
 		scrollPaneTabla_reclamos_fabrica.setViewportView(tabla_reclamos);
 		tabla_reclamos.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		
-		scrollPaneTabla_reclamos_fabrica.setBounds(10, 11, 664, 394);
+		scrollPaneTabla_reclamos_fabrica.setBounds(10, 50, 660, 375);
 		contentPane.add(scrollPaneTabla_reclamos_fabrica);
 				
 		btnVerReclamo = new JButton("Ver Reclamo");
@@ -183,6 +187,23 @@ public class GUIVerReclamosAgente extends JFrame {
 		});
 		btnVolver.setBounds(400, 430, 130, 25);
 		contentPane.add(btnVolver);
+		
+		btnExportarTabla = new JButton("");
+		btnExportarTabla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTabla.setIcon(new ImageIcon(GUIVerReclamosAgente.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTabla.setBounds(642, 11, 32, 32);
+		contentPane.add(btnExportarTabla);
+	}
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tabla_reclamos, "Reclamos Agente");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	protected void verReclamo() {
 		int row = tabla_reclamos.getSelectedRow();

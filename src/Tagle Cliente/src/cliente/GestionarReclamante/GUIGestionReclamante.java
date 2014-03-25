@@ -43,8 +43,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
 import common.DTOs.ReclamanteDTO;
+
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUIGestionReclamante extends JFrame {
@@ -75,6 +78,7 @@ public class GUIGestionReclamante extends JFrame {
 	private JButton btnActualizar;
 
 	private JLabel lblDni;
+	private JButton btnExportarTablas;
 	
 
 	public GUIGestionReclamante(MediadorReclamante mediador) {
@@ -122,7 +126,7 @@ public class GUIGestionReclamante extends JFrame {
 				modificar();
 			}
 		});
-		btnModificar.setBounds(564, 69, 220, 23);
+		btnModificar.setBounds(496, 70, 220, 23);
 		contentPane.add(btnModificar);
 		
 		btnEliminar = new JButton("Eliminar");
@@ -132,7 +136,7 @@ public class GUIGestionReclamante extends JFrame {
 				eliminar();
 			}
 		});
-		btnEliminar.setBounds(564, 103, 220, 23);
+		btnEliminar.setBounds(496, 104, 220, 23);
 		contentPane.add(btnEliminar);
 		
 		JLabel lbl_nombre_reclamante = new JLabel("Nombre del Registrante");
@@ -187,7 +191,7 @@ public class GUIGestionReclamante extends JFrame {
 				mediador.altaReclamante(tFnombre_reclamante.getText(),tFEmail.getText(), tFDni.getText());
 			}
 		});
-		btnAgregar.setBounds(564, 34, 220, 23);
+		btnAgregar.setBounds(496, 35, 220, 23);
 		contentPane.add(btnAgregar);
 		
 		btnImprimir = new JButton("Imprimir");
@@ -221,7 +225,7 @@ public class GUIGestionReclamante extends JFrame {
 				actualizarDatos();
 			}
 		});
-		btnActualizar.setBounds(564, 137, 220, 23);
+		btnActualizar.setBounds(496, 138, 220, 23);
 		contentPane.add(btnActualizar);
 		
 		tFEmail = new JTextField();
@@ -260,6 +264,23 @@ public class GUIGestionReclamante extends JFrame {
 		tFDni.setBounds(180, 105, 230, 20);
 		contentPane.add(tFDni);
 		
+		btnExportarTablas = new JButton("");
+		btnExportarTablas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTablas.setIcon(new ImageIcon(GUIGestionReclamante.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTablas.setBounds(752, 138, 32, 32);
+		contentPane.add(btnExportarTablas);
+		
+	}
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tablaReclamantes, "Reclamantes");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
 	// Gestion

@@ -19,6 +19,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
@@ -36,6 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
 
 import com.toedter.calendar.JDateChooser;
+
 import common.DTOs.BdgDTO;
 import common.DTOs.Devolucion_PiezaDTO;
 import common.DTOs.Mano_ObraDTO;
@@ -45,7 +48,9 @@ import common.DTOs.Pedido_PiezaDTO;
 import common.DTOs.PiezaDTO;
 import common.DTOs.ProveedorDTO;
 import common.DTOs.ReclamoDTO;
+
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUIModificarPedidoEntidad extends JFrame {
@@ -56,7 +61,6 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private JDateChooser dcFRF;
 	private JDateChooser dcFBDG;	
 	private JDateChooser dcFDF;
-
 	
 	private JTextField tfNumero_Pedido;
 	private JTextField tfPNC;
@@ -97,6 +101,10 @@ public class GUIModificarPedidoEntidad extends JFrame {
 	private Mano_ObraDTO mano_obra;
 	private BdgDTO bdg;
 	private MuletoDTO muleto;
+	private JButton btn_clear_FSF;
+	private JButton btn_clear_FRF;
+	private JButton btn_clear_FDF;
+	private JButton btn_clear_FBDG;
 		
 	public GUIModificarPedidoEntidad(final MediadorPedido mediador, PedidoDTO pedido) {
 		this.setMediador(mediador);
@@ -170,8 +178,8 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		btnCancelar.setBounds(259, 630, 110, 20);
 		getContentPane().add(btnCancelar);
 		
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
+		JButton btnModificar = new JButton("Guardar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/save.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -316,6 +324,28 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		lblPiezas_1.setBounds(142, 10, 130, 20);
 		panel_piezas.add(lblPiezas_1);
 		
+		btn_clear_FSF = new JButton("");
+		btn_clear_FSF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFSF.getDate()!=null)
+					dcFSF.setDate(null);
+			}
+		});
+		btn_clear_FSF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSF.setBounds(310, 240, 25, 20);
+		panel_piezas.add(btn_clear_FSF);
+		
+		btn_clear_FRF = new JButton("");
+		btn_clear_FRF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFRF.getDate()!=null)
+					dcFRF.setDate(null);
+			}
+		});
+		btn_clear_FRF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FRF.setBounds(310, 270, 25, 20);
+		panel_piezas.add(btn_clear_FRF);
+		
 		JPanel panel_claves_foraneas = new JPanel();
 		panel_claves_foraneas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_claves_foraneas.setBounds(438, 105, 402, 515);
@@ -339,6 +369,24 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_claves_foraneas.add(lblVin);
 		
 		tfVIN_Muleto = new JTextField();
+		tfVIN_Muleto.setToolTipText("Ej 12345678901234567");
+		tfVIN_Muleto.addKeyListener(new KeyListener() {
+		private int limite = 17;
+		public void keyTyped(KeyEvent e) {
+			if (tfVIN_Muleto.getText().length()>=limite){
+				e.consume();					
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				//buscar();
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {			
+		}
+		});
 		tfVIN_Muleto.setColumns(10);
 		tfVIN_Muleto.setBounds(140, 190, 160, 20);
 		panel_claves_foraneas.add(tfVIN_Muleto);
@@ -433,7 +481,6 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_claves_foraneas.add(label_4);
 		
 		tfNumero_Remito = new JTextField();
-		tfNumero_Remito.setHorizontalAlignment(SwingConstants.CENTER);
 		tfNumero_Remito.setColumns(10);
 		tfNumero_Remito.setBounds(140, 70, 160, 20);
 		panel_claves_foraneas.add(tfNumero_Remito);
@@ -444,7 +491,6 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_claves_foraneas.add(label_5);
 		
 		tfTransporte = new JTextField();
-		tfTransporte.setHorizontalAlignment(SwingConstants.CENTER);
 		tfTransporte.setColumns(10);
 		tfTransporte.setBounds(140, 100, 160, 20);
 		panel_claves_foraneas.add(tfTransporte);
@@ -455,10 +501,31 @@ public class GUIModificarPedidoEntidad extends JFrame {
 		panel_claves_foraneas.add(label_6);
 		
 		tfNumero_Retiro = new JTextField();
-		tfNumero_Retiro.setHorizontalAlignment(SwingConstants.CENTER);
 		tfNumero_Retiro.setColumns(10);
 		tfNumero_Retiro.setBounds(140, 130, 160, 20);
 		panel_claves_foraneas.add(tfNumero_Retiro);
+		
+		btn_clear_FDF = new JButton("");
+		btn_clear_FDF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFDF.getDate()!=null)
+					dcFDF.setDate(null);
+			}
+		});
+		btn_clear_FDF.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FDF.setBounds(310, 40, 25, 20);
+		panel_claves_foraneas.add(btn_clear_FDF);
+		
+		btn_clear_FBDG = new JButton("");
+		btn_clear_FBDG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFBDG.getDate()!=null)
+					dcFBDG.setDate(null);
+			}
+		});
+		btn_clear_FBDG.setIcon(new ImageIcon(GUIModificarPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FBDG.setBounds(310, 450, 25, 20);
+		panel_claves_foraneas.add(btn_clear_FBDG);
 		
 		tfFSP = new JTextField();
 		tfFSP.setEditable(false);

@@ -15,6 +15,10 @@ public interface IControlReclamo extends Remote{
 	public void modificarReclamo(Long id,ReclamoDTO modificado)throws Exception;
 	
 	public Vector<ReclamoDTO> obtenerReclamos()throws Exception;
+	public Vector<ReclamoDTO> obtenerReclamosEntidades()throws Exception;
+	public Vector<ReclamoDTO> obtenerReclamosEntidadesConPiezas()throws Exception;
+	public Vector<ReclamoDTO> obtenerReclamosAgentes()throws Exception;
+	public Vector<ReclamoDTO> obtenerReclamosAgentesConPiezas()throws Exception;
 	public Vector<ReclamoDTO> obtenerReclamos(Date fecha_reclamo)throws Exception;
 	public Vector<ReclamoDTO> obtenerReclamos(String estado_reclamo)throws Exception;
 	public Vector<ReclamoDTO> obtenerReclamos(ReclamanteDTO reclamanteDTO)throws Exception;

@@ -18,7 +18,6 @@ public class ControlAgente extends UnicastRemoteObject implements IControlAgente
 
 	public ControlAgente() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

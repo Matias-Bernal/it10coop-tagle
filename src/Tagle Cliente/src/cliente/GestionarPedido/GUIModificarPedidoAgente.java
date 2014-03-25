@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
@@ -47,6 +49,7 @@ import common.DTOs.ReclamoDTO;
 
 import java.awt.Font;
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 
@@ -94,6 +97,8 @@ public class GUIModificarPedidoAgente extends JFrame{
 	private BdgDTO bdg;
 	private MuletoDTO muleto;
 	private JTextField tfFSP;
+	private JButton btn_clear_FEA;
+	private JButton btn_clear_FSF;
 
 	public GUIModificarPedidoAgente(final MediadorPedido mediador, PedidoDTO pedido) {
 		this.setMediador(mediador);
@@ -167,8 +172,8 @@ public class GUIModificarPedidoAgente extends JFrame{
 		btnCancelar.setBounds(265, 630, 110, 20);
 		getContentPane().add(btnCancelar);
 		
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/edit.png")));
+		JButton btnModificar = new JButton("Guardar");
+		btnModificar.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/save.png")));
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -331,6 +336,50 @@ public class GUIModificarPedidoAgente extends JFrame{
 		tfEstado_Pedido.setBounds(140, 270, 260, 20);
 		panel_piezas.add(tfEstado_Pedido);
 		
+		btn_clear_FSF = new JButton("");
+		btn_clear_FSF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFSF.getDate()!=null)
+					dcFSF.setDate(null);
+			}
+		});
+		btn_clear_FSF.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSF.setBounds(310, 210, 25, 20);
+		panel_piezas.add(btn_clear_FSF);
+		
+		JButton btn_clear_FRF = new JButton("");
+		btn_clear_FRF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFRF.getDate()!=null)
+					dcFRF.setDate(null);
+			}
+		});
+		btn_clear_FRF.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FRF.setBounds(310, 241, 25, 20);
+		panel_piezas.add(btn_clear_FRF);
+		
+		btn_clear_FEA = new JButton("");
+		btn_clear_FEA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFEA.getDate()!=null)
+					dcFEA.setDate(null);
+			}
+		});
+		btn_clear_FEA.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FEA.setBounds(305, 390, 25, 20);
+		panel_piezas.add(btn_clear_FEA);
+		
+		JButton btn_clear_FRA = new JButton("");
+		btn_clear_FRA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFRA.getDate()!=null)
+					dcFRA.setDate(null);
+			}
+		});
+		btn_clear_FRA.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FRA.setBounds(305, 421, 25, 20);
+		panel_piezas.add(btn_clear_FRA);
+		
 		JPanel panel_claves_foraneas = new JPanel();
 		panel_claves_foraneas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panel_claves_foraneas.setBounds(439, 105, 410, 515);
@@ -354,6 +403,24 @@ public class GUIModificarPedidoAgente extends JFrame{
 		panel_claves_foraneas.add(lblVin);
 		
 		tfVIN_Muleto = new JTextField();
+		tfVIN_Muleto.setToolTipText("Ej 12345678901234567");
+		tfVIN_Muleto.addKeyListener(new KeyListener() {
+		private int limite = 17;
+		public void keyTyped(KeyEvent e) {
+			if (tfVIN_Muleto.getText().length()>=limite){
+				e.consume();					
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				//buscar();
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {			
+		}
+		});
 		tfVIN_Muleto.setColumns(10);
 		tfVIN_Muleto.setBounds(140, 190, 160, 20);
 		panel_claves_foraneas.add(tfVIN_Muleto);
@@ -435,6 +502,28 @@ public class GUIModificarPedidoAgente extends JFrame{
 		label_7.setHorizontalAlignment(SwingConstants.CENTER);
 		label_7.setBounds(142, 10, 130, 20);
 		panel_claves_foraneas.add(label_7);
+		
+		JButton btn_clear_FD = new JButton("");
+		btn_clear_FD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFDF.getDate()!=null)
+					dcFDF.setDate(null);
+			}
+		});
+		btn_clear_FD.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FD.setBounds(310, 40, 25, 20);
+		panel_claves_foraneas.add(btn_clear_FD);
+		
+		JButton btn_clear_bdg = new JButton("");
+		btn_clear_bdg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFBDG.getDate()!=null)
+					dcFBDG.setDate(null);
+			}
+		});
+		btn_clear_bdg.setIcon(new ImageIcon(GUIModificarPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_bdg.setBounds(310, 330, 25, 20);
+		panel_claves_foraneas.add(btn_clear_bdg);
 		
 		tfFSP = new JTextField();
 		tfFSP.setEditable(false);

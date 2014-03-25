@@ -34,7 +34,7 @@ public class MediadorOrden {
 	private MediadorPrincipal mediadorPrincipal;
 	
 	private GUIAltaOrden guiAltaOrden;
-	private GUIGestionOrden guigestionOrden;
+	private GUIGestionarOrden guigestionOrden;
 	private GUIModificarOrden guiModificarOrden;
 
 
@@ -62,7 +62,7 @@ public class MediadorOrden {
 		return res;
 	}
 	public void gestionarOrden() {
-		guigestionOrden = new GUIGestionOrden(this);
+		guigestionOrden = new GUIGestionarOrden(this);
 		guigestionOrden.setVisible(true);
 	}
 	public void modificarOrden(Long id) {
@@ -163,6 +163,7 @@ public class MediadorOrden {
 
 	public boolean modificarOrden(OrdenDTO orden) {
 		IControlOrden iControlOrden = MediadorAccionesIniciarPrograma.getControlOrden();
+		IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
 		boolean res = false;
 		try {
 //			OrdenDTO ordenDTO = iControlOrden.buscarOrden(orden.getId());
@@ -174,7 +175,16 @@ public class MediadorOrden {
 //				ordenDTO.setRecurso(orden.getRecurso());
 //			ordenDTO.setEstado(orden.getEstado());
 //			ordenDTO.setNumero_orden(orden.getNumero_orden());
-			
+			if (orden.getEstado()=="CERRADA"){
+				Vector <ReclamoDTO> reclamos = iControlReclamo.obtenerReclamos();
+				for (int i =0; i<reclamos.size();i++){
+					if (reclamos.elementAt(i).getOrden().getId().equals(orden.getId())){
+						reclamos.elementAt(i).setEstado_reclamo("CERRADO");
+						iControlReclamo.modificarReclamo(reclamos.elementAt(i).getId(),reclamos.elementAt(i));
+						break;
+					}
+				}
+			}
 			iControlOrden.modificarOrden(orden.getId(), orden);
 			res = true;
 			

@@ -71,6 +71,7 @@ public class GUIModificarReclamoAgente extends JFrame {
 	private OrdenDTO orden;
 	private JButton btn_buscar_reclamante;
 	private JButton btn_buscar_Vehivulo;
+	private JButton btn_clear_FR;
 	
 	public GUIModificarReclamoAgente(final MediadorReclamo mediador, ReclamoDTO reclamo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarReclamoAgente.class.getResource("/cliente/Resources/Icons/eddit_reclamo_agente.png")));
@@ -98,6 +99,17 @@ public class GUIModificarReclamoAgente extends JFrame {
 		}
 		
 		tP_Descripcion.setText(reclamo.getDescripcion());
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_reclamo.getDate()!=null)
+					fecha_reclamo.setDate(null);
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIModificarReclamoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(308, 10, 25, 20);
+		contentPane.add(btn_clear_FR);
 	}
 	
 	private void initialize() {

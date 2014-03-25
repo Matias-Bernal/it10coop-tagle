@@ -3,8 +3,14 @@ package servidor.GestionarPedido_Pieza;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.Vector;
+
+import javax.jdo.Extent;
+import javax.jdo.Query;
 
 import servidor.assembler.BdgAssembler;
 import servidor.assembler.Devolucion_PiezaAssembler;
@@ -14,7 +20,10 @@ import servidor.assembler.PedidoAssembler;
 import servidor.assembler.Pedido_PiezaAssembler;
 import servidor.assembler.PiezaAssembler;
 import servidor.persistencia.AccesoBD;
+import servidor.persistencia.dominio.Agente;
+import servidor.persistencia.dominio.Entidad;
 import servidor.persistencia.dominio.Pedido_Pieza;
+import servidor.persistencia.dominio.Reclamo;
 import common.DTOs.Devolucion_PiezaDTO;
 import common.DTOs.PedidoDTO;
 import common.DTOs.Pedido_PiezaDTO;
@@ -366,6 +375,608 @@ public class ControlPedido_Pieza extends UnicastRemoteObject implements
 			accesoBD.rollbackTransaccion();
 		}
 		return pedido_PiezaDTO;
+	}
+	
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaSinTurno() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+				
+			Extent e1 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection entidades = (Collection) q1.execute();
+			
+			String filtro = "fecha_recepcion_fabrica != null && devolucion_pieza == null && pedido.reclamo.fecha_turno == null && entidades.contains(pedido.reclamo.registrante)";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            
+            query.declareImports("import java.util.Collection");
+            query.declareParameters("Collection entidades");
+			Collection c2 = (Collection) query.execute(entidades);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaContencion()
+			throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			
+			Extent e1 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection entidades = (Collection) q1.execute();
+			
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			Calendar calendar =Calendar.getInstance(); //obtiene la fecha de hoy 
+			calendar.add(Calendar.DATE, -10); //el -3 indica que se le restaran 3 dias
+			
+			java.util.Date fechaHoy = calendar.getTime();
+			String fecha = format2.format(fechaHoy);
+			
+		    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());
+
+			String filtro = "fecha_recepcion_fabrica == null && pedido.reclamo.fecha_turno == null && entidades.contains(pedido.reclamo.registrante) && hoy>=pedido.reclamo.fecha_reclamo";
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            
+            query.declareImports("import java.util.Collection ; import java.sql.Date");
+            query.declareParameters("Collection entidades, Date hoy");
+			Collection c2 = (Collection) query.execute(entidades,hoy);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaReclamoAgente() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+				
+			Extent e1 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection agentes = (Collection) q1.execute();
+			
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			Calendar calendar =Calendar.getInstance(); //obtiene la fecha de hoy 
+			calendar.add(Calendar.DATE, -7); //el -7 indica que se le restaran 3 dias
+			
+			java.util.Date fechaHoy = calendar.getTime();
+			String fecha = format2.format(fechaHoy);
+			
+		    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());			
+			
+			String filtro = "fecha_envio_agente != null && fecha_recepcion_agente == null && agentes.contains(pedido.reclamo.registrante) && hoy>=fecha_envio_agente";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            
+            query.declareImports("import java.util.Collection ; import java.sql.Date");
+            query.declareParameters("Collection agentes, Date hoy");
+			Collection c2 = (Collection) query.execute(agentes,hoy);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaReclamoFabrica() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+					
+			
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			Calendar calendar =Calendar.getInstance(); //obtiene la fecha de hoy 
+			calendar.add(Calendar.DATE, -10); //el -10 indica que se le restaran 3 dias
+			
+			java.util.Date fechaHoy = calendar.getTime();
+			String fecha = format2.format(fechaHoy);
+			
+		    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());			
+								
+			String filtro = "fecha_solicitud_fabrica != null && fecha_recepcion_fabrica == null && hoy>=fecha_solicitud_fabrica";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            query.declareImports("import java.sql.Date");
+            query.declareParameters("Date hoy");
+			Collection c2 = (Collection) query.execute(hoy);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaSugerencia() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+					
+			SimpleDateFormat format2=new SimpleDateFormat("dd/MM/yyyy");
+			Calendar calendar =Calendar.getInstance(); //obtiene la fecha de hoy 
+			calendar.add(Calendar.DATE, -15); //el -15 indica que se le restaran 3 dias
+			
+			java.util.Date fechaHoy = calendar.getTime();
+			String fecha = format2.format(fechaHoy);
+			
+		    java.sql.Date hoy = new java.sql.Date(fechaHoy.getTime());			
+								
+			String filtro = "fecha_solicitud_fabrica != null && fecha_recepcion_fabrica == null && hoy>=fecha_solicitud_fabrica";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            query.declareImports("import java.sql.Date");
+            query.declareParameters("Date hoy");
+			Collection c2 = (Collection) query.execute(hoy);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaAgente() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+				
+			Extent e1 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection agentes = (Collection) q1.execute();	
+			
+			String filtro = "agentes.contains(pedido.reclamo.registrante)";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            
+            query.declareImports("import java.util.Collection");
+            query.declareParameters("Collection agentes");
+			Collection c2 = (Collection) query.execute(agentes);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
+	}
+
+	@Override
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaEntidad() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<Pedido_PiezaDTO> pedidos_PiezaDTO = new Vector<Pedido_PiezaDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+				
+			Extent e1 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection entidad = (Collection) q1.execute();	
+			
+			String filtro = "entidad.contains(pedido.reclamo.registrante)";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido_Pieza.class, false);
+            Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+            query.setGrouping("pedido.id");
+            
+            query.declareImports("import java.util.Collection");
+            query.declareParameters("Collection entidad");
+			Collection c2 = (Collection) query.execute(entidad);
+
+			Vector<Pedido_Pieza> pedidos_Pieza = new Vector<Pedido_Pieza> (c2);	
+	
+			for (int i = 0; i < pedidos_Pieza.size(); i++) {
+				
+				Pedido_PiezaDTO pedido_PiezaDTO = new Pedido_PiezaDTO();
+
+				pedido_PiezaDTO.setId(pedidos_Pieza.elementAt(i).getId());
+				
+				PedidoAssembler pedidoAssemb = new PedidoAssembler(accesoBD);
+				pedido_PiezaDTO.setPedido(pedidoAssemb.getPedidoDTO(pedidos_Pieza.elementAt(i).getPedido()));
+				
+				PiezaAssembler piezaAssemb = new PiezaAssembler(accesoBD);
+				pedido_PiezaDTO.setPieza(piezaAssemb.getPiezaDTO(pedidos_Pieza.elementAt(i).getPieza()));
+				
+				pedido_PiezaDTO.setNumero_pedido(pedidos_Pieza.elementAt(i).getNumero_pedido());
+				if(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_solicitud_fabrica(pedidos_Pieza.elementAt(i).getFecha_solicitud_fabrica());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_fabrica(pedidos_Pieza.elementAt(i).getFecha_recepcion_fabrica());
+				
+				pedido_PiezaDTO.setPnc(pedidos_Pieza.elementAt(i).getPnc());
+				MuletoAssembler muletoAssemb = new  MuletoAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMuleto()!=null)
+					pedido_PiezaDTO.setMuleto(muletoAssemb.getMuletoDTO(pedidos_Pieza.elementAt(i).getMuleto()));
+
+				Devolucion_PiezaAssembler devolucion_PiezaAssemb = new Devolucion_PiezaAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getDevolucion_pieza()!=null)
+					pedido_PiezaDTO.setDevolucion_pieza(devolucion_PiezaAssemb.getDevolucion_PiezaDTO(pedidos_Pieza.elementAt(i).getDevolucion_pieza()));
+				
+				pedido_PiezaDTO.setEstado_pedido(pedidos_Pieza.elementAt(i).getEstado_pedido());
+				
+				BdgAssembler bdgAssemb = new BdgAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getBdg()!=null)
+					pedido_PiezaDTO.setBdg(bdgAssemb.getBdgDTO(pedidos_Pieza.elementAt(i).getBdg()));
+				
+				Mano_ObraAssembler mano_ObraAssemb = new Mano_ObraAssembler(accesoBD);
+				if(pedidos_Pieza.elementAt(i).getMano_obra()!=null)
+					pedido_PiezaDTO.setMano_obra(mano_ObraAssemb.getMano_ObraDTO(pedidos_Pieza.elementAt(i).getMano_obra()));
+				
+				if(pedidos_Pieza.elementAt(i).getStock()!=null)
+					pedido_PiezaDTO.setStock(pedidos_Pieza.elementAt(i).getStock());
+				if(pedidos_Pieza.elementAt(i).getPropio()!=null)
+					pedido_PiezaDTO.setPropio(pedidos_Pieza.elementAt(i).getPropio());
+				
+				if(pedidos_Pieza.elementAt(i).getFecha_envio_agente()!=null)
+					pedido_PiezaDTO.setFecha_envio_agente(pedidos_Pieza.elementAt(i).getFecha_envio_agente());
+				if(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente()!=null)
+					pedido_PiezaDTO.setFecha_recepcion_agente(pedidos_Pieza.elementAt(i).getFecha_recepcion_agente());
+				
+				if(pedidos_Pieza.elementAt(i).getPieza_usada()!=null)
+					pedido_PiezaDTO.setPieza_usada(pedidos_Pieza.elementAt(i).getPieza_usada());
+
+				pedidos_PiezaDTO.add(pedido_PiezaDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidos_PiezaDTO;
 	}
 
 }

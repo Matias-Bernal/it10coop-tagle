@@ -430,6 +430,27 @@ public class MediadorReclamo {
 		}
 		return reclamos;
 	}
+	
+	public Vector<ReclamoDTO> obtenerReclamosAgente() {
+		Vector<ReclamoDTO> reclamos = new Vector<ReclamoDTO>();
+		try {
+			IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
+			reclamos = iControlReclamo.obtenerReclamosAgentes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reclamos;
+	}
+	public Vector<ReclamoDTO> obtenerReclamosEntidad() {
+		Vector<ReclamoDTO> reclamos = new Vector<ReclamoDTO>();
+		try {
+			IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
+			reclamos = iControlReclamo.obtenerReclamosEntidades();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reclamos;
+	}
 
 	public boolean esEntidad(RegistranteDTO registrante) {
 		boolean res = false;

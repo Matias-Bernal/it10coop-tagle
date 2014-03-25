@@ -59,6 +59,7 @@ public class ExportarExcel {
 			//escribe la hoja y la cierra
 			w.write();
 			w.close();
+			out.close();
 			return true;
 		} catch (Exception e) {
 			return false;

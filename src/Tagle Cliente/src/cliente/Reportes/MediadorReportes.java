@@ -31,20 +31,123 @@ import common.GestionarReclamo.IControlReclamo;
 
 public class MediadorReportes {
 	
-	private GUIReportes guiReporte;
-	
 	private MediadorPrincipal mediadorPrincipal;
+
+	private GUIReportesControl guiReporteControl;
+	private GUIReportesGestion guiReporteGestion;
+	private GUIReportePiezasLlegadas guiReportePiezasLlegadas;
+	private GUIReportePiezasDevueltas guiReportePiezasDevueltas;
+	private GUIReportePiezasSinLlegar guiReportePiezasSinLlegar;
+	private GUIReportePiezasLlegadasSinTurno guiReportePiezasLlegadasSinTurno;
+	private GUIReporteSDPSinNP guiReporteSDPSinNP;
+	private GUIReporteDiasDesdePedidoFabrica guiReporteDiasDesdePedidoFabrica; 
+	private GUIReporteDiasDesdeRecepcionFabrica guiReporteDiasDesdeRecepcionFabrica;
+	private GUIReporteDiasDesdeRecepcionFabricaYTurno guiReporteDiasDesdeRecepcionFabricaYTurno;
+	private GUIReporteDiasDesdeCierreOrdenYTurno guiReporteDiasDesdeCierreOrdenYTurno;
+	private GUIReporteDiasFechaRecursoYCierreOrden guiReporteDiasFechaRecursoYCierreOrden;
+	private GUIReporteDiasFechaReclamoYFechaDevolucion guiReporteDiasFechaReclamoYFechaDevolucion;
+	private GUIReporteDiasFechaReclamo_Turnos guiReporteDiasFechaReclamo_Turnos;
+	private GUIReporteDiasPiezasLlegadas_PiezasDevueltas guiReporteDiasPiezasLlegadas_PiezasDevueltas;
+	private GUIReporteManoDeObra guiReporteManoDeObra;
+	private GUIReporteRecurso_CierreOrden guiReporteRecurso_CierreOrden;
+	private GUIReporteOrdenSinSDP guiReporteOrdenSinSDP;
 	
 	
 	public MediadorReportes(MediadorPrincipal mediadorPrincipal) {
 		this.setMediadorPrincipal(mediadorPrincipal);
 	}
 	
-	public void mostrarReportes(){
-		guiReporte = new GUIReportes(this);
-		guiReporte.setVisible(true);
+	public void mostrarReportesControl(){
+		guiReporteControl = new GUIReportesControl(this);
+		guiReporteControl.setVisible(true);
 	}
 
+	public void mostrarReportesGestion(){
+		guiReporteGestion = new GUIReportesGestion(this);
+		guiReporteGestion.setVisible(true);
+	}
+
+	public void mostrarReportePiezasLlegadas() {
+		guiReportePiezasLlegadas = new GUIReportePiezasLlegadas(this);
+		guiReportePiezasLlegadas.setVisible(true);		
+	}
+
+	public void mostrarReportePiezasDevueltas() {
+		guiReportePiezasDevueltas = new GUIReportePiezasDevueltas(this);
+		guiReportePiezasDevueltas.setVisible(true);			
+	}
+
+	public void mostrarReportePiezasSinLlegar() {
+		guiReportePiezasSinLlegar = new GUIReportePiezasSinLlegar(this);
+		guiReportePiezasSinLlegar.setVisible(true);		
+	}
+
+	public void mostrarPiezasLlegadasSinTurno() {
+		guiReportePiezasLlegadasSinTurno = new GUIReportePiezasLlegadasSinTurno(this);
+		guiReportePiezasLlegadasSinTurno.setVisible(true);	
+	}
+
+	public void mostrarOrdenSinSDP() {
+		guiReporteOrdenSinSDP = new GUIReporteOrdenSinSDP(this);
+		guiReporteOrdenSinSDP.setVisible(true);	
+	}
+	
+	public void mostrarSDPSinNP() {
+		guiReporteSDPSinNP = new GUIReporteSDPSinNP(this);
+		guiReporteSDPSinNP.setVisible(true);	
+	}
+
+	public void mostrarDiasDesdePedidoFabrica() {
+		guiReporteDiasDesdePedidoFabrica = new GUIReporteDiasDesdePedidoFabrica(this);
+		guiReporteDiasDesdePedidoFabrica.setVisible(true);	
+	}
+
+	public void mostrarDiasDesdeRecepcionFabrica() {
+		guiReporteDiasDesdeRecepcionFabrica = new GUIReporteDiasDesdeRecepcionFabrica(this);
+		guiReporteDiasDesdeRecepcionFabrica.setVisible(true);		
+	}
+
+	public void mostrarDiasDesdeRecepcionFabricaYTurno() {
+		guiReporteDiasDesdeRecepcionFabricaYTurno = new GUIReporteDiasDesdeRecepcionFabricaYTurno(this);
+		guiReporteDiasDesdeRecepcionFabricaYTurno.setVisible(true);	
+	}
+
+	public void mostrarDiasDesdeCierreOrdenYTurno() {
+		guiReporteDiasDesdeCierreOrdenYTurno = new GUIReporteDiasDesdeCierreOrdenYTurno(this);
+		guiReporteDiasDesdeCierreOrdenYTurno.setVisible(true);	
+	}
+
+	public void mostrarDiasFechaRecursoYCierreOrden() {
+		guiReporteDiasFechaRecursoYCierreOrden = new GUIReporteDiasFechaRecursoYCierreOrden(this);
+		guiReporteDiasFechaRecursoYCierreOrden.setVisible(true);	
+	}
+
+	public void mostrarDiasFechaReclamoYFechaDevolucion() {
+		guiReporteDiasFechaReclamoYFechaDevolucion = new GUIReporteDiasFechaReclamoYFechaDevolucion(this);
+		guiReporteDiasFechaReclamoYFechaDevolucion.setVisible(true);	
+	}
+
+	public void mostrarDiasFechaReclamo_Turnos() {
+		guiReporteDiasFechaReclamo_Turnos = new GUIReporteDiasFechaReclamo_Turnos(this);
+		guiReporteDiasFechaReclamo_Turnos.setVisible(true);	
+	}
+
+	public void mostrarDiasPiezasLlegadas_PiezasDevueltas() {
+		guiReporteDiasPiezasLlegadas_PiezasDevueltas = new GUIReporteDiasPiezasLlegadas_PiezasDevueltas(this);
+		guiReporteDiasPiezasLlegadas_PiezasDevueltas.setVisible(true);	
+	}
+
+	public void mostrarManoDeObra() {
+		guiReporteManoDeObra = new GUIReporteManoDeObra(this);
+		guiReporteManoDeObra.setVisible(true);	
+	}
+
+	public void mostrarRecurso_CierreOrden() {
+		guiReporteRecurso_CierreOrden = new GUIReporteRecurso_CierreOrden(this);
+		guiReporteRecurso_CierreOrden.setVisible(true);	
+	}
+
+	
 	public MediadorPrincipal getMediadorPrincipal() {
 		return mediadorPrincipal;
 	}
@@ -107,5 +210,6 @@ public class MediadorReportes {
 		}
 		return result;
 	}
+
 
 }

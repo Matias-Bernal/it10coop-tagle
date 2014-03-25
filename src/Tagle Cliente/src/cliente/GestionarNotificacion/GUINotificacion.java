@@ -67,8 +67,7 @@ public class GUINotificacion extends JFrame {
 		btnCompletada.setBounds(10, 210, 145, 25);
 		btnCompletada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mediador.setCompletada(true);
-				mediador.guardarNotificacion();
+				completada();
 			}
 		});
 		contentPane.setLayout(null);
@@ -92,9 +91,14 @@ public class GUINotificacion extends JFrame {
 		contentPane.add(tA_textoNotificacion);
 	}
 	
-	public void posponer(){
-		mediador.setPosponer(true);
+	private void posponer(){
 		setVisible(false);
+		mediador.posponer();
+	}
+	
+	private void completada(){
+		setVisible(false);
+		mediador.completada();
 	}
 	
 	public MediadorEjecutarNotificacion getMediador() {

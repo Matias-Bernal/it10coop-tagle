@@ -208,8 +208,9 @@ public class Servidor {
 		System.out.println("Nombre: " + this.name);
 		System.out.println("Listo para conexiones");
 		int exit = 0;
-		while(exit!=1){
-			int caracter = System.in.read();
+		synchronized (this) {
+			if(exit!=1)
+				this.wait();
 		}
 		//GUIServidor serv = new GUIServidor();
 	}

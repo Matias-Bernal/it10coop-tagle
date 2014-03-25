@@ -6,11 +6,16 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.Vector;
 
+import javax.jdo.Extent;
+import javax.jdo.Query;
+
 import servidor.assembler.PedidoAssembler;
 import servidor.assembler.ReclamoAssembler;
 import servidor.persistencia.AccesoBD;
+import servidor.persistencia.dominio.Agente;
+import servidor.persistencia.dominio.Entidad;
 import servidor.persistencia.dominio.Pedido;
-
+import servidor.persistencia.dominio.Pedido_Pieza;
 import common.DTOs.PedidoDTO;
 import common.DTOs.ReclamoDTO;
 import common.GestionarPedido.IControlPedido;
@@ -21,7 +26,6 @@ public class ControlPedido extends UnicastRemoteObject implements IControlPedido
 
 	public ControlPedido() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -162,6 +166,82 @@ public class ControlPedido extends UnicastRemoteObject implements IControlPedido
 			accesoBD.rollbackTransaccion();
 		}
 		return pedidoDTO;
+	}
+
+	@Override
+	public Vector<PedidoDTO> obtenerPedidosAgentes() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<PedidoDTO> pedidosDTO = new Vector<PedidoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			@SuppressWarnings("unchecked")
+			Extent e1 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection agentes = (Collection) q1.execute();	
+			
+			String filtro = "agentes.contains(reclamo.registrante)";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido.class, false);
+	        Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+	        
+	        query.declareImports("import java.util.Collection");
+	        query.declareParameters("Collection agentes");
+			Collection c2 = (Collection) query.execute(agentes);
+			
+			Vector<Pedido> pedidos = new Vector<Pedido> (c2);
+			for (int i = 0; i < pedidos.size(); i++) {
+				PedidoDTO pedidoDTO = new PedidoDTO();
+				
+				pedidoDTO.setId(pedidos.elementAt(i).getId());
+				pedidoDTO.setFecha_solicitud_pedido(pedidos.elementAt(i).getFecha_solicitud_pedido());
+				ReclamoAssembler reclamoAssemb = new ReclamoAssembler(accesoBD);
+				pedidoDTO.setReclamo(reclamoAssemb.getReclamoDTO(pedidos.elementAt(i).getReclamo()));
+				
+				pedidosDTO.add(pedidoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidosDTO;
+	}
+
+	@Override
+	public Vector<PedidoDTO> obtenerPedidosEntidades() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<PedidoDTO> pedidosDTO = new Vector<PedidoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			@SuppressWarnings("unchecked")
+			Extent e1 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection entidades = (Collection) q1.execute();	
+			
+			String filtro = "entidades.contains(reclamo.registrante)";       
+						
+			Extent clnCliente = accesoBD.getPersistencia().getExtent(Pedido.class, false);
+	        Query query = accesoBD.getPersistencia().newQuery(clnCliente,filtro);
+	        
+	        query.declareImports("import java.util.Collection");
+	        query.declareParameters("Collection entidades");
+			Collection c2 = (Collection) query.execute(entidades);
+			
+			Vector<Pedido> pedidos = new Vector<Pedido> (c2);
+			for (int i = 0; i < pedidos.size(); i++) {
+				PedidoDTO pedidoDTO = new PedidoDTO();
+				
+				pedidoDTO.setId(pedidos.elementAt(i).getId());
+				pedidoDTO.setFecha_solicitud_pedido(pedidos.elementAt(i).getFecha_solicitud_pedido());
+				ReclamoAssembler reclamoAssemb = new ReclamoAssembler(accesoBD);
+				pedidoDTO.setReclamo(reclamoAssemb.getReclamoDTO(pedidos.elementAt(i).getReclamo()));
+				
+				pedidosDTO.add(pedidoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return pedidosDTO;
 	}
 
 }
