@@ -6,6 +6,9 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.Vector;
 
+import javax.jdo.Extent;
+import javax.jdo.Query;
+
 import servidor.assembler.OrdenAssembler;
 import servidor.assembler.ReclamanteAssembler;
 import servidor.assembler.ReclamoAssembler;
@@ -13,7 +16,10 @@ import servidor.assembler.RegistranteAssembler;
 import servidor.assembler.UsuarioAssembler;
 import servidor.assembler.VehiculoAssembler;
 import servidor.persistencia.AccesoBD;
+import servidor.persistencia.dominio.Agente;
+import servidor.persistencia.dominio.Entidad;
 import servidor.persistencia.dominio.Orden;
+import servidor.persistencia.dominio.Pedido;
 import servidor.persistencia.dominio.Pedido_Pieza_Reclamo_Fabrica;
 import servidor.persistencia.dominio.Reclamo;
 import common.DTOs.ReclamanteDTO;
@@ -28,7 +34,6 @@ public class ControlReclamo extends UnicastRemoteObject implements
 
 	public ControlReclamo() throws RemoteException {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -291,6 +296,229 @@ public class ControlReclamo extends UnicastRemoteObject implements
 			accesoBD.rollbackTransaccion();
 		}
 		return reclamoDTO;
+	}
+
+	@Override
+	public Vector<ReclamoDTO> obtenerReclamosEntidades() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<ReclamoDTO> reclamosDTO = new Vector<ReclamoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			@SuppressWarnings("unchecked")
+			Extent e1 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection c1 = (Collection) q1.execute();
+			
+			Extent e2 = accesoBD.getPersistencia().getExtent(Reclamo.class, true);
+			Query q2 = accesoBD.getPersistencia().newQuery(e2, "entidades.contains(this.registrante)");
+			q2.declareImports("import java.util.Collection");
+			q2.declareParameters("Collection entidades");
+			Collection c2 = (Collection) q2.execute(c1);
+
+			Vector<Reclamo> reclamos = new Vector<Reclamo> (c2);
+			for (int i = 0; i < reclamos.size(); i++) {
+				ReclamoDTO reclamoDTO = new ReclamoDTO();
+
+				reclamoDTO.setId(reclamos.elementAt(i).getId());
+				reclamoDTO.setDescripcion(reclamos.elementAt(i).getDescripcion());
+				reclamoDTO.setEstado_reclamo(reclamos.elementAt(i).getEstado_reclamo());
+				reclamoDTO.setFecha_reclamo(reclamos.elementAt(i).getFecha_reclamo());
+				reclamoDTO.setFecha_turno(reclamos.elementAt(i).getFecha_turno());
+				reclamoDTO.setInmovilizado(reclamos.elementAt(i).getInmovilizado());
+				reclamoDTO.setPeligroso(reclamos.elementAt(i).getPeligroso());
+				ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler(accesoBD);
+				reclamoDTO.setReclamante(reclamanteAssemb.getReclamanteDTO(reclamos.elementAt(i).getReclamante()));
+				RegistranteAssembler registranteAssemb = new RegistranteAssembler(accesoBD);
+				reclamoDTO.setRegistrante(registranteAssemb.getRegistranteDTO(reclamos.elementAt(i).getRegistrante()));
+				UsuarioAssembler usuarioAssemb = new UsuarioAssembler(accesoBD);
+				reclamoDTO.setUsuario(usuarioAssemb.getUsuarioDTO(reclamos.elementAt(i).getUsuario()));
+				VehiculoAssembler vehiculoAssemb = new VehiculoAssembler(accesoBD);
+				reclamoDTO.setVehiculo(vehiculoAssemb.getVehiculoDTO(reclamos.elementAt(i).getVehiculo()));
+				OrdenAssembler ordenAssemb = new OrdenAssembler(accesoBD);
+				reclamoDTO.setOrden(ordenAssemb.getOrdenDTO(reclamos.elementAt(i).getOrden()));
+				
+				reclamosDTO.add(reclamoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamosDTO;
+	}
+	
+	public Vector<ReclamoDTO> obtenerReclamosEntidadesSinTurno() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<ReclamoDTO> reclamosDTO = new Vector<ReclamoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+
+			Extent e = accesoBD.getPersistencia().getExtent(Pedido.class, true);
+			Query q = accesoBD.getPersistencia().newQuery(e, "");
+			Collection c = (Collection) q.execute();
+			
+			Extent e1 = accesoBD.getPersistencia().getExtent(Entidad.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection c1 = (Collection) q1.execute();
+			
+			Extent e2 = accesoBD.getPersistencia().getExtent(Reclamo.class, true);
+			Query q2 = accesoBD.getPersistencia().newQuery(e2, "entidades.contains(this.registrante) && this.fecha_turno == null");
+			q2.declareImports("import java.util.Collection");
+			q2.declareParameters("Collection entidades");
+			Collection c2 = (Collection) q2.execute(c1);
+
+			Vector<Reclamo> reclamos = new Vector<Reclamo> (c2);
+			for (int i = 0; i < reclamos.size(); i++) {
+				ReclamoDTO reclamoDTO = new ReclamoDTO();
+
+				reclamoDTO.setId(reclamos.elementAt(i).getId());
+				reclamoDTO.setDescripcion(reclamos.elementAt(i).getDescripcion());
+				reclamoDTO.setEstado_reclamo(reclamos.elementAt(i).getEstado_reclamo());
+				reclamoDTO.setFecha_reclamo(reclamos.elementAt(i).getFecha_reclamo());
+				reclamoDTO.setFecha_turno(reclamos.elementAt(i).getFecha_turno());
+				reclamoDTO.setInmovilizado(reclamos.elementAt(i).getInmovilizado());
+				reclamoDTO.setPeligroso(reclamos.elementAt(i).getPeligroso());
+				ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler(accesoBD);
+				reclamoDTO.setReclamante(reclamanteAssemb.getReclamanteDTO(reclamos.elementAt(i).getReclamante()));
+				RegistranteAssembler registranteAssemb = new RegistranteAssembler(accesoBD);
+				reclamoDTO.setRegistrante(registranteAssemb.getRegistranteDTO(reclamos.elementAt(i).getRegistrante()));
+				UsuarioAssembler usuarioAssemb = new UsuarioAssembler(accesoBD);
+				reclamoDTO.setUsuario(usuarioAssemb.getUsuarioDTO(reclamos.elementAt(i).getUsuario()));
+				VehiculoAssembler vehiculoAssemb = new VehiculoAssembler(accesoBD);
+				reclamoDTO.setVehiculo(vehiculoAssemb.getVehiculoDTO(reclamos.elementAt(i).getVehiculo()));
+				OrdenAssembler ordenAssemb = new OrdenAssembler(accesoBD);
+				reclamoDTO.setOrden(ordenAssemb.getOrdenDTO(reclamos.elementAt(i).getOrden()));
+				
+				reclamosDTO.add(reclamoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamosDTO;
+	}
+
+	@Override
+	public Vector<ReclamoDTO> obtenerReclamosEntidadesConPiezas() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<ReclamoDTO> reclamosDTO = new Vector<ReclamoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			@SuppressWarnings("unchecked")
+			Vector<Reclamo> reclamos = new Vector<Reclamo> (accesoBD.buscarPorFiltro(Reclamo.class, ""));
+			for (int i = 0; i < reclamos.size(); i++) {
+				ReclamoDTO reclamoDTO = new ReclamoDTO();
+
+				reclamoDTO.setId(reclamos.elementAt(i).getId());
+				reclamoDTO.setDescripcion(reclamos.elementAt(i).getDescripcion());
+				reclamoDTO.setEstado_reclamo(reclamos.elementAt(i).getEstado_reclamo());
+				reclamoDTO.setFecha_reclamo(reclamos.elementAt(i).getFecha_reclamo());
+				reclamoDTO.setFecha_turno(reclamos.elementAt(i).getFecha_turno());
+				reclamoDTO.setInmovilizado(reclamos.elementAt(i).getInmovilizado());
+				reclamoDTO.setPeligroso(reclamos.elementAt(i).getPeligroso());
+				ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler(accesoBD);
+				reclamoDTO.setReclamante(reclamanteAssemb.getReclamanteDTO(reclamos.elementAt(i).getReclamante()));
+				RegistranteAssembler registranteAssemb = new RegistranteAssembler(accesoBD);
+				reclamoDTO.setRegistrante(registranteAssemb.getRegistranteDTO(reclamos.elementAt(i).getRegistrante()));
+				UsuarioAssembler usuarioAssemb = new UsuarioAssembler(accesoBD);
+				reclamoDTO.setUsuario(usuarioAssemb.getUsuarioDTO(reclamos.elementAt(i).getUsuario()));
+				VehiculoAssembler vehiculoAssemb = new VehiculoAssembler(accesoBD);
+				reclamoDTO.setVehiculo(vehiculoAssemb.getVehiculoDTO(reclamos.elementAt(i).getVehiculo()));
+				OrdenAssembler ordenAssemb = new OrdenAssembler(accesoBD);
+				reclamoDTO.setOrden(ordenAssemb.getOrdenDTO(reclamos.elementAt(i).getOrden()));
+				
+				reclamosDTO.add(reclamoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamosDTO;
+	}
+
+	@Override
+	public Vector<ReclamoDTO> obtenerReclamosAgentes() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<ReclamoDTO> reclamosDTO = new Vector<ReclamoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			@SuppressWarnings("unchecked")
+			Extent e1 = accesoBD.getPersistencia().getExtent(Agente.class, true);
+			Query q1 = accesoBD.getPersistencia().newQuery(e1, "");
+			Collection c1 = (Collection) q1.execute();
+			
+			Extent e2 = accesoBD.getPersistencia().getExtent(Reclamo.class, true);
+			Query q2 = accesoBD.getPersistencia().newQuery(e2, "entidades.contains(this.registrante)");
+			q2.declareImports("import java.util.Collection");
+			q2.declareParameters("Collection entidades");
+			Collection c2 = (Collection) q2.execute(c1);
+
+			Vector<Reclamo> reclamos = new Vector<Reclamo> (c2);
+			for (int i = 0; i < reclamos.size(); i++) {
+				ReclamoDTO reclamoDTO = new ReclamoDTO();
+
+				reclamoDTO.setId(reclamos.elementAt(i).getId());
+				reclamoDTO.setDescripcion(reclamos.elementAt(i).getDescripcion());
+				reclamoDTO.setEstado_reclamo(reclamos.elementAt(i).getEstado_reclamo());
+				reclamoDTO.setFecha_reclamo(reclamos.elementAt(i).getFecha_reclamo());
+				reclamoDTO.setFecha_turno(reclamos.elementAt(i).getFecha_turno());
+				reclamoDTO.setInmovilizado(reclamos.elementAt(i).getInmovilizado());
+				reclamoDTO.setPeligroso(reclamos.elementAt(i).getPeligroso());
+				ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler(accesoBD);
+				reclamoDTO.setReclamante(reclamanteAssemb.getReclamanteDTO(reclamos.elementAt(i).getReclamante()));
+				RegistranteAssembler registranteAssemb = new RegistranteAssembler(accesoBD);
+				reclamoDTO.setRegistrante(registranteAssemb.getRegistranteDTO(reclamos.elementAt(i).getRegistrante()));
+				UsuarioAssembler usuarioAssemb = new UsuarioAssembler(accesoBD);
+				reclamoDTO.setUsuario(usuarioAssemb.getUsuarioDTO(reclamos.elementAt(i).getUsuario()));
+				VehiculoAssembler vehiculoAssemb = new VehiculoAssembler(accesoBD);
+				reclamoDTO.setVehiculo(vehiculoAssemb.getVehiculoDTO(reclamos.elementAt(i).getVehiculo()));
+				OrdenAssembler ordenAssemb = new OrdenAssembler(accesoBD);
+				reclamoDTO.setOrden(ordenAssemb.getOrdenDTO(reclamos.elementAt(i).getOrden()));
+				
+				reclamosDTO.add(reclamoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamosDTO;
+	}
+
+	@Override
+	public Vector<ReclamoDTO> obtenerReclamosAgentesConPiezas() throws Exception {
+		AccesoBD accesoBD = new AccesoBD();
+		Vector<ReclamoDTO> reclamosDTO = new Vector<ReclamoDTO>();
+		try {
+			accesoBD.iniciarTransaccion();
+			@SuppressWarnings("unchecked")
+			Vector<Reclamo> reclamos = new Vector<Reclamo> (accesoBD.buscarPorFiltro(Reclamo.class, ""));
+			for (int i = 0; i < reclamos.size(); i++) {
+				ReclamoDTO reclamoDTO = new ReclamoDTO();
+
+				reclamoDTO.setId(reclamos.elementAt(i).getId());
+				reclamoDTO.setDescripcion(reclamos.elementAt(i).getDescripcion());
+				reclamoDTO.setEstado_reclamo(reclamos.elementAt(i).getEstado_reclamo());
+				reclamoDTO.setFecha_reclamo(reclamos.elementAt(i).getFecha_reclamo());
+				reclamoDTO.setFecha_turno(reclamos.elementAt(i).getFecha_turno());
+				reclamoDTO.setInmovilizado(reclamos.elementAt(i).getInmovilizado());
+				reclamoDTO.setPeligroso(reclamos.elementAt(i).getPeligroso());
+				ReclamanteAssembler reclamanteAssemb = new ReclamanteAssembler(accesoBD);
+				reclamoDTO.setReclamante(reclamanteAssemb.getReclamanteDTO(reclamos.elementAt(i).getReclamante()));
+				RegistranteAssembler registranteAssemb = new RegistranteAssembler(accesoBD);
+				reclamoDTO.setRegistrante(registranteAssemb.getRegistranteDTO(reclamos.elementAt(i).getRegistrante()));
+				UsuarioAssembler usuarioAssemb = new UsuarioAssembler(accesoBD);
+				reclamoDTO.setUsuario(usuarioAssemb.getUsuarioDTO(reclamos.elementAt(i).getUsuario()));
+				VehiculoAssembler vehiculoAssemb = new VehiculoAssembler(accesoBD);
+				reclamoDTO.setVehiculo(vehiculoAssemb.getVehiculoDTO(reclamos.elementAt(i).getVehiculo()));
+				OrdenAssembler ordenAssemb = new OrdenAssembler(accesoBD);
+				reclamoDTO.setOrden(ordenAssemb.getOrdenDTO(reclamos.elementAt(i).getOrden()));
+				
+				reclamosDTO.add(reclamoDTO);
+			}
+			accesoBD.concretarTransaccion();
+		} catch (Exception e) {
+			accesoBD.rollbackTransaccion();
+		}
+		return reclamosDTO;
 	}
 
 }

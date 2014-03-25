@@ -62,6 +62,7 @@ public class GUIAltaPedidoAgente extends JFrame{
  	private DefaultComboBoxModel<String> cmbPieza;
 	private Vector<PiezaDTO> piezas;
 	private ReclamoDTO reclamo;
+	private JButton btn_clear_FSP;
 	
 	public GUIAltaPedidoAgente(final MediadorPedido medidador) {
 		this.setMedidador(medidador);
@@ -210,6 +211,17 @@ public class GUIAltaPedidoAgente extends JFrame{
 		taDescripcion.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		taDescripcion.setBounds(138, 196, 256, 72);
 		getContentPane().add(taDescripcion);
+		
+		btn_clear_FSP = new JButton("");
+		btn_clear_FSP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_solicitud_pedido.getDate()!=null)
+					fecha_solicitud_pedido.setDate(null);
+			}
+		});
+		btn_clear_FSP.setIcon(new ImageIcon(GUIAltaPedidoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSP.setBounds(311, 40, 25, 20);
+		getContentPane().add(btn_clear_FSP);
 		
 	}
 		

@@ -16,8 +16,16 @@ public interface IControlPedido_Pieza extends Remote{
 	public void modificarPedido_Pieza(Long id,Pedido_PiezaDTO modificado)throws Exception;
 	
 	public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza()throws Exception;
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaAgente()throws Exception;
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaEntidad()throws Exception;
+	
 	public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza(Date fecha_estado)throws Exception;
-	//public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza(String numero_pedido)throws Exception;
+	
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaSinTurno() throws Exception;
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaContencion() throws Exception;
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaReclamoAgente() throws Exception;
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaReclamoFabrica() throws Exception;
+	public Vector<Pedido_PiezaDTO> obtenerPedido_PiezaSugerencia() throws Exception;
 	public Vector<Pedido_PiezaDTO> obtenerPedido_Pieza(PedidoDTO pedidoDTO)throws Exception;
 
 	public boolean existePedido_Pieza(Long id) throws Exception;

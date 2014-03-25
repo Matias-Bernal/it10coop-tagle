@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
 import common.DTOs.Pedido_PiezaDTO;
 
 import java.awt.Toolkit;
@@ -37,6 +38,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.ImageIcon;
 
 public class GUIReclamoPiezas extends JFrame{
@@ -70,6 +72,8 @@ public class GUIReclamoPiezas extends JFrame{
 	private JButton btnActualizarReclamosAgente;
 	private JButton btnActualizarReclamosFabrica;
 	private JButton btnVolver;
+	private JButton btnExportarTablaRF;
+	private JButton btnExportarTablaRA;
 
 	
 	public GUIReclamoPiezas(MediadorReclamoPiezas mediadorRepuesto) {
@@ -319,7 +323,7 @@ public class GUIReclamoPiezas extends JFrame{
 				actualizarReclamosFabrica();
 			}
 		});
-		btnActualizarReclamosFabrica.setBounds(990, 11, 150, 25);
+		btnActualizarReclamosFabrica.setBounds(950, 14, 150, 25);
 		reclamos_Fabrica.add(btnActualizarReclamosFabrica);
 		
 		btnVerReclamosFabrica = new JButton("Ver Reclamo/s a Fabrica");
@@ -331,6 +335,16 @@ public class GUIReclamoPiezas extends JFrame{
 		});
 		btnVerReclamosFabrica.setBounds(250, 11, 215, 25);
 		reclamos_Fabrica.add(btnVerReclamosFabrica);
+		
+		btnExportarTablaRF = new JButton("");
+		btnExportarTablaRF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablaRF();
+			}
+		});
+		btnExportarTablaRF.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTablaRF.setBounds(1108, 12, 32, 32);
+		reclamos_Fabrica.add(btnExportarTablaRF);
 		
 		reclamos_Agente = new JPanel();
 		tabbedPane.addTab("RECLAMOS A AGENTE", new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/registrante_solo.png")), reclamos_Agente, null);
@@ -382,7 +396,7 @@ public class GUIReclamoPiezas extends JFrame{
 				actualizarReclamosAgente();
 			}
 		});
-		btnActualizarReclamosAgente.setBounds(990, 11, 150, 25);
+		btnActualizarReclamosAgente.setBounds(950, 11, 150, 25);
 		reclamos_Agente.add(btnActualizarReclamosAgente);
 		
 		btnVerReclamosAgente = new JButton("Ver Reclamo/s a Agente");
@@ -405,6 +419,16 @@ public class GUIReclamoPiezas extends JFrame{
 		btnNuevoReclamoAgente.setBounds(10, 11, 215, 25);
 		reclamos_Agente.add(btnNuevoReclamoAgente);
 		
+		btnExportarTablaRA = new JButton("");
+		btnExportarTablaRA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablaRA();
+			}
+		});
+		btnExportarTablaRA.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTablaRA.setBounds(1108, 7, 32, 32);
+		reclamos_Agente.add(btnExportarTablaRA);
+		
 		btnVolver = new JButton("Volver");
 		btnVolver.setIcon(new ImageIcon(GUIReclamoPiezas.class.getResource("/cliente/Resources/Icons/back.png")));
 		btnVolver.addActionListener(new ActionListener() {
@@ -414,6 +438,22 @@ public class GUIReclamoPiezas extends JFrame{
 		});
 		btnVolver.setBounds(515, 620, 125, 23);
 		getContentPane().add(btnVolver);
+	}
+
+	protected void exportarTablaRA() {
+		try {
+			ExportarExcel.exportarUnaTabla(tabla_reclamos_agentes, "Reclamos Agentes");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(getContentPane(),"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+
+	protected void exportarTablaRF() {
+		try {
+			ExportarExcel.exportarUnaTabla(tabla_reclamos_fabrica, "Reclamos Fabrica");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(getContentPane(),"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	protected void actualizarReclamosAgente() {

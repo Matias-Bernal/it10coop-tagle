@@ -45,8 +45,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
 import common.DTOs.RegistranteDTO;
+
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUIGestionRegistrante extends JFrame {
@@ -73,6 +76,7 @@ public class GUIGestionRegistrante extends JFrame {
 	// ComboBox de Registrantes
 	private JComboBox<String> comboBox;
 	private Vector<String> tiposRegistrantes;
+	private JButton btnExportarTablas;
 
 	public GUIGestionRegistrante(MediadorRegistrante mediadorRegistrante) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/registrantes.png")));
@@ -221,6 +225,24 @@ public class GUIGestionRegistrante extends JFrame {
 		});
 		btnActualizar.setBounds(493, 137, 220, 23);
 		contentPane.add(btnActualizar);
+		
+		btnExportarTablas = new JButton("");
+		btnExportarTablas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTablas.setIcon(new ImageIcon(GUIGestionRegistrante.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTablas.setBounds(742, 137, 32, 32);
+		contentPane.add(btnExportarTablas);
+	}
+
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tableRegistrantes, "Registrantes");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	//Gestion

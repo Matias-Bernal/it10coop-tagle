@@ -80,6 +80,8 @@ public class GUIModificarReclamoEntidad extends JFrame {
 	private JButton btn_buscar_reclamante;
 	private JButton btn_buscar_Vehivulo;
 	private JDateChooser fecha_turno;
+	private JButton btn_clear_FR;
+	private JButton btn_clear_FT;
 	
 	public GUIModificarReclamoEntidad(final MediadorReclamo mediador, ReclamoDTO reclamo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/eddit_reclamo_entidad.png")));
@@ -110,6 +112,28 @@ public class GUIModificarReclamoEntidad extends JFrame {
 		chckbxPeligroso.setSelected(reclamo.getPeligroso());
 		
 		tP_Descripcion.setText(reclamo.getDescripcion());
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_reclamo.getDate()!=null)
+					fecha_reclamo.setDate(null);
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(308, 10, 25, 20);
+		contentPane.add(btn_clear_FR);
+		
+		btn_clear_FT = new JButton("");
+		btn_clear_FT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_turno.getDate()!=null)
+					fecha_turno.setDate(null);
+			}
+		});
+		btn_clear_FT.setIcon(new ImageIcon(GUIModificarReclamoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FT.setBounds(308, 42, 25, 20);
+		contentPane.add(btn_clear_FT);
 	}
 	
 	private void initialize() {

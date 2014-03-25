@@ -19,6 +19,7 @@ import java.util.Vector;
 
 import cliente.MediadorAccionesIniciarPrograma;
 import cliente.MediadorPrincipal;
+import common.RootAndIp;
 import common.DTOs.AgenteDTO;
 import common.DTOs.BdgDTO;
 import common.DTOs.Devolucion_PiezaDTO;
@@ -48,6 +49,7 @@ import common.GestionarPieza.IControlPieza;
 import common.GestionarProveedor.IControlProveedor;
 import common.GestionarReclamante.IControlReclamante;
 import common.GestionarReclamo.IControlReclamo;
+import common.GestionarRegistrante.IControlRegistrante;
 
 public class MediadorPedido {
 
@@ -108,6 +110,30 @@ public class MediadorPedido {
 		}
 		return pedido;
 	}
+	
+	public Vector<PedidoDTO> obtenerPedidosAgentes() {
+		Vector<PedidoDTO> pedido = new Vector<PedidoDTO>();
+		IControlPedido iControlPedido = MediadorAccionesIniciarPrograma.getControlPedido();
+		try {
+			pedido = iControlPedido.obtenerPedidosAgentes();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pedido;
+	}
+	
+	public Vector<PedidoDTO> obtenerPedidosEntidades() {
+		Vector<PedidoDTO> pedido = new Vector<PedidoDTO>();
+		IControlPedido iControlPedido = MediadorAccionesIniciarPrograma.getControlPedido();
+		try {
+			pedido = iControlPedido.obtenerPedidosEntidades();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pedido;
+	}
+	
+	
 	public Vector<Pedido_PiezaDTO> buscarPedidoPieza(Long id_pedido) {
 		Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
 		try {
@@ -215,6 +241,26 @@ public class MediadorPedido {
 						piezaDTO.setId(iControlPieza.agregarPieza(piezaDTO));
 						if(!iControlPedido_Pieza.existePedido_Pieza(pedidoDTO, piezaDTO)){
 							Pedido_PiezaDTO pedido_piezaDTO = new Pedido_PiezaDTO(pedidoDTO, piezaDTO);
+							pedido_piezaDTO.setNumero_pedido(numero_pedido);
+							
+							Mano_ObraDTO mano_obra = new Mano_ObraDTO();
+							mano_obra.setReclamo(reclamo);
+							mano_obra.setCantidad_horas(0);
+							
+							if(esEntidad(reclamo.getRegistrante())){
+								common.RootAndIp.setConf("");    
+								IControlRegistrante iControlRegistrante = MediadorAccionesIniciarPrograma.getControlRegistrante();
+								if(reclamo.getRegistrante().getNombre_registrante().equals(iControlRegistrante .buscarRegistranteDTO("RENAULT").getNombre_registrante())){
+									mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_renault());
+								}
+								if(reclamo.getRegistrante().getNombre_registrante().equals(iControlRegistrante.buscarRegistranteDTO("NISSAN").getNombre_registrante())){
+									mano_obra.setValor_mano_obra(RootAndIp.getValor_mano_obra_nissan());
+								}
+							}
+							IControlMano_Obra iControlMano_Obra = MediadorAccionesIniciarPrograma.getControlMano_Obra();
+							mano_obra.setId(iControlMano_Obra.agregarMano_Obra(mano_obra));	
+							pedido_piezaDTO.setMano_obra(mano_obra);
+							
 							pedido_piezaDTO.setEstado_pedido("SIN SOLICITUD A FABRICA");
 							pedido_piezaDTO.setId(iControlPedido_Pieza.agregarPedido_Pieza(pedido_piezaDTO));
 						}
@@ -781,14 +827,14 @@ public class MediadorPedido {
 									//EXISTE MANO OBRA
 									Mano_ObraDTO mano_obra = original.getMano_obra();
 									mano_obra.setCantidad_horas(modificado.getMano_obra().getCantidad_horas());
-									mano_obra.setCantidad_horas(modificado.getMano_obra().getCantidad_horas());
+									mano_obra.setValor_mano_obra(modificado.getMano_obra().getValor_mano_obra());
 									mano_obra.setCodigo_mano_obra(modificado.getMano_obra().getCodigo_mano_obra());
 									iControlMano_Obra.modificarMano_Obra(mano_obra.getId(), mano_obra);
 								}else{
 									//NO EXISTE MANO OBRA
 									Mano_ObraDTO mano_obra = new Mano_ObraDTO();
 									mano_obra.setCantidad_horas(modificado.getMano_obra().getCantidad_horas());
-									mano_obra.setCantidad_horas(modificado.getMano_obra().getCantidad_horas());
+									mano_obra.setValor_mano_obra(modificado.getMano_obra().getValor_mano_obra());
 									mano_obra.setCodigo_mano_obra(modificado.getMano_obra().getCodigo_mano_obra());
 									mano_obra.setId(iControlMano_Obra.agregarMano_Obra(mano_obra));
 

@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
@@ -47,11 +49,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
+
 import com.toedter.calendar.JDateChooser;
 
 import common.DTOs.AgenteDTO;
 import common.DTOs.ReclamoDTO;
+
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUIGestionReclamoAgente extends JFrame{
@@ -78,6 +84,8 @@ public class GUIGestionReclamoAgente extends JFrame{
 	private DefaultComboBoxModel<String> cmbEstado_reclamo;
 	private DefaultComboBoxModel<String> cmbAgentes;
 	private Vector<Integer> anchos;
+	private JButton btnExportarTabla;
+	private JButton btn_clear_FR;
 
 	public GUIGestionReclamoAgente(MediadorReclamo mediadorReclamo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionReclamoAgente.class.getResource("/cliente/Resources/Icons/reclamo.png")));
@@ -214,6 +222,24 @@ public class GUIGestionReclamoAgente extends JFrame{
 				filtrarPorVin();
 			}
 		});
+		vin.setToolTipText("Ej 12345678901234567");
+		vin.addKeyListener(new KeyListener() {
+		private int limite = 17;
+		public void keyTyped(KeyEvent e) {
+			if (vin.getText().length()>=limite){
+				e.consume();					
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				//buscar();
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {			
+		}
+		});
 		vin.setColumns(10);
 		vin.setBounds(161, 170, 130, 20);
 		contentPane.add(vin);
@@ -279,7 +305,7 @@ public class GUIGestionReclamoAgente extends JFrame{
 				actualizarDatos();
 			}
 		});
-		btnActualizar.setBounds(920, 136, 315, 23);
+		btnActualizar.setBounds(884, 136, 315, 23);
 		contentPane.add(btnActualizar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
@@ -289,7 +315,7 @@ public class GUIGestionReclamoAgente extends JFrame{
 				eliminar();
 			}
 		});
-		btnEliminar.setBounds(920, 102, 315, 23);
+		btnEliminar.setBounds(884, 102, 315, 23);
 		contentPane.add(btnEliminar);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -299,7 +325,7 @@ public class GUIGestionReclamoAgente extends JFrame{
 				modificar();
 			}
 		});
-		btnModificar.setBounds(920, 68, 315, 23);
+		btnModificar.setBounds(884, 68, 315, 23);
 		contentPane.add(btnModificar);
 		
 		JButton btnAgregar = new JButton("Agregar");
@@ -309,7 +335,7 @@ public class GUIGestionReclamoAgente extends JFrame{
 				agregarNuevoReclamoAgente();
 			}
 		});
-		btnAgregar.setBounds(920, 33, 315, 23);
+		btnAgregar.setBounds(884, 33, 315, 23);
 		contentPane.add(btnAgregar);
 		
 		JButton btnVolver = new JButton("Volver");
@@ -345,6 +371,36 @@ public class GUIGestionReclamoAgente extends JFrame{
 		});
 		btnVer.setBounds(320, 639, 150, 23);
 		contentPane.add(btnVer);
+		
+		btnExportarTabla = new JButton("");
+		btnExportarTabla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTabla.setIcon(new ImageIcon(GUIGestionReclamoAgente.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTabla.setBounds(1232, 153, 32, 32);
+		contentPane.add(btnExportarTabla);
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (fecha_reclamo.getDate()!=null){
+					fecha_reclamo.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIGestionReclamoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(646, 43, 25, 20);
+		contentPane.add(btn_clear_FR);
+	}
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tablaReclamo, "Reclamos Agentes");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
 	protected void filtrarPorOrden() {
@@ -643,9 +699,8 @@ public class GUIGestionReclamoAgente extends JFrame{
 		estados_reclamo.add("CERRADO");
 		
 		datosTabla = new Vector<Vector<String>>();
-		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamos();
+		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamosAgente();
 		for (int i=0; i< reclamos.size();i++){
-			if (reclamos.elementAt(i).getRegistrante()!=null && mediador.esAgente(reclamos.elementAt(i).getRegistrante())){
 				Vector<String> row = new Vector<String> ();
 				
 				row.add(reclamos.elementAt(i).getId().toString());
@@ -682,7 +737,6 @@ public class GUIGestionReclamoAgente extends JFrame{
 					row.add("");
 				}
 				datosTabla.add(row);
-			}
 		}	
 		modelo.setDataVector(datosTabla, nombreColumnas);
 		tablaReclamo = new JTable(modelo) {
@@ -699,9 +753,8 @@ public class GUIGestionReclamoAgente extends JFrame{
 
 	public void actualizarDatos() {
 		datosTabla = new Vector<Vector<String>>();
-		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamos();
+		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamosAgente();
 		for (int i=0; i< reclamos.size();i++){
-			if (reclamos.elementAt(i).getRegistrante()!=null && mediador.esAgente(reclamos.elementAt(i).getRegistrante())){
 				Vector<String> row = new Vector<String> ();
 				
 				row.add(reclamos.elementAt(i).getId().toString());
@@ -738,7 +791,6 @@ public class GUIGestionReclamoAgente extends JFrame{
 					row.add("");
 				}
 				datosTabla.add(row);
-			}
 		}	
 		modelo.setDataVector(datosTabla, nombreColumnas);
 		modelo.fireTableStructureChanged();

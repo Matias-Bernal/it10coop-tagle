@@ -51,7 +51,10 @@ public class GUIModificarOrden extends JFrame {
 	private JLabel lblFcierre;
 	private JTextField tfNumeroRecurso;
 	private JTextField tfEstado_Orden;
-	private JDateChooser cdFechaRecurso;
+	private JDateChooser fecha_recurso;
+	private JButton btn_clear_FA;
+	private JButton btn_clear_FC;
+	private JButton btn_clear_FR;
 	
 	public GUIModificarOrden(final MediadorOrden medidador, OrdenDTO orden) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/edit_orden.png")));
@@ -63,10 +66,43 @@ public class GUIModificarOrden extends JFrame {
 		if (orden.getFecha_cierre()!=null)
 			fecha_cierre.setDate(orden.getFecha_cierre());
 		tfEstado_Orden.setText(orden.getEstado());
+		
+		btn_clear_FA = new JButton("");
+		btn_clear_FA.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(fecha_apertura.getDate()!=null)
+					fecha_apertura.setDate(null);
+			}
+		});
+		btn_clear_FA.setIcon(new ImageIcon(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FA.setBounds(342, 41, 25, 20);
+		contentPane.add(btn_clear_FA);
+		
+		btn_clear_FC = new JButton("");
+		btn_clear_FC.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fecha_cierre.getDate()!=null)
+					fecha_cierre.setDate(null);
+			}
+		});
+		btn_clear_FC.setIcon(new ImageIcon(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FC.setBounds(342, 72, 25, 20);
+		contentPane.add(btn_clear_FC);
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(fecha_recurso.getDate()!=null)
+					fecha_recurso.setDate(null);
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIModificarOrden.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(340, 164, 25, 20);
+		contentPane.add(btn_clear_FR);
 		if (orden.getRecurso()!=null){
 			tfNumeroRecurso.setText(orden.getRecurso().getNumero_recurso());
 			if(orden.getRecurso().getFecha_recurso()!=null)
-				cdFechaRecurso.setDate(orden.getRecurso().getFecha_recurso());
+				fecha_recurso.setDate(orden.getRecurso().getFecha_recurso());
 		}
 		SetVisible(true);
 	}
@@ -146,9 +182,9 @@ public class GUIModificarOrden extends JFrame {
 		tfNumeroRecurso.setBounds(167, 133, 256, 20);
 		contentPane.add(tfNumeroRecurso);
 		
-		cdFechaRecurso = new JDateChooser();
-		cdFechaRecurso.setBounds(167, 164, 163, 20);
-		contentPane.add(cdFechaRecurso);
+		fecha_recurso = new JDateChooser();
+		fecha_recurso.setBounds(167, 164, 163, 20);
+		contentPane.add(fecha_recurso);
 		
 		JLabel label_1 = new JLabel("Fecha Recurso");
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -169,11 +205,11 @@ public class GUIModificarOrden extends JFrame {
 		if (tfNumero_Orden.getText().isEmpty() || fecha_apertura.getDate()==null){
 			JOptionPane.showMessageDialog(contentPane,"Algunos campos estan vacios.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}else{ // ORDEN Y FECHA APERTURA EXISTEN
-			if ((fecha_cierre.getDate()!=null && (tfNumeroRecurso.getText().isEmpty() || cdFechaRecurso.getDate()==null))){
+			if ((fecha_cierre.getDate()!=null && (tfNumeroRecurso.getText().isEmpty() || fecha_recurso.getDate()==null))){
 				//CON FECHA CIERRE PERO SIN RECURSO
 				JOptionPane.showMessageDialog(contentPane,"Falta el Recurso. Inente nuevamente.","Error",JOptionPane.ERROR_MESSAGE);
 			}else{
-				if (fecha_cierre.getDate()==null && !tfNumeroRecurso.getText().isEmpty() && cdFechaRecurso.getDate()!=null){
+				if (fecha_cierre.getDate()==null && !tfNumeroRecurso.getText().isEmpty() && fecha_recurso.getDate()!=null){
 					//SOLO ACTUALIZA EL RECURSO
 					
 					orden.setNumero_orden(tfNumero_Orden.getText());
@@ -186,8 +222,8 @@ public class GUIModificarOrden extends JFrame {
 				    orden.setFecha_cierre(null);
 					orden.setEstado("ABIERTA/CON RECURSO");
 					
-					String fecha = format2.format(cdFechaRecurso.getDate());
-				    java.sql.Date fechaRecurso = new java.sql.Date(cdFechaRecurso.getDate().getTime());
+					String fecha = format2.format(fecha_recurso.getDate());
+				    java.sql.Date fechaRecurso = new java.sql.Date(fecha_recurso.getDate().getTime());
 					recurso = mediador.nuevoRecurso(tfNumeroRecurso.getText(),fechaRecurso);
 					orden.setRecurso(recurso);					
 										
@@ -200,7 +236,7 @@ public class GUIModificarOrden extends JFrame {
 					}	
 				}else{
 					//TODO FALTA CHEQUEAR QUE SI TIENE PEDIDO TIENE QUE ESTAR DEVUELTA LA PIEZA.
-					if(fecha_cierre.getDate()!=null && !tfNumeroRecurso.getText().isEmpty() && cdFechaRecurso.getDate()!=null){
+					if(fecha_cierre.getDate()!=null && !tfNumeroRecurso.getText().isEmpty() && fecha_recurso.getDate()!=null){
 						//ACTUALIZA EL RECURSO Y EL RECURSO
 						orden.setNumero_orden(tfNumero_Orden.getText());
 						
@@ -215,8 +251,8 @@ public class GUIModificarOrden extends JFrame {
 						
 						orden.setEstado("CERRADA");
 						
-						String fecha3 = format2.format(cdFechaRecurso.getDate());
-					    java.sql.Date fechaRecurso = new java.sql.Date(cdFechaRecurso.getDate().getTime());
+						String fecha3 = format2.format(fecha_recurso.getDate());
+					    java.sql.Date fechaRecurso = new java.sql.Date(fecha_recurso.getDate().getTime());
 						recurso = mediador.nuevoRecurso(tfNumeroRecurso.getText(),fechaRecurso);
 						orden.setRecurso(recurso);
 	
@@ -238,7 +274,7 @@ public class GUIModificarOrden extends JFrame {
 					    orden.setFecha_cierre(null);
 					    
 					    if(mediador.obtenerReclamo(orden.getId()) != null){
-					    	orden.setEstado("SIN RECLAMO");
+					    	orden.setEstado("ABIERTA/SIN RECURSO");
 					    }else{
 					    	orden.setEstado("SIN RECLAMO");
 					    }

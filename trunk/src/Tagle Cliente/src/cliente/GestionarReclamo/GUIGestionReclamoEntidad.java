@@ -38,6 +38,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
+
 import com.toedter.calendar.JDateChooser;
 
 import common.DTOs.EntidadDTO;
@@ -47,12 +49,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUIGestionReclamoEntidad extends JFrame {
@@ -81,6 +86,8 @@ public class GUIGestionReclamoEntidad extends JFrame {
 	private DefaultComboBoxModel<String> cmbEstado_reclamo;
 	private DefaultComboBoxModel<String> cmbEntidad;
 	private Vector<Integer> anchos;
+	private JButton btn_clear_FR;
+	private JButton btn_clear_FT;
 
 	public GUIGestionReclamoEntidad(MediadorReclamo mediadorReclamo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/reclamo.png")));
@@ -231,6 +238,24 @@ public class GUIGestionReclamoEntidad extends JFrame {
 				filtrarPorVin();
 			}
 		});
+		vin.setToolTipText("Ej 12345678901234567");
+		vin.addKeyListener(new KeyListener() {
+		private int limite = 17;
+		public void keyTyped(KeyEvent e) {
+			if (vin.getText().length()>=limite){
+				e.consume();					
+			}
+		}
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				//buscar();
+			}
+		}
+		@Override
+		public void keyReleased(KeyEvent arg0) {			
+		}
+		});
 		vin.setColumns(10);
 		vin.setBounds(161, 170, 130, 20);
 		contentPane.add(vin);
@@ -296,7 +321,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 				actualizarDatos();
 			}
 		});
-		btnActualizar.setBounds(920, 136, 315, 23);
+		btnActualizar.setBounds(884, 136, 315, 23);
 		contentPane.add(btnActualizar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
@@ -306,7 +331,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 				eliminar();
 			}
 		});
-		btnEliminar.setBounds(920, 102, 315, 23);
+		btnEliminar.setBounds(884, 102, 315, 23);
 		contentPane.add(btnEliminar);
 		
 		JButton btnModificar = new JButton("Modificar");
@@ -316,7 +341,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 				modificar();
 			}
 		});
-		btnModificar.setBounds(920, 68, 315, 23);
+		btnModificar.setBounds(884, 68, 315, 23);
 		contentPane.add(btnModificar);
 		
 		JButton btnAgregar = new JButton("Agregar");
@@ -326,7 +351,7 @@ public class GUIGestionReclamoEntidad extends JFrame {
 				agregarNuevoReclamoEntidad();
 			}
 		});
-		btnAgregar.setBounds(920, 33, 315, 23);
+		btnAgregar.setBounds(884, 33, 315, 23);
 		contentPane.add(btnAgregar);
 		
 		JButton btnVolver = new JButton("Volver");
@@ -362,6 +387,49 @@ public class GUIGestionReclamoEntidad extends JFrame {
 		});
 		btnVer.setBounds(320, 639, 150, 23);
 		contentPane.add(btnVer);
+		
+		JButton btnExportarTabla = new JButton("");
+		btnExportarTabla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTabla.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTabla.setBounds(1232, 158, 32, 32);
+		contentPane.add(btnExportarTabla);
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_reclamo.getDate()!=null){
+					fecha_reclamo.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(646, 43, 25, 20);
+		contentPane.add(btn_clear_FR);
+		
+		btn_clear_FT = new JButton("");
+		btn_clear_FT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_turno.getDate()!=null){
+					fecha_turno.setDate(null);
+				actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FT.setIcon(new ImageIcon(GUIGestionReclamoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FT.setBounds(646, 74, 25, 20);
+		contentPane.add(btn_clear_FT);
+	}
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tablaReclamo, "Reclamos Entidad");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
 	protected void filtrarPorFTurno() {
@@ -698,9 +766,8 @@ public class GUIGestionReclamoEntidad extends JFrame {
 				
 		modelo = new DefaultTableModel();
 		datosTabla = new Vector<Vector<String>>();
-		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamos();
+		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamosEntidad();
 		for (int i=0; i< reclamos.size();i++){
-			if (reclamos.elementAt(i).getRegistrante()!=null && mediador.esEntidad(reclamos.elementAt(i).getRegistrante())){
 				Vector<String> row = new Vector<String> ();
 				
 				row.add(reclamos.elementAt(i).getId().toString());
@@ -761,7 +828,6 @@ public class GUIGestionReclamoEntidad extends JFrame {
 					row.add("");
 				}
 				datosTabla.add(row);
-			}
 		}	
 		modelo.setDataVector(datosTabla, nombreColumnas);
 		modelo.fireTableStructureChanged();
@@ -770,9 +836,8 @@ public class GUIGestionReclamoEntidad extends JFrame {
 
 	public void actualizarDatos() {
 		datosTabla = new Vector<Vector<String>>();
-		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamos();
+		Vector<ReclamoDTO> reclamos = mediador.obtenerReclamosEntidad();
 		for (int i=0; i< reclamos.size();i++){
-			if (reclamos.elementAt(i).getRegistrante()!=null && mediador.esEntidad(reclamos.elementAt(i).getRegistrante())){
 				Vector<String> row = new Vector<String> ();
 				
 				row.add(reclamos.elementAt(i).getId().toString());
@@ -833,7 +898,6 @@ public class GUIGestionReclamoEntidad extends JFrame {
 					row.add("");
 				}
 				datosTabla.add(row);
-			}
 		}
 		
 		modelo.setDataVector(datosTabla, nombreColumnas);

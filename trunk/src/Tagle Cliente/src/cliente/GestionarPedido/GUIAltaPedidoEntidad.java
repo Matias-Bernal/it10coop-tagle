@@ -61,6 +61,7 @@ public class GUIAltaPedidoEntidad extends JFrame {
  	private DefaultComboBoxModel<String> cmbPieza;
 	private Vector<PiezaDTO> piezas;
 	private ReclamoDTO reclamo;
+	private JButton btn_clear_FSP;
 	
 	public GUIAltaPedidoEntidad(final MediadorPedido medidador) {
 		this.setMedidador(medidador);
@@ -210,6 +211,17 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		taDescripcion.setBounds(138, 196, 256, 72);
 		getContentPane().add(taDescripcion);
 		
+		btn_clear_FSP = new JButton("");
+		btn_clear_FSP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fecha_solicitud_pedido.getDate()!=null)
+					fecha_solicitud_pedido.setDate(null);
+			}
+		});
+		btn_clear_FSP.setIcon(new ImageIcon(GUIAltaPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSP.setBounds(307, 40, 25, 20);
+		getContentPane().add(btn_clear_FSP);
+		
 	}
 		
 	protected void crear() {
@@ -221,7 +233,7 @@ public class GUIAltaPedidoEntidad extends JFrame {
 		    java.sql.Date fsp = new java.sql.Date(fecha_solicitud_pedido.getDate().getTime());
 	
 			if (mediador.nuevoPedido(tfNumero_Pedido.getText(),fsp,reclamo,piezas)){
-				JOptionPane.showMessageDialog(null,"Reclamo Agregado.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Pedido Agregado.","Notificacion",JOptionPane.INFORMATION_MESSAGE);
 				mediador.actualizarDatosGestion();
 				dispose();
 			}else{

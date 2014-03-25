@@ -14,9 +14,9 @@
  *********************************************************/
 package cliente.GestionarNotificacion;
 
-import common.DTOs.NotificacionDTO;
-import common.DTOs.UsuarioDTO;
 import cliente.MediadorPrincipal;
+
+import common.DTOs.UsuarioDTO;
 
 public class MediadorNotificacion {
 
@@ -34,11 +34,6 @@ public class MediadorNotificacion {
 
 	public void actualizarNotificaciones() {
 		mediador.actualizarTablaNotificaciones();
-	}
-
-	public void notificacionCompletada(NotificacionDTO notificacionDTO) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public boolean esAdministrativo (UsuarioDTO usuario){

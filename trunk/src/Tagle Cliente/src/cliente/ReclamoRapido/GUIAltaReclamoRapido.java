@@ -144,6 +144,14 @@ public class GUIAltaReclamoRapido extends JFrame{
 	private Vector<PiezaDTO> piezas_R;
 	private DefaultComboBoxModel<String> cmbPieza_R;
 	private DefaultComboBoxModel<String> cmbPieza_A;
+	private JButton btnCopy_E;
+	private JButton btnCopy_A;
+	private JButton btn_clearFA_A;
+	private JButton btn_clear_FSP_A;
+	private JButton btn_clear_FSP_E;
+	private JButton btn_clear_FA_E;
+	private JButton btn_clear_FR_A;
+	private JButton btn_clear_FR_E;
 
 	public GUIAltaReclamoRapido(MediadoReclamoRapido mediadoReclamoRapido) {
 		setResizable(false);
@@ -186,7 +194,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		
 		JPanel selecEntidad = new JPanel();
 		selecEntidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		selecEntidad.setBounds(10, 11, 495, 42);
+		selecEntidad.setBounds(10, 11, 505, 42);
 		entidad.add(selecEntidad);
 		selecEntidad.setLayout(null);
 		
@@ -204,7 +212,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		JPanel selectReclamanteEntidad = new JPanel();
 		selectReclamanteEntidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		selectReclamanteEntidad.setLayout(null);
-		selectReclamanteEntidad.setBounds(10, 55, 495, 181);
+		selectReclamanteEntidad.setBounds(10, 55, 505, 181);
 		entidad.add(selectReclamanteEntidad);
 		
 		JLabel lbnombreReclamante_E = new JLabel("Nombre Del Reclamante");
@@ -294,7 +302,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				}
 			}
 		});
-		btnAgregarTelefono_E.setBounds(290, 95, 110, 20);
+		btnAgregarTelefono_E.setBounds(289, 103, 110, 20);
 		selectReclamanteEntidad.add(btnAgregarTelefono_E);
 		
 		btnQuitarTelefono_E = new JButton("Quitar");
@@ -311,7 +319,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				}
 			}
 		});
-		btnQuitarTelefono_E.setBounds(290, 120, 110, 20);
+		btnQuitarTelefono_E.setBounds(289, 128, 110, 20);
 		selectReclamanteEntidad.add(btnQuitarTelefono_E);
 		
 		rbCelular_E = new JRadioButton("Celular");
@@ -330,12 +338,12 @@ public class GUIAltaReclamoRapido extends JFrame{
 				mediador.buscarReclamante();
 			}
 		});
-		btnBuscarReclamante_E.setBounds(366, 10, 110, 23);
+		btnBuscarReclamante_E.setBounds(385, 11, 110, 20);
 		selectReclamanteEntidad.add(btnBuscarReclamante_E);
 		
 		JPanel selectVehiculoEntidad = new JPanel();
 		selectVehiculoEntidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		selectVehiculoEntidad.setBounds(10, 241, 495, 215);
+		selectVehiculoEntidad.setBounds(10, 240, 505, 215);
 		entidad.add(selectVehiculoEntidad);
 		selectVehiculoEntidad.setLayout(null);
 		
@@ -433,7 +441,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				mediador.buscarVehiculo();
 			}
 		});
-		btnBuscarVehiculo_E.setBounds(366, 11, 110, 23);
+		btnBuscarVehiculo_E.setBounds(385, 12, 110, 20);
 		selectVehiculoEntidad.add(btnBuscarVehiculo_E);
 		
 		cBPeligroso = new JCheckBox("PELIGROSO");
@@ -444,8 +452,19 @@ public class GUIAltaReclamoRapido extends JFrame{
 		cBInmovilizado.setBounds(358, 133, 126, 23);
 		selectVehiculoEntidad.add(cBInmovilizado);
 		
+		btnCopy_E = new JButton("");
+		btnCopy_E.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!tfNombreReclamante_E.getText().isEmpty())
+					tfNombreTitular_E.setText(tfNombreReclamante_E.getText());
+			}
+		});
+		btnCopy_E.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/copy.png")));
+		btnCopy_E.setBounds(360, 12, 25, 20);
+		selectVehiculoEntidad.add(btnCopy_E);
+		
 		JPanel selectOrdenEntidad = new JPanel();
-		selectOrdenEntidad.setBounds(510, 11, 490, 85);
+		selectOrdenEntidad.setBounds(526, 11, 490, 85);
 		entidad.add(selectOrdenEntidad);
 		selectOrdenEntidad.setLayout(null);
 		selectOrdenEntidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -480,9 +499,20 @@ public class GUIAltaReclamoRapido extends JFrame{
 		btnBuscarOrden_E.setBounds(366, 10, 110, 23);
 		selectOrdenEntidad.add(btnBuscarOrden_E);
 		
+		btn_clear_FA_E = new JButton("");
+		btn_clear_FA_E.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFecha_Apertura_E.getDate()!=null)
+					dCFecha_Apertura_E.setDate(null);
+			}
+		});
+		btn_clear_FA_E.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FA_E.setBounds(325, 42, 25, 20);
+		selectOrdenEntidad.add(btn_clear_FA_E);
+		
 		JPanel selectReclamoEntidad = new JPanel();
 		selectReclamoEntidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		selectReclamoEntidad.setBounds(510, 100, 490, 136);
+		selectReclamoEntidad.setBounds(526, 100, 490, 135);
 		entidad.add(selectReclamoEntidad);
 		selectReclamoEntidad.setLayout(null);
 		
@@ -525,6 +555,17 @@ public class GUIAltaReclamoRapido extends JFrame{
 		tADescripcion_E.setBounds(160, 42, 256, 72);
 		selectReclamoEntidad.add(tADescripcion_E);
 		
+		btn_clear_FR_E = new JButton("");
+		btn_clear_FR_E.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(dCFecha_Reclamo_E.getDate()!=null)
+					dCFecha_Reclamo_E.setDate(null);
+			}
+		});
+		btn_clear_FR_E.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR_E.setBounds(330, 11, 25, 20);
+		selectReclamoEntidad.add(btn_clear_FR_E);
+		
 		btnCrear_E = new JButton("Crear");
 		btnCrear_E.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/Check.png")));
 		btnCrear_E.addActionListener(new ActionListener() {
@@ -535,7 +576,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		
 		JPanel selectPiezasEntidad = new JPanel();
 		selectPiezasEntidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		selectPiezasEntidad.setBounds(510, 241, 490, 215);
+		selectPiezasEntidad.setBounds(526, 240, 490, 215);
 		entidad.add(selectPiezasEntidad);
 		selectPiezasEntidad.setLayout(null);
 		
@@ -559,7 +600,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				agregarPieza_R();
 			}
 		});
-		btnAgregar_Pieza_R.setBounds(321, 55, 110, 20);
+		btnAgregar_Pieza_R.setBounds(327, 60, 110, 20);
 		selectPiezasEntidad.add(btnAgregar_Pieza_R);
 		
 		btn_Quitar_Pieza_R = new JButton("Quitar");
@@ -569,7 +610,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				quitar_R(); 
 			}
 		});
-		btn_Quitar_Pieza_R.setBounds(321, 80, 110, 20);
+		btn_Quitar_Pieza_R.setBounds(327, 85, 110, 20);
 		selectPiezasEntidad.add(btn_Quitar_Pieza_R);
 		
 		tfNumero_Pieza_R = new JTextField();
@@ -653,6 +694,17 @@ public class GUIAltaReclamoRapido extends JFrame{
 		label_24.setHorizontalAlignment(SwingConstants.CENTER);
 		label_24.setBounds(10, 135, 130, 20);
 		selectPiezasEntidad.add(label_24);
+		
+		btn_clear_FSP_E = new JButton("");
+		btn_clear_FSP_E.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFSP_R.getDate()!=null)
+					dCFSP_R.setDate(null);
+			}
+		});
+		btn_clear_FSP_E.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSP_E.setBounds(327, 35, 25, 20);
+		selectPiezasEntidad.add(btn_clear_FSP_E);
 		btnCrear_E.setBounds(290, 465, 130, 20);
 		entidad.add(btnCrear_E);
 		
@@ -681,7 +733,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		agente.setLayout(null);
 		
 		JPanel selectAgente = new JPanel();
-		selectAgente.setBounds(10, 11, 495, 42);
+		selectAgente.setBounds(10, 11, 505, 42);
 		agente.add(selectAgente);
 		selectAgente.setLayout(null);
 		selectAgente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -698,7 +750,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 		selectAgente.add(cbAgente);
 		
 		JPanel selectReclamanteAgente = new JPanel();
-		selectReclamanteAgente.setBounds(10, 55, 495, 181);
+		selectReclamanteAgente.setBounds(10, 55, 505, 181);
 		agente.add(selectReclamanteAgente);
 		selectReclamanteAgente.setLayout(null);
 		selectReclamanteAgente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -790,7 +842,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				}
 			}
 		});
-		btnAgregarTelefono_A.setBounds(290, 95, 110, 20);
+		btnAgregarTelefono_A.setBounds(290, 103, 110, 20);
 		selectReclamanteAgente.add(btnAgregarTelefono_A);
 		
 		btnQuitarTelefono_A = new JButton("Quitar");
@@ -807,7 +859,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				}
 			}
 		});
-		btnQuitarTelefono_A.setBounds(290, 120, 110, 20);
+		btnQuitarTelefono_A.setBounds(290, 128, 110, 20);
 		selectReclamanteAgente.add(btnQuitarTelefono_A);
 		
 		rbCelular_A = new JRadioButton("Celular");
@@ -826,11 +878,11 @@ public class GUIAltaReclamoRapido extends JFrame{
 				mediador.buscarReclamante();
 			}
 		});
-		btnBuscarReclamante_A.setBounds(366, 10, 110, 23);
+		btnBuscarReclamante_A.setBounds(385, 11, 110, 20);
 		selectReclamanteAgente.add(btnBuscarReclamante_A);
 		
 		JPanel selectVehiculoAgente = new JPanel();
-		selectVehiculoAgente.setBounds(10, 241, 495, 215);
+		selectVehiculoAgente.setBounds(10, 240, 505, 215);
 		agente.add(selectVehiculoAgente);
 		selectVehiculoAgente.setLayout(null);
 		selectVehiculoAgente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -929,13 +981,24 @@ public class GUIAltaReclamoRapido extends JFrame{
 				mediador.buscarVehiculo();
 			}
 		});
-		btnBuscarVehiculo_A.setBounds(366, 11, 110, 23);
+		btnBuscarVehiculo_A.setBounds(385, 12, 110, 20);
 		selectVehiculoAgente.add(btnBuscarVehiculo_A);
+		
+		btnCopy_A = new JButton("");
+		btnCopy_A.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!tfNombreReclamante_A.getText().isEmpty())
+					tfNombreTitular_A.setText(tfNombreReclamante_A.getText());
+			}
+		});
+		btnCopy_A.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/copy.png")));
+		btnCopy_A.setBounds(360, 12, 25, 20);
+		selectVehiculoAgente.add(btnCopy_A);
 		
 		JPanel selectOrdenAgente = new JPanel();
 		selectOrdenAgente.setLayout(null);
 		selectOrdenAgente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		selectOrdenAgente.setBounds(510, 11, 490, 85);
+		selectOrdenAgente.setBounds(526, 11, 490, 85);
 		agente.add(selectOrdenAgente);
 		
 		JLabel label_5 = new JLabel("Fecha Apertura");
@@ -968,8 +1031,19 @@ public class GUIAltaReclamoRapido extends JFrame{
 		btnBuscarOrden_A.setBounds(366, 10, 110, 23);
 		selectOrdenAgente.add(btnBuscarOrden_A);
 		
+		btn_clearFA_A = new JButton("");
+		btn_clearFA_A.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFecha_Apertura_A.getDate()!=null)
+					dCFecha_Apertura_A.setDate(null);
+			}
+		});
+		btn_clearFA_A.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clearFA_A.setBounds(325, 42, 25, 20);
+		selectOrdenAgente.add(btn_clearFA_A);
+		
 		JPanel selectReclamoAgente = new JPanel();
-		selectReclamoAgente.setBounds(510, 100, 490, 136);
+		selectReclamoAgente.setBounds(526, 100, 490, 135);
 		agente.add(selectReclamoAgente);
 		selectReclamoAgente.setLayout(null);
 		selectReclamoAgente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
@@ -1013,10 +1087,21 @@ public class GUIAltaReclamoRapido extends JFrame{
 		tADescripcion_A.setBounds(160, 42, 256, 72);
 		selectReclamoAgente.add(tADescripcion_A);
 		
+		btn_clear_FR_A = new JButton("");
+		btn_clear_FR_A.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(dCFecha_Reclamo_A.getDate()!=null)
+					dCFecha_Reclamo_A.setDate(null);
+			}
+		});
+		btn_clear_FR_A.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR_A.setBounds(330, 11, 25, 20);
+		selectReclamoAgente.add(btn_clear_FR_A);
+		
 		JPanel selectPiezasAgente = new JPanel();
 		selectPiezasAgente.setLayout(null);
 		selectPiezasAgente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		selectPiezasAgente.setBounds(510, 241, 490, 215);
+		selectPiezasAgente.setBounds(526, 240, 490, 215);
 		agente.add(selectPiezasAgente);
 		
 		tf_Num_Pedido_A = new JTextField();
@@ -1039,7 +1124,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				agregarPieza_A();
 			}
 		});
-		btnAgregar_PiezaA.setBounds(321, 55, 110, 20);
+		btnAgregar_PiezaA.setBounds(327, 60, 110, 20);
 		selectPiezasAgente.add(btnAgregar_PiezaA);
 		
 		btnQuitar_Piezas_A = new JButton("Quitar");
@@ -1049,7 +1134,7 @@ public class GUIAltaReclamoRapido extends JFrame{
 				quitar_A();
 			}
 		});
-		btnQuitar_Piezas_A.setBounds(321, 80, 110, 20);
+		btnQuitar_Piezas_A.setBounds(327, 85, 110, 20);
 		selectPiezasAgente.add(btnQuitar_Piezas_A);
 		
 		tfNumero_Pieza_A = new JTextField();
@@ -1132,6 +1217,17 @@ public class GUIAltaReclamoRapido extends JFrame{
 		label_30.setHorizontalAlignment(SwingConstants.CENTER);
 		label_30.setBounds(10, 135, 130, 20);
 		selectPiezasAgente.add(label_30);
+		
+		btn_clear_FSP_A = new JButton("");
+		btn_clear_FSP_A.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFSP_A.getDate()!=null)
+					dcFSP_A.setDate(null);
+			}
+		});
+		btn_clear_FSP_A.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSP_A.setBounds(327, 35, 25, 20);
+		selectPiezasAgente.add(btn_clear_FSP_A);
 		
 		btnCrear_A = new JButton("Crear");
 		btnCrear_A.setIcon(new ImageIcon(GUIAltaReclamoRapido.class.getResource("/cliente/Resources/Icons/Check.png")));
@@ -1483,6 +1579,4 @@ public class GUIAltaReclamoRapido extends JFrame{
 		cb_proveedor_R.setSelectedIndex(0);
 		
 	}
-
-
 }

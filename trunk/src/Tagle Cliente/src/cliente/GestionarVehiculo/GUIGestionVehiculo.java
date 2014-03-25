@@ -45,8 +45,11 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.DefaultComboBoxModel;
 
+import cliente.excellexport.ExportarExcel;
 import common.DTOs.VehiculoDTO;
+
 import java.awt.Toolkit;
+
 import javax.swing.ImageIcon;
 
 public class GUIGestionVehiculo extends JFrame{
@@ -81,6 +84,7 @@ public class GUIGestionVehiculo extends JFrame{
 	private DefaultComboBoxModel<String> cmbModelos;
 	private Vector<String> modelos;
 	private Vector<String> marcas;
+	private JButton btnExportarTabla;
 
 
 	public GUIGestionVehiculo(MediadorVehiculo mediadorRegistrante) {
@@ -281,8 +285,25 @@ public class GUIGestionVehiculo extends JFrame{
 		comboBox_modelo.setBounds(190, 150, 230, 20);
 		contentPane.add(comboBox_modelo);
 		
+		btnExportarTabla = new JButton("");
+		btnExportarTabla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTabla.setIcon(new ImageIcon(GUIGestionVehiculo.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTabla.setBounds(742, 139, 32, 32);
+		contentPane.add(btnExportarTabla);
+		
 
 
+	}
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tablavehiculos, "Vehiculos");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	// Gestion

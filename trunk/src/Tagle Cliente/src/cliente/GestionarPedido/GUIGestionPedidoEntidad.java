@@ -48,6 +48,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import cliente.excellexport.ExportarExcel;
+
 import com.toedter.calendar.JDateChooser;
 
 import common.DTOs.EntidadDTO;
@@ -110,6 +112,14 @@ public class GUIGestionPedidoEntidad extends JFrame {
 	private JTextField tfOrden;
 	private JLabel lblIdNumeroBdg;
 	private JDateChooser dCFBDG;
+	private JButton btnExportarTabla;
+	private JButton btn_clear_FSP;
+	private JButton btn_clear_FT;
+	private JButton btn_clear_FR;
+	private JButton btn_clear_FBDG;
+	private JButton btn_clear_FSF;
+	private JButton btn_clear_FRF;
+	private JButton btn_clear_FDF;
 
 	public GUIGestionPedidoEntidad(MediadorPedido mediadorRegistrante) {
 		this.mediador = mediadorRegistrante;
@@ -132,7 +142,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		
 		btnModificar = new JButton("Modificar");
 		btnModificar.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/edit.png")));
-		btnModificar.setBounds(1004, 70, 250, 23);
+		btnModificar.setBounds(1039, 70, 215, 23);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificar();
@@ -143,7 +153,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		
 		btnEliminar = new JButton("Eliminar");
 		btnEliminar.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/delete.png")));
-		btnEliminar.setBounds(1004, 104, 250, 23);
+		btnEliminar.setBounds(1039, 104, 215, 23);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eliminar();
@@ -199,7 +209,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		
 		btnAgregar = new JButton("Agregar");
 		btnAgregar.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/add.png")));
-		btnAgregar.setBounds(1004, 35, 250, 23);
+		btnAgregar.setBounds(1039, 35, 215, 23);
 		btnAgregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mediador.altaPedidoEntidad();
@@ -233,7 +243,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		
 		btnActualizar = new JButton("Actualizar");
 		btnActualizar.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/1refresh.png")));
-		btnActualizar.setBounds(1004, 138, 250, 23);
+		btnActualizar.setBounds(1039, 138, 215, 23);
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				actualizarDatos();
@@ -375,6 +385,45 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		primer_panel.add(tfReclamante);
 		tfReclamante.setColumns(10);
 		
+		btn_clear_FSP = new JButton("");
+		btn_clear_FSP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dc_fsp.getDate()!=null){
+					dc_fsp.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FSP.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSP.setBounds(272, 60, 25, 20);
+		primer_panel.add(btn_clear_FSP);
+		
+		btn_clear_FT = new JButton("");
+		btn_clear_FT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dc_fturno.getDate()!=null){
+					dc_fturno.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FT.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FT.setBounds(272, 110, 25, 20);
+		primer_panel.add(btn_clear_FT);
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dc_fReclamo.getDate()!=null){
+					dc_fReclamo.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(273, 160, 25, 20);
+		primer_panel.add(btn_clear_FR);
+		
 		JPanel segundo_panel = new JPanel();
 		segundo_panel.setBounds(360, 11, 329, 209);
 		contentPane.add(segundo_panel);
@@ -487,7 +536,7 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		tfPieza.setColumns(10);
 		
 		JPanel tercer_panel = new JPanel();
-		tercer_panel.setBounds(694, 11, 300, 209);
+		tercer_panel.setBounds(694, 11, 335, 209);
 		contentPane.add(tercer_panel);
 		tercer_panel.setLayout(null);
 		
@@ -576,8 +625,76 @@ public class GUIGestionPedidoEntidad extends JFrame {
 		});
 		dCFBDG.setBounds(163, 35, 128, 20);
 		tercer_panel.add(dCFBDG);
+		
+		btn_clear_FBDG = new JButton("");
+		btn_clear_FBDG.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFBDG.getDate()!=null){
+					dCFBDG.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FBDG.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FBDG.setBounds(301, 35, 25, 20);
+		tercer_panel.add(btn_clear_FBDG);
+		
+		btn_clear_FSF = new JButton("");
+		btn_clear_FSF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFSF.getDate()!=null){
+					dCFSF.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FSF.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FSF.setBounds(301, 59, 25, 20);
+		tercer_panel.add(btn_clear_FSF);
+		
+		btn_clear_FRF = new JButton("");
+		btn_clear_FRF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dCFRF.getDate()!=null){
+					dCFRF.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FRF.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FRF.setBounds(301, 84, 25, 20);
+		tercer_panel.add(btn_clear_FRF);
+		
+		btn_clear_FDF = new JButton("");
+		btn_clear_FDF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dcFEF.getDate()!=null){
+					dcFEF.setDate(null);
+					actualizarDatos();
+				}
+			}
+		});
+		btn_clear_FDF.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FDF.setBounds(301, 109, 25, 20);
+		tercer_panel.add(btn_clear_FDF);
+		
+		btnExportarTabla = new JButton("");
+		btnExportarTabla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exportarTablas();
+			}
+		});
+		btnExportarTabla.setIcon(new ImageIcon(GUIGestionPedidoEntidad.class.getResource("/cliente/Resources/Icons/formulario.png")));
+		btnExportarTabla.setBounds(1222, 184, 32, 32);
+		contentPane.add(btnExportarTabla);
 	}
-
+	protected void exportarTablas() {
+		try {
+			ExportarExcel.exportarUnaTabla(tablaPedidos, "Pedidos Entidad");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(contentPane,"Ocurrio un error al querer exportar.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
 	//FILTROS
 	
 	protected void filtrarPorEstado_Pedido() {
@@ -1182,9 +1299,8 @@ public class GUIGestionPedidoEntidad extends JFrame {
 
 		//tabla
 		datosTabla = new Vector<Vector<String>>();
-		Vector<PedidoDTO> pedidos = mediador.obtenerPedidos();
+		Vector<PedidoDTO> pedidos = mediador.obtenerPedidosEntidades();
 		for (int i=0; i< pedidos.size();i++){
-			if (pedidos.elementAt(i).getReclamo()!=null && pedidos.elementAt(i).getReclamo().getRegistrante()!=null && mediador.esEntidad(pedidos.elementAt(i).getReclamo().getRegistrante())){
 				Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
 				pedidos_piezas = mediador.buscarPedidoPieza(pedidos.elementAt(i).getId());
 				for (int j=0; j< pedidos_piezas.size();j++){
@@ -1253,7 +1369,11 @@ public class GUIGestionPedidoEntidad extends JFrame {
 						row.add("");
 						row.add("");
 					}
-					row.add(pedidos_piezas.elementAt(j).getPnc());// PCN
+					if (pedidos_piezas.elementAt(j).getPnc()!=null){
+						row.add(pedidos_piezas.elementAt(j).getPnc());// PCN
+					}else{
+						row.add("");
+					}
 					if (pedidos_piezas.elementAt(j).getMuleto()!=null){
 						row.add(pedidos_piezas.elementAt(j).getMuleto().getId().toString());//Id Muleto
 					}else{
@@ -1278,7 +1398,6 @@ public class GUIGestionPedidoEntidad extends JFrame {
 					}
 					
 					datosTabla.add(row);
-				}
 			}
 		}
 		modelo.setDataVector(datosTabla, nombreColumnas);
@@ -1287,9 +1406,8 @@ public class GUIGestionPedidoEntidad extends JFrame {
 
 	public void actualizarDatos() {
 		datosTabla = new Vector<Vector<String>>();
-		Vector<PedidoDTO> pedidos = mediador.obtenerPedidos();
+		Vector<PedidoDTO> pedidos = mediador.obtenerPedidosEntidades();
 		for (int i=0; i< pedidos.size();i++){
-			if (pedidos.elementAt(i).getReclamo()!=null && pedidos.elementAt(i).getReclamo().getRegistrante()!=null && mediador.esEntidad(pedidos.elementAt(i).getReclamo().getRegistrante())){
 				Vector<Pedido_PiezaDTO> pedidos_piezas = new Vector<Pedido_PiezaDTO>();
 				pedidos_piezas = mediador.buscarPedidoPieza(pedidos.elementAt(i).getId());
 				for (int j=0; j< pedidos_piezas.size();j++){
@@ -1359,7 +1477,11 @@ public class GUIGestionPedidoEntidad extends JFrame {
 						row.add("");
 						row.add("");
 					}
-					row.add(pedidos_piezas.elementAt(j).getPnc());// PCN
+					if (pedidos_piezas.elementAt(j).getPnc()!=null){
+						row.add(pedidos_piezas.elementAt(j).getPnc());// PCN
+					}else{
+						row.add("");
+					}
 					if (pedidos_piezas.elementAt(j).getMuleto()!=null){
 						row.add(pedidos_piezas.elementAt(j).getMuleto().getId().toString());//Id Muleto
 					}else{
@@ -1385,7 +1507,6 @@ public class GUIGestionPedidoEntidad extends JFrame {
 					
 					datosTabla.add(row);
 				}
-			}
 		}
 		modelo.setDataVector(datosTabla, nombreColumnas);
 		modelo.fireTableStructureChanged();

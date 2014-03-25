@@ -67,6 +67,7 @@ public class GUIAltaReclamoAgente extends JFrame {
 	private VehiculoDTO vehiculo;
 	private ReclamanteDTO reclamante;
 	private OrdenDTO orden;
+	private JButton btn_clear_FR;
 	
 	public GUIAltaReclamoAgente(final MediadorReclamo mediador, String reclamo, String agente, String descripcion) {
 		this.mediador = mediador;
@@ -246,6 +247,17 @@ public class GUIAltaReclamoAgente extends JFrame {
 		});
 		btnOrden.setBounds(334, 121, 110, 20);
 		contentPane.add(btnOrden);
+		
+		btn_clear_FR = new JButton("");
+		btn_clear_FR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (dp_fecha_reclamo.getDate()!=null)
+					dp_fecha_reclamo.setDate(null);
+			}
+		});
+		btn_clear_FR.setIcon(new ImageIcon(GUIAltaReclamoAgente.class.getResource("/cliente/Resources/Icons/clear.png")));
+		btn_clear_FR.setBounds(308, 10, 25, 20);
+		contentPane.add(btn_clear_FR);
 		
 	}
 	

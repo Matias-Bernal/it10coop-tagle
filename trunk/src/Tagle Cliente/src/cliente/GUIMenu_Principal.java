@@ -16,8 +16,9 @@
 package cliente;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +27,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,12 +41,11 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 
 import common.DTOs.Notificacion_ReclamoDTO;
-
-import java.awt.Font;
 
 public class GUIMenu_Principal extends JFrame{
 
@@ -58,11 +57,11 @@ public class GUIMenu_Principal extends JFrame{
 	private DefaultTableModel modelo;
 	private Vector<Vector<String>> datosTabla;
 	private Vector<String> nombreColumnas;
-	private JButton btnCompletado;
-	private JButton btnPosponer;
-	private JButton btnReportes;
+	private JButton btnReportesGestion;
 	private JButton btnReclamos_Piezas;
 	private JButton btnReclamos;
+	private JButton btnReportesControl;
+	private JMenu mnReportes;
 	
 	public GUIMenu_Principal(MediadorPrincipal mediadorPrincipal) {
 		this.mediadorPrincipal= mediadorPrincipal;
@@ -74,9 +73,9 @@ public class GUIMenu_Principal extends JFrame{
 		nombreColumnas = new Vector<String>();
 		anchos = new Vector<Integer>();
 		nombreColumnas.add("TIPO");
-		anchos.add(100);
-		nombreColumnas.add("TEXTO");
-		anchos.add(300);
+		anchos.add(150);
+		nombreColumnas.add("DETALLES");
+		anchos.add(425);
 		datosTabla = new Vector<Vector<String>>();
 	}
 
@@ -86,13 +85,13 @@ public class GUIMenu_Principal extends JFrame{
 		
 		frmPrincipal = new JFrame();
 		frmPrincipal.setIconImage(Toolkit.getDefaultToolkit().getImage(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tagle.ico")));
-		frmPrincipal.getContentPane().setBackground(Color.WHITE);
+		frmPrincipal.getContentPane().setBackground(UIManager.getColor("window"));
 		frmPrincipal.setResizable(false);
 		frmPrincipal.setLocationRelativeTo(null);
 
 		String titulo = "USUARIO: "+mediadorPrincipal.getUsuario().getNombre_usuario().toString() +" [ID: "+mediadorPrincipal.getUsuario().getId().toString()+" ]";
 		frmPrincipal.setTitle(titulo);
-		frmPrincipal.setBounds(100, 100, 1000, 570);		
+		frmPrincipal.setBounds(100, 100, 1100, 570);		
 		frmPrincipal.setDefaultCloseOperation (JFrame.DO_NOTHING_ON_CLOSE);
 
 		frmPrincipal.addWindowListener(new WindowAdapter(){
@@ -343,6 +342,190 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		mnPedido.add(mntmGestionPedidoEntidad);
 		
+		mnReportes = new JMenu("Reportes");
+		mnReportes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tablas.png")));
+		menuBar.add(mnReportes);
+		
+		JMenu mnReportesGestion = new JMenu("Reportes Gestion");
+		mnReportesGestion.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/gestion1.png")));
+		mnReportesGestion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportesGestion();
+			}
+		});
+		mnReportes.add(mnReportesGestion);
+		
+		JMenuItem mntmPiezasLlegadas = new JMenuItem("Piezas Llegadas");
+		mntmPiezasLlegadas.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/arrow_down.png")));
+		mntmPiezasLlegadas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportePiezasLlegadas();
+			}
+		});
+		mnReportesGestion.add(mntmPiezasLlegadas);
+		
+		JMenuItem mntmPiezasDevueltas = new JMenuItem("Piezas Devueltas");
+		mntmPiezasDevueltas.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/arrow_up.png")));
+		mntmPiezasDevueltas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportePiezasDevueltas();
+			}
+		});
+		mnReportesGestion.add(mntmPiezasDevueltas);
+		
+		JMenuItem mntmPiezasSinLlegar = new JMenuItem("Piezas Sin Llegar");
+		mntmPiezasSinLlegar.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/wait_image.png")));
+		mntmPiezasSinLlegar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportePiezasSinLlegar();
+			}
+		});
+		mnReportesGestion.add(mntmPiezasSinLlegar);
+		
+		JMenuItem mntmPiezasLlegadasSin = new JMenuItem("Piezas Llegadas Sin Turno");
+		mntmPiezasLlegadasSin.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/sin_turno.png")));
+		mntmPiezasLlegadasSin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportePiezasLlegadasSinTurno();
+			}
+		});
+		mnReportesGestion.add(mntmPiezasLlegadasSin);
+		
+		JMenuItem mntmOrdenSinSolicitud = new JMenuItem("Orden Sin Solicitud De Pedido");
+		mntmOrdenSinSolicitud.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/orden_sin_sdp.png")));
+		mntmOrdenSinSolicitud.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteOrdenSinSDP();
+			}
+		});
+		mnReportesGestion.add(mntmOrdenSinSolicitud);
+		
+		JMenuItem mntmSolicitudDePedido = new JMenuItem("Solicitud De Pedido Sin Numero De Pediddo");
+		mntmSolicitudDePedido.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/sdp_sin_numero.png")));
+		mntmSolicitudDePedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteSDPSinNP();
+			}
+		});
+		mnReportesGestion.add(mntmSolicitudDePedido);
+		
+		JMenu mnReportesControl = new JMenu("Reportes Control");
+		mnReportesControl.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/control.png")));
+		mnReportesControl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportesControl();
+			}
+		});
+		mnReportes.add(mnReportesControl);
+		
+		JMenuItem mntmDiasDesdePedido = new JMenuItem("Dias Desde Pedido Fabrica");
+		mntmDiasDesdePedido.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/arrow_up.png")));
+		mntmDiasDesdePedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasDesdePedidoFabrica();
+			}
+		});
+		mnReportesControl.add(mntmDiasDesdePedido);
+		
+		JMenuItem mntmDiasDesdeRecepcion = new JMenuItem("Dias Desde Recepcion Pedido Fabrica");
+		mntmDiasDesdeRecepcion.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/arrow_down.png")));
+		mntmDiasDesdeRecepcion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasDesdeRecepcionFabrica();
+			}
+		});
+		mnReportesControl.add(mntmDiasDesdeRecepcion);
+		
+		JMenuItem mntmDiasDesdeRecepcion_1 = new JMenuItem("Dias Desde Recepcion de Fabrica y Fecha Turno");
+		mntmDiasDesdeRecepcion_1.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/entidad.png")));
+		mntmDiasDesdeRecepcion_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasDesdeRecepcionFabricaYTurno();
+			}
+		});
+		mnReportesControl.add(mntmDiasDesdeRecepcion_1);
+		
+		JMenuItem mntmDiasDesdeFecha = new JMenuItem("Dias Desde Fecha Cierre Orden y Fecha Turno");
+		mntmDiasDesdeFecha.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/sin_turno.png")));
+		mntmDiasDesdeFecha.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasDesdeCierreOrdenYTurno();
+			}
+		});
+		mnReportesControl.add(mntmDiasDesdeFecha);
+		
+		JMenuItem mntmDiasDesdeFecha_1 = new JMenuItem("Dias Desde Fecha Recurso y Fecha Cierre Orden");
+		mntmDiasDesdeFecha_1.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/orden_sin_sdp.png")));
+		mntmDiasDesdeFecha_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasFechaRecursoYCierreOrden();
+			}
+		});
+		mnReportesControl.add(mntmDiasDesdeFecha_1);
+		
+		JMenuItem mntmDiasDesdeFecha_2 = new JMenuItem("Dias Desde Fecha Reclamo y Fecha Devolucion");
+		mntmDiasDesdeFecha_2.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo.png")));
+		mntmDiasDesdeFecha_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasFechaReclamoYFechaDevolucion();
+			}
+		});
+		mnReportesControl.add(mntmDiasDesdeFecha_2);
+		
+		JMenuItem mntmReclamosTurnos = new JMenuItem("Reclamos - Turnos");
+		mntmReclamosTurnos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/wait_image.png")));
+		mntmReclamosTurnos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasFechaReclamo_Turnos();
+			}
+		});
+		mnReportesControl.add(mntmReclamosTurnos);
+		
+		JMenuItem mntmPiezasLlegadas_1 = new JMenuItem("Piezas Llegadas - Piezas Devueltas");
+		mntmPiezasLlegadas_1.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/llegadas_dev.png")));
+		mntmPiezasLlegadas_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteDiasPiezasLlegadas_PiezasDevueltas();
+			}
+		});
+		mnReportesControl.add(mntmPiezasLlegadas_1);
+		
+		JMenuItem mntmManoDeObra = new JMenuItem("Mano De Obra");
+		mntmManoDeObra.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/mano_obra.png")));
+		mntmManoDeObra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteManoDeObra();
+			}
+		});
+		mnReportesControl.add(mntmManoDeObra);
+		
+		JMenuItem mntmRecursoCierre = new JMenuItem("Recurso - Cierre Orden");
+		mntmRecursoCierre.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/ordenen.png")));
+		mntmRecursoCierre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reporteRecurso_CierreOrden();
+			}
+		});
+		mnReportesControl.add(mntmRecursoCierre);
+		
 		JMenu mnNotificaciones = new JMenu("Notificaciones");
 		mnNotificaciones.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/notificaciones.png")));
 		menuBar.add(mnNotificaciones);
@@ -384,7 +567,7 @@ public class GUIMenu_Principal extends JFrame{
 		mntmAcercaDe.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/hm-about.png")));
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(frmPrincipal,"IT10 Cooperativa - Rio Cuarto","Acerca de..",JOptionPane.INFORMATION_MESSAGE,new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/it10.png")));
+				JOptionPane.showMessageDialog(frmPrincipal,"IT10 Cooperativa - www.it10coop.com.ar","Acerca de..",JOptionPane.INFORMATION_MESSAGE,new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/it10.png")));
 			}
 		});
 		mnAyuda.add(mntmAcercaDe);
@@ -393,7 +576,7 @@ public class GUIMenu_Principal extends JFrame{
 		btnReclamos.setHorizontalAlignment(SwingConstants.LEADING);
 		btnReclamos.setFont(new Font("Arial Black", Font.BOLD, 14));
 		btnReclamos.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamo_rapido.png")));
-		btnReclamos.setBounds(104, 163, 290, 49);
+		btnReclamos.setBounds(100, 92, 275, 50);
 		btnReclamos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -407,7 +590,7 @@ public class GUIMenu_Principal extends JFrame{
 		btnReclamos_Piezas.setHorizontalAlignment(SwingConstants.LEADING);
 		btnReclamos_Piezas.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/reclamospie.png")));
 		btnReclamos_Piezas.setFont(new Font("Arial Black", Font.BOLD, 14));
-		btnReclamos_Piezas.setBounds(104, 223, 290, 49);
+		btnReclamos_Piezas.setBounds(100, 192, 275, 50);
 		btnReclamos_Piezas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
@@ -416,28 +599,26 @@ public class GUIMenu_Principal extends JFrame{
 		});
 		frmPrincipal.getContentPane().add(btnReclamos_Piezas);
 		
-		btnReportes = new JButton("REPORTES");
-		btnReportes.setHorizontalAlignment(SwingConstants.LEADING);
-		btnReportes.setFont(new Font("Arial Black", Font.BOLD, 14));
-		btnReportes.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/tablas.png")));
-		btnReportes.setBounds(104, 283, 290, 49);
-		btnReportes.addActionListener(new ActionListener() {
+		btnReportesGestion = new JButton("REPORTES GESTION");
+		btnReportesGestion.setHorizontalAlignment(SwingConstants.LEADING);
+		btnReportesGestion.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReportesGestion.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/gestion1.png")));
+		btnReportesGestion.setBounds(100, 292, 275, 50);
+		btnReportesGestion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//setVisible(false);
-				mediadorPrincipal.reportes();
+				mediadorPrincipal.reportesGestion();
 			}
 		});
-		frmPrincipal.getContentPane().add(btnReportes);
+		frmPrincipal.getContentPane().add(btnReportesGestion);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(535, 45, 359, 375);
+		panel.setBounds(420, 40, 600, 450);
 		frmPrincipal.getContentPane().add(panel);
 		
 		modelo = new DefaultTableModel(datosTabla, nombreColumnas);
-		
 		tablaNotificaciones = new JTable(modelo) {
-
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false,
@@ -446,18 +627,18 @@ public class GUIMenu_Principal extends JFrame{
 				return columnEditables[column];
 			}
 		};
+		tablaNotificaciones.setBackground(SystemColor.window);
 		// Agregamos el ordenador para las tablas de los usuarios
 		// TableRowSorter<TableModel> ordenador = new TableRowSorter<TableModel>(modelo);
 		// tablaNotificaciones.setRowSorter(ordenador);
-		
 		tablaNotificaciones.getTableHeader().setReorderingAllowed(false);
 		for(int i = 0; i < tablaNotificaciones.getColumnCount(); i++) {
 			tablaNotificaciones.getColumnModel().getColumn(i).setPreferredWidth(anchos.elementAt(i));
 			tablaNotificaciones.getColumnModel().getColumn(i).setMinWidth(anchos.elementAt(i));
 		}
 		tablaNotificaciones.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tablaNotificaciones.setBounds(0, 0, 765, 320);
-		
+		tablaNotificaciones.setBounds(0, 0, 750, 320);
+		tablaNotificaciones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		JScrollPane scrollPaneTabla = new JScrollPane(tablaNotificaciones);
 		scrollPaneTabla.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		
@@ -476,29 +657,24 @@ public class GUIMenu_Principal extends JFrame{
 		
 		JLabel lblNotificaciones = new JLabel("NOTIFICACIONES");
 		lblNotificaciones.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		lblNotificaciones.setBounds(638, 11, 126, 21);
+		lblNotificaciones.setBounds(655, 0, 126, 21);
 		lblNotificaciones.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNotificaciones.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNotificaciones.setAlignmentX(Component.CENTER_ALIGNMENT);
 		frmPrincipal.getContentPane().add(lblNotificaciones);
 		
-		btnCompletado = new JButton("Completada");
-		btnCompletado.setBounds(535, 455, 138, 23);
-		btnCompletado.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				completada();
+		btnReportesControl = new JButton("REPORTES CONTROL");
+		btnReportesControl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//setVisible(false);
+				mediadorPrincipal.reportesControl();
 			}
 		});
-		frmPrincipal.getContentPane().add(btnCompletado);
-		
-		btnPosponer = new JButton("Posponer");
-		btnPosponer.setBounds(756, 455, 138, 23);
-		btnPosponer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				posponer();
-			}
-		});
-		frmPrincipal.getContentPane().add(btnPosponer);
+		btnReportesControl.setIcon(new ImageIcon(GUIMenu_Principal.class.getResource("/cliente/Resources/Icons/control.png")));
+		btnReportesControl.setHorizontalAlignment(SwingConstants.LEADING);
+		btnReportesControl.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReportesControl.setBounds(100, 392, 275, 50);
+		frmPrincipal.getContentPane().add(btnReportesControl);
 	}
 
 	protected void verNotificacion() {
@@ -508,26 +684,6 @@ public class GUIMenu_Principal extends JFrame{
 		}else{
 			JOptionPane.showMessageDialog(tablaNotificaciones,"Seleccione una notificacion primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
 		}
-	}
-
-	protected void posponer() {
-		int row = tablaNotificaciones.getSelectedRow();
-		if (row >= 0) {
-			String id_reclamo = tablaNotificaciones.getValueAt(row, 0).toString();
-			mediadorPrincipal.verPosponer(row);
-		}else{
-			JOptionPane.showMessageDialog(tablaNotificaciones,"Seleccione un notificacion primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
-		}		
-	}
-
-	protected void completada() {
-		int row = tablaNotificaciones.getSelectedRow();
-		if (row >= 0) {
-			String id_reclamo = tablaNotificaciones.getValueAt(row, 0).toString();
-			mediadorPrincipal.verCompletada(row);
-		}else{
-			JOptionPane.showMessageDialog(tablaNotificaciones,"Seleccione un notificacion primero.","Advertencia",JOptionPane.INFORMATION_MESSAGE);
-		}	
 	}
 
 	public void setVisible(boolean b) {
@@ -558,5 +714,9 @@ public class GUIMenu_Principal extends JFrame{
 		}
 		modelo.setDataVector(datosTabla, nombreColumnas);
 		modelo.fireTableStructureChanged();
+		for(int i = 0; i < tablaNotificaciones.getColumnCount(); i++) {
+			tablaNotificaciones.getColumnModel().getColumn(i).setPreferredWidth(anchos.elementAt(i));
+			tablaNotificaciones.getColumnModel().getColumn(i).setMinWidth(anchos.elementAt(i));
+		}
 	}
 }

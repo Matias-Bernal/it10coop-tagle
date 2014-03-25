@@ -25,6 +25,7 @@ import common.DTOs.UsuarioDTO;
 import common.GestionarNotificacion.IControlNotificacion;
 import common.GestionarNotificacion_Reclamo.IControlNotificacion_Reclamo;
 import common.GestionarNotificacion_Usuario.IControlNotificacion_Usuario;
+import common.GestionarReclamo.IControlReclamo;
 
 public class MediadorEjecutarNotificacion extends Thread {
 
@@ -36,6 +37,7 @@ public class MediadorEjecutarNotificacion extends Thread {
 	
 	private boolean posponer;
 	private boolean completada;
+	private boolean guardada;
 	
 	public MediadorEjecutarNotificacion(MediadorPrincipal mediador_principal, Notificacion_ReclamoDTO notificacion_reclamo,long tiempoInicial,UsuarioDTO usuario){
 		this.setMediador_principal(mediador_principal);
@@ -44,29 +46,56 @@ public class MediadorEjecutarNotificacion extends Thread {
 		this.usuario = usuario;
 		setPosponer(false);
 		setCompletada(false);
+		setGuardada(false);
 		guiNotificacion = new GUINotificacion(this,notificacion_reclamo.getNotificacion().getTipo_notificacion(),notificacion_reclamo.getNotificacion().getTexto_notificacion());
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run (){
 		try {
-			sleep(tiempoInicial);
-			guiNotificacion.setVisible(true);
-			while(!completada){
-				if(posponer){
-					synchronized (GUINotificacion.class){
-						sleep(600000);
-						posponer = false;
+			synchronized (this){
+				this.sleep(tiempoInicial);
+				if(!posponer && !completada && !guardada)
+					guiNotificacion.setVisible(true);
+				while (!completada){ // no completada la notificacion
+					if(posponer){ // si se preciono posponer
+						guiNotificacion.setVisible(false);
+						this.sleep(900000);
 						guiNotificacion.setVisible(true);
 						guiNotificacion.toFront();
+						setPosponer(false);
+					}else{	// no se presiono posponer
+						if(!completada || !posponer)
+							this.wait();
 					}
 				}
+				if(!guardada){
+					IControlNotificacion iControlNotificacion = MediadorAccionesIniciarPrograma.getControlNotificacion();
+					IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
+					IControlNotificacion_Reclamo iControlNotificacion_Reclamo = MediadorAccionesIniciarPrograma.getControlNotificacion_Reclamo();
+					IControlNotificacion_Usuario iControlNotificacion_Usuario = MediadorAccionesIniciarPrograma.getControlNotificacion_Usuario();
+					notificacion_reclamo.getNotificacion().setId(iControlNotificacion.agregarNotificacion(notificacion_reclamo.getNotificacion()));
+					notificacion_reclamo.setReclamo(iControlReclamo.buscarReclamo(notificacion_reclamo.getReclamo().getId()));
+					notificacion_reclamo.setId(iControlNotificacion_Reclamo.agregarNotificacionReclamo(notificacion_reclamo));
+					Notificacion_UsuarioDTO notificacion_usuarioDTO = new Notificacion_UsuarioDTO();
+					notificacion_usuarioDTO.setUsuario(usuario);
+					notificacion_usuarioDTO.setNotificacion(notificacion_reclamo.getNotificacion());
+					iControlNotificacion_Usuario.agregarNotificacion_Usuario(notificacion_usuarioDTO);
+					JOptionPane.showMessageDialog(null,"Notificacion Guardada","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+					guiNotificacion.dispose();
+					mediador_principal.borrarNotificacion(notificacion_reclamo);
+				}
+				this.stop();
+
 			}
+		} catch (InterruptedException ie) {
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			   // log the exception or process it.
+			   // re-throw the original exception without the compiler complaining.
+			   Thread.currentThread().stop(e);
 		}
-
 	}
 
 	public boolean isCompletada() {
@@ -103,8 +132,12 @@ public class MediadorEjecutarNotificacion extends Thread {
 	
 	@SuppressWarnings("deprecation")
 	public void destruir(){
+		if (this.getState().equals(Thread.State.TIMED_WAITING)){
+			this.interrupt();
+		}else{
+			stop();
+		}
 		guiNotificacion.dispose();
-		this.stop();
 	}
 
 	public Notificacion_ReclamoDTO getNotificacion_reclamo() {
@@ -119,26 +152,53 @@ public class MediadorEjecutarNotificacion extends Thread {
 		guiNotificacion.setVisible(true);
 		guiNotificacion.toFront();	
 	}
-
-	@SuppressWarnings("deprecation")
-	public void guardarNotificacion() {
-		IControlNotificacion iControlNotificacion = MediadorAccionesIniciarPrograma.getControlNotificacion();
-		IControlNotificacion_Reclamo iControlNotificacion_Reclamo = MediadorAccionesIniciarPrograma.getControlNotificacion_Reclamo();
-		IControlNotificacion_Usuario iControlNotificacion_Usuario = MediadorAccionesIniciarPrograma.getControlNotificacion_Usuario();
-		try {
-			notificacion_reclamo.getNotificacion().setId(iControlNotificacion.agregarNotificacion(notificacion_reclamo.getNotificacion()));
-			notificacion_reclamo.setId(iControlNotificacion_Reclamo.agregarNotificacionReclamo(notificacion_reclamo));
-			Notificacion_UsuarioDTO notificacion_usuarioDTO = new Notificacion_UsuarioDTO();
-			notificacion_usuarioDTO.setUsuario(usuario);
-			notificacion_usuarioDTO.setNotificacion(notificacion_reclamo.getNotificacion());
-			iControlNotificacion_Usuario.agregarNotificacion_Usuario(notificacion_usuarioDTO);
-			JOptionPane.showMessageDialog(null,"Notificacion Guardada","Advertencia",JOptionPane.INFORMATION_MESSAGE);
-			guiNotificacion.dispose();
-			this.stop();
-			mediador_principal.actualizarTablaNotificaciones();
-		} catch (Exception e) {
-			e.printStackTrace();
+	
+	public void completada(){
+		if (this.getState().equals(Thread.State.TIMED_WAITING)){
+			try {
+				setCompletada(true);
+				IControlNotificacion iControlNotificacion = MediadorAccionesIniciarPrograma.getControlNotificacion();
+				IControlReclamo iControlReclamo = MediadorAccionesIniciarPrograma.getControlReclamo();
+				IControlNotificacion_Reclamo iControlNotificacion_Reclamo = MediadorAccionesIniciarPrograma.getControlNotificacion_Reclamo();
+				IControlNotificacion_Usuario iControlNotificacion_Usuario = MediadorAccionesIniciarPrograma.getControlNotificacion_Usuario();
+				notificacion_reclamo.getNotificacion().setId(iControlNotificacion.agregarNotificacion(notificacion_reclamo.getNotificacion()));
+				notificacion_reclamo.setReclamo(iControlReclamo.buscarReclamo(notificacion_reclamo.getReclamo().getId()));
+				notificacion_reclamo.setId(iControlNotificacion_Reclamo.agregarNotificacionReclamo(notificacion_reclamo));
+				Notificacion_UsuarioDTO notificacion_usuarioDTO = new Notificacion_UsuarioDTO();
+				notificacion_usuarioDTO.setUsuario(usuario);
+				notificacion_usuarioDTO.setNotificacion(notificacion_reclamo.getNotificacion());
+				iControlNotificacion_Usuario.agregarNotificacion_Usuario(notificacion_usuarioDTO);
+				JOptionPane.showMessageDialog(null,"Notificacion Guardada","Advertencia",JOptionPane.INFORMATION_MESSAGE);
+				guiNotificacion.dispose();
+				mediador_principal.borrarNotificacion(notificacion_reclamo);
+				setGuardada(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			synchronized (this){
+				setCompletada(true);
+				this.notify();
+			}
 		}
+	}
 
+	public void posponer() {
+		if (this.getState().equals(Thread.State.TIMED_WAITING)){
+			setPosponer(true);
+		}else{
+			synchronized (this){
+				setPosponer(true);
+				this.notify();
+			}
+		}
+	}
+
+	public boolean isGuardada() {
+		return guardada;
+	}
+
+	public void setGuardada(boolean guardada) {
+		this.guardada = guardada;
 	}
 }
